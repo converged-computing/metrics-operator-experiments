@@ -1,0 +1,126 @@
+METADATA START {"pods":4,"completions":4,"applicationImage":"ghcr.io/rse-ops/lammps:flux-sched-focal","applicationCommand":"/usr/bin/python3.8 /usr/libexec/flux/cmd/flux-submit.py -n 2 --quiet --watch lmp -v x 2 -v y 2 -v z 2 -in in.reaxc.hns -nocite","metricName":"perf-sysstat","metricDescription":"statistics for Linux tasks (processes) : I/O, CPU, memory, etc.","metricType":"application","metricOptions":{"completions":0,"rate":2}}
+METADATA END
+--2023-08-08 18:45:27--  https://github.com/converged-computing/goshare/releases/download/2023-07-27/wait
+Resolving github.com (github.com)... 140.82.114.3
+Connecting to github.com (github.com)|140.82.114.3|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/670447414/18f62ebc-64a5-483e-8e12-abab49f1d694?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230808%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230808T184527Z&X-Amz-Expires=300&X-Amz-Signature=9d0546a98543d778b505b2c309575d0bfdef85e4d3f539c479562e8ba6b544a5&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=670447414&response-content-disposition=attachment%3B%20filename%3Dwait&response-content-type=application%2Foctet-stream [following]
+--2023-08-08 18:45:27--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/670447414/18f62ebc-64a5-483e-8e12-abab49f1d694?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230808%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230808T184527Z&X-Amz-Expires=300&X-Amz-Signature=9d0546a98543d778b505b2c309575d0bfdef85e4d3f539c479562e8ba6b544a5&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=670447414&response-content-disposition=attachment%3B%20filename%3Dwait&response-content-type=application%2Foctet-stream
+Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.108.133, 185.199.110.133, 185.199.111.133, ...
+Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2556028 (2.4M) [application/octet-stream]
+Saving to: 'wait'
+
+wait                  0%[                    ]       0  --.-KB/s               wait                 46%[========>           ]   1.13M  5.50MB/s               wait                 75%[==============>     ]   1.83M  4.06MB/s               wait                100%[===================>]   2.44M  3.93MB/s    in 0.6s    
+
+2023-08-08 18:45:28 (3.93 MB/s) - 'wait' saved [2556028/2556028]
+
+PIDSTAT COMMAND START
+/usr/bin/python3.8 /usr/libexec/flux/cmd/flux-submit.py -n 2 --quiet --watch lmp -v x 2 -v y 2 -v z 2 -in in.reaxc.hns -nocite
+PIDSTAT COMMAND END
+Waiting for application PID...
+METRICS OPERATOR COLLECTION START
+METRICS OPERATOR TIMEPOINT
+CPU STATISTICS
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL STATISTICS
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"|__python3.8"}]
+POLICY
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","prio":"0","policy":"NORMAL","command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","prio":"0","policy":"NORMAL","command":"|__python3.8"}]
+PAGEFAULTS
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"|__python3.8"}]
+STACK UTILIZATION
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","stksize":132,"stkref":104,"command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","stksize":132,"stkref":104,"command":"|__python3.8"}]
+THREADS
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL TABLES
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","threads":"1","fd-nr":"8","command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","threads":"1","fd-nr":"8","command":"|__python3.8"}]
+TASK SWITCHING
+[{"time":184533,"uid":1234,"tgid":"154","tid":"-","cswch_s":0.0,"nvcswch_s":0.0,"command":"python3.8"},{"time":184533,"uid":1234,"tgid":"-","tid":"154","cswch_s":0.0,"nvcswch_s":0.0,"command":"|__python3.8"}]
+METRICS OPERATOR TIMEPOINT
+CPU STATISTICS
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL STATISTICS
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"|__python3.8"}]
+POLICY
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","prio":"0","policy":"NORMAL","command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","prio":"0","policy":"NORMAL","command":"|__python3.8"}]
+PAGEFAULTS
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"|__python3.8"}]
+STACK UTILIZATION
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","stksize":132,"stkref":104,"command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","stksize":132,"stkref":104,"command":"|__python3.8"}]
+THREADS
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL TABLES
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","threads":"1","fd-nr":"8","command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","threads":"1","fd-nr":"8","command":"|__python3.8"}]
+TASK SWITCHING
+[{"time":184536,"uid":1234,"tgid":"154","tid":"-","cswch_s":0.0,"nvcswch_s":0.0,"command":"python3.8"},{"time":184536,"uid":1234,"tgid":"-","tid":"154","cswch_s":0.0,"nvcswch_s":0.0,"command":"|__python3.8"}]
+METRICS OPERATOR TIMEPOINT
+CPU STATISTICS
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL STATISTICS
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"|__python3.8"}]
+POLICY
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","prio":"0","policy":"NORMAL","command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","prio":"0","policy":"NORMAL","command":"|__python3.8"}]
+PAGEFAULTS
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"|__python3.8"}]
+STACK UTILIZATION
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","stksize":132,"stkref":104,"command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","stksize":132,"stkref":104,"command":"|__python3.8"}]
+THREADS
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL TABLES
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","threads":"1","fd-nr":"8","command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","threads":"1","fd-nr":"8","command":"|__python3.8"}]
+TASK SWITCHING
+[{"time":184538,"uid":1234,"tgid":"154","tid":"-","cswch_s":0.0,"nvcswch_s":0.0,"command":"python3.8"},{"time":184538,"uid":1234,"tgid":"-","tid":"154","cswch_s":0.0,"nvcswch_s":0.0,"command":"|__python3.8"}]
+METRICS OPERATOR TIMEPOINT
+CPU STATISTICS
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL STATISTICS
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"|__python3.8"}]
+POLICY
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","prio":"0","policy":"NORMAL","command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","prio":"0","policy":"NORMAL","command":"|__python3.8"}]
+PAGEFAULTS
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"|__python3.8"}]
+STACK UTILIZATION
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","stksize":132,"stkref":104,"command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","stksize":132,"stkref":104,"command":"|__python3.8"}]
+THREADS
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL TABLES
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","threads":"1","fd-nr":"8","command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","threads":"1","fd-nr":"8","command":"|__python3.8"}]
+TASK SWITCHING
+[{"time":184541,"uid":1234,"tgid":"154","tid":"-","cswch_s":0.0,"nvcswch_s":0.0,"command":"python3.8"},{"time":184541,"uid":1234,"tgid":"-","tid":"154","cswch_s":0.0,"nvcswch_s":0.0,"command":"|__python3.8"}]
+METRICS OPERATOR TIMEPOINT
+CPU STATISTICS
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL STATISTICS
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","kb_rd_s":0.0,"kb_wr_s":0.0,"kb_ccwr_s":0.0,"iodelay":"0","command":"|__python3.8"}]
+POLICY
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","prio":"0","policy":"NORMAL","command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","prio":"0","policy":"NORMAL","command":"|__python3.8"}]
+PAGEFAULTS
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","minflt_s":0.01,"majflt_s":0.0,"vsz":34068,"rss":20448,"percent_mem":0.13,"command":"|__python3.8"}]
+STACK UTILIZATION
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","stksize":132,"stkref":104,"command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","stksize":132,"stkref":104,"command":"|__python3.8"}]
+THREADS
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","percent_usr":0.0,"percent_system":0.0,"percent_guest":0.0,"percent_wait":"0.00","percent_cpu":0.0,"cpu":6,"command":"|__python3.8"}]
+KERNEL TABLES
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","threads":"1","fd-nr":"8","command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","threads":"1","fd-nr":"8","command":"|__python3.8"}]
+TASK SWITCHING
+[{"time":184543,"uid":1234,"tgid":"154","tid":"-","cswch_s":0.0,"nvcswch_s":0.0,"command":"python3.8"},{"time":184543,"uid":1234,"tgid":"-","tid":"154","cswch_s":0.0,"nvcswch_s":0.0,"command":"|__python3.8"}]
+METRICS OPERATOR TIMEPOINT
+CPU STATISTICS
+[]
+KERNEL STATISTICS
+[]
+POLICY
+[]
+PAGEFAULTS
+[]
+STACK UTILIZATION
+[]
+THREADS
+[]
+KERNEL TABLES
+[]
+TASK SWITCHING
+[]
+METRICS OPERATOR COLLECTION END
