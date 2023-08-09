@@ -1,0 +1,20 @@
+apiVersion: flux-framework.org/v1alpha1
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  storage:
+    volume:
+      # The claim name in pvc-filestore.yaml
+      claimName: csi-gcs-pvc
+      path: /data
+
+  metrics:
+    - name: io-fio
+      options:
+        directory: /data
+        size: 100M
+        blocksize: 4K
