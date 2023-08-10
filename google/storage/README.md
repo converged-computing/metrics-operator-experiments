@@ -256,7 +256,6 @@ python plot-results.py
 ![img/write_iops.png](img/write_iops.png)
 ![img/write_bw_samples.png](img/write_bw_samples.png)
 ![img/read_runtime.png](img/read_runtime.png)
-![img/uid.png](img/uid.png)
 ![img/read_bw_bytes.png](img/read_bw_bytes.png)
 ![img/read_iops_samples.png](img/read_iops_samples.png)
 ![img/read_iops_max.png](img/read_iops_max.png)
