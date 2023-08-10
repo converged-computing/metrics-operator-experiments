@@ -6,6 +6,7 @@ to demonstrate measuring IO stats for different kinds of storage, including:
  - host volume (e.g., a volume on the Google VM)
  - Google Filestore
  - Google Container Storage Interface (CSI) driver
+ - Sequera (Nextflow) Fusion Filesystem
 
 We will be using the [FIO metric](https://converged-computing.github.io/metrics-operator/getting_started/metrics.html#fio) of the Metrics operator.
 
@@ -206,32 +207,8 @@ $ gcloud container clusters delete flux-cluster
 
 #### Fusion
 
-**TBA** we will need a few more features added to the metrics-operator.
-
-For fusion I needed to make a new cluster and [follow the basic instructions here](https://flux-framework.org/flux-operator/deployment/google/fusion.html?h=fusion#create-cluster).
-Note that it's not fair to compare the different setups (for something like a paper)
-but this experiment should be OK because we just want to get it working.
-
-```bash
-gcloud container clusters create flux-cluster --project $GOOGLE_PROJECT \
-    --zone us-central1-a --machine-type n1-standard-2 --cluster-version 1.25 \
-    --num-nodes=2 --enable-network-policy --tags=flux-cluster --enable-intra-node-visibility \
-    --ephemeral-storage-local-ssd count=1 --workload-pool=${GOOGLE_PROJECT}.svc.id.goog \
-    --workload-metadata=GKE_METADATA
-```
-
-Note that I had already created the service account, etc. So I just needed to associate it with the cluster.
-
-```bash
-KSA_NAME="flux-operator-sa"
-GOOGLE_SERVICE_ACCOUNT=GSA_NAME@GSA_PROJECT.iam.gserviceaccount.com
-GOOGLE_SERVICE_ACCOUNT=flux-operator-sa@llnl-flux.iam.gserviceaccount.com
-kubectl annotate serviceaccount ${KSA_NAME} \
-    --namespace default \
-    iam.gke.io/gcp-service-account=${GOOGLE_SERVICE_ACCOUNT}
-```
-
-We can test fusion with a pre command to get the library...
+For fusion runs, see [this example directory](https://github.com/converged-computing/metrics-operator/tree/main/examples/storage/google/io-fusion) 
+alongside the Metrics Operator. We have moved data from there over here for plotting.
 
 ## Results
 
@@ -241,42 +218,35 @@ And plot the small results we have! I only chose attributes from read/write/trim
 python plot-results.py
 ```
 
-![img/read_bw_agg.png](img/read_bw_agg.png)
+I chose a subset of images that I thought could be compared between runs (e.g., fusion used a different cluster, and the CSI driver
+was much less performant and needed a smaller problem size):
+
 ![img/read_bw_mean.png](img/read_bw_mean.png)
 ![img/read_bw_min.png](img/read_bw_min.png)
 ![img/read_bw_max.png](img/read_bw_max.png)
 ![img/read_iops_mean.png](img/read_iops_mean.png)
 ![img/read_iops_min.png](img/read_iops_min.png)
 ![img/read_bw_samples.png](img/read_bw_samples.png)
-![img/write_iops_stddev.png](img/write_iops_stddev.png)
-![img/read_iops_stddev.png](img/read_iops_stddev.png)
 ![img/write_iops_min.png](img/write_iops_min.png)
 ![img/write_iops_max.png](img/write_iops_max.png)
 ![img/write_bw_mean.png](img/write_bw_mean.png)
 ![img/write_iops.png](img/write_iops.png)
 ![img/write_bw_samples.png](img/write_bw_samples.png)
-![img/read_runtime.png](img/read_runtime.png)
-![img/read_bw_bytes.png](img/read_bw_bytes.png)
 ![img/read_iops_samples.png](img/read_iops_samples.png)
 ![img/read_iops_max.png](img/read_iops_max.png)
 ![img/read_iops.png](img/read_iops.png)
 ![img/read_bw_dev.png](img/read_bw_dev.png)
 ![img/write_bw_max.png](img/write_bw_max.png)
-![img/write_bw_bytes.png](img/write_bw_bytes.png)
-![img/write_runtime.png](img/write_runtime.png)
 ![img/write_bw_dev.png](img/write_bw_dev.png)
 ![img/read_bw.png](img/read_bw.png)
-![img/read_total_ios.png](img/read_total_ios.png)
-![img/read_io_bytes.png](img/read_io_bytes.png)
-![img/write_total_ios.png](img/write_total_ios.png)
 ![img/write_iops_samples.png](img/write_iops_samples.png)
 ![img/write_bw_min.png](img/write_bw_min.png)
-![img/write_bw_agg.png](img/write_bw_agg.png)
 ![img/write_io_kbytes.png](img/write_io_kbytes.png)
 ![img/write_io_bytes.png](img/write_io_bytes.png)
 ![img/write_bw.png](img/write_bw.png)
 ![img/read_io_kbytes.png](img/read_io_kbytes.png)
 ![img/write_iops_mean.png](img/write_iops_mean.png)
+
 
 ## Questions I have:
 

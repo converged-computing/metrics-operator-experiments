@@ -23,7 +23,7 @@ def main():
     # First read in the raw data
     for filename in os.listdir(data_dir):
         # skip the 1M size run
-        if "1M" in filename:
+        if "1M" in filename or not filename.endswith('.json'):
             continue
         fullpath = os.path.join(data_dir, filename)
         res = utils.read_json(fullpath)
