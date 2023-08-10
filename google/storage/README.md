@@ -231,8 +231,90 @@ kubectl annotate serviceaccount ${KSA_NAME} \
     iam.gke.io/gcp-service-account=${GOOGLE_SERVICE_ACCOUNT}
 ```
 
-We can test fusion with a pre command to get the library
+We can test fusion with a pre command to get the library...
 
+## Results
+
+And plot the small results we have! I only chose attributes from read/write/trim as those seemed to be more means or averages?
+
+```bash
+python plot-results.py
+```
+
+![img/read_bw_min-hist.png](img/read_bw_min-hist.png)
+![img/read_bw_agg.png](img/read_bw_agg.png)
+![img/read_bw_mean-hist.png](img/read_bw_mean-hist.png)
+![img/write_bw_min-hist.png](img/write_bw_min-hist.png)
+![img/write_io_kbytes-hist.png](img/write_io_kbytes-hist.png)
+![img/write_iops-hist.png](img/write_iops-hist.png)
+![img/read_bw_mean.png](img/read_bw_mean.png)
+![img/read_bw_min.png](img/read_bw_min.png)
+![img/read_bw_max.png](img/read_bw_max.png)
+![img/read_iops_mean.png](img/read_iops_mean.png)
+![img/read_iops-hist.png](img/read_iops-hist.png)
+![img/read_iops_min.png](img/read_iops_min.png)
+![img/read_bw_samples.png](img/read_bw_samples.png)
+![img/write_iops_stddev.png](img/write_iops_stddev.png)
+![img/read_iops_stddev.png](img/read_iops_stddev.png)
+![img/read_iops_min-hist.png](img/read_iops_min-hist.png)
+![img/write_iops_max-hist.png](img/write_iops_max-hist.png)
+![img/uid-hist.png](img/uid-hist.png)
+![img/write_iops_min.png](img/write_iops_min.png)
+![img/write_bw_bytes-hist.png](img/write_bw_bytes-hist.png)
+![img/write_iops_max.png](img/write_iops_max.png)
+![img/read_io_kbytes-hist.png](img/read_io_kbytes-hist.png)
+![img/read_runtime-hist.png](img/read_runtime-hist.png)
+![img/write_bw_mean.png](img/write_bw_mean.png)
+![img/write_iops.png](img/write_iops.png)
+![img/write_bw_samples.png](img/write_bw_samples.png)
+![img/write_bw-hist.png](img/write_bw-hist.png)
+![img/read_iops_stddev-hist.png](img/read_iops_stddev-hist.png)
+![img/read_runtime.png](img/read_runtime.png)
+![img/read_bw_agg-hist.png](img/read_bw_agg-hist.png)
+![img/read_bw_dev-hist.png](img/read_bw_dev-hist.png)
+![img/write_iops_samples-hist.png](img/write_iops_samples-hist.png)
+![img/read_bw_bytes-hist.png](img/read_bw_bytes-hist.png)
+![img/uid.png](img/uid.png)
+![img/read_io_bytes-hist.png](img/read_io_bytes-hist.png)
+![img/write_iops_min-hist.png](img/write_iops_min-hist.png)
+![img/write_bw_agg-hist.png](img/write_bw_agg-hist.png)
+![img/read_iops_max-hist.png](img/read_iops_max-hist.png)
+![img/write_bw_max-hist.png](img/write_bw_max-hist.png)
+![img/read_bw_bytes.png](img/read_bw_bytes.png)
+![img/read_iops_samples.png](img/read_iops_samples.png)
+![img/read_iops_max.png](img/read_iops_max.png)
+![img/read_iops.png](img/read_iops.png)
+![img/read_bw_dev.png](img/read_bw_dev.png)
+![img/write_bw_max.png](img/write_bw_max.png)
+![img/write_bw_bytes.png](img/write_bw_bytes.png)
+![img/write_runtime.png](img/write_runtime.png)
+![img/read_iops_mean-hist.png](img/read_iops_mean-hist.png)
+![img/read_bw_max-hist.png](img/read_bw_max-hist.png)
+![img/write_iops_stddev-hist.png](img/write_iops_stddev-hist.png)
+![img/write_bw_dev.png](img/write_bw_dev.png)
+![img/read_bw.png](img/read_bw.png)
+![img/write_bw_samples-hist.png](img/write_bw_samples-hist.png)
+![img/read_total_ios.png](img/read_total_ios.png)
+![img/read_total_ios-hist.png](img/read_total_ios-hist.png)
+![img/read_io_bytes.png](img/read_io_bytes.png)
+![img/write_total_ios-hist.png](img/write_total_ios-hist.png)
+![img/write_bw_dev-hist.png](img/write_bw_dev-hist.png)
+![img/write_total_ios.png](img/write_total_ios.png)
+![img/read_bw-hist.png](img/read_bw-hist.png)
+![img/write_iops_samples.png](img/write_iops_samples.png)
+![img/read_bw_samples-hist.png](img/read_bw_samples-hist.png)
+![img/write_bw_min.png](img/write_bw_min.png)
+![img/write_iops_mean-hist.png](img/write_iops_mean-hist.png)
+![img/write_bw_agg.png](img/write_bw_agg.png)
+![img/write_io_kbytes.png](img/write_io_kbytes.png)
+![img/read_iops_samples-hist.png](img/read_iops_samples-hist.png)
+![img/write_bw_mean-hist.png](img/write_bw_mean-hist.png)
+![img/write_io_bytes.png](img/write_io_bytes.png)
+![img/write_bw.png](img/write_bw.png)
+![img/read_io_kbytes.png](img/read_io_kbytes.png)
+![img/write_runtime-hist.png](img/write_runtime-hist.png)
+![img/write_iops_mean.png](img/write_iops_mean.png)
+![img/write_io_bytes-hist.png](img/write_io_bytes-hist.png)
 
 ## Questions I have:
 
