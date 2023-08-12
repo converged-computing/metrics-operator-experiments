@@ -475,6 +475,8 @@ mpirun --hostfile ./hostfile.txt --allow-run-as-root -N 2 -np 2 -map-by ppr:1:no
 METRICS OPERATOR COLLECTION END
 ```
 
+</details>
+
 At this point we can do an actual run (20x). Note that it will over-ride the existing data / image files:
 
 ```bash
