@@ -1,0 +1,22 @@
+apiVersion: flux-framework.org/v1alpha1
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  # OSU benchmark is point to point and MUST be run with 2 pods
+  pods: 2
+  metrics:
+   - name: network-osu-benchmark
+
+     # We will use the default set of benchmarks
+     # These resources should match 1 pod:node
+     resources:
+       requests:
+         memory: 320M
+         cpu: 80
+       limits:
+         memory: 320M
+         cpu: 80
