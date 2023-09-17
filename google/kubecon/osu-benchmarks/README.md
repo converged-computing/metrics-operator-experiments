@@ -8,3 +8,4 @@ We will be using the Metrics Operator.
  - [run2](run2): Get times for 128 size cluster (but actually we need 130!)
  - [run3](run3): A small test run to setup the automation bit.
  - [run4](run4): Full automation for planned experiments up to size 128.
+ - [temporal](temporal): A 32 node experiment run at different times of day and days/week to assess temporal variability
