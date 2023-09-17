@@ -229,7 +229,9 @@ def plot_results(data, outdir):
         df = df.rename(columns={"pods": "nodes"})
         x = "nodes"
         y = "real"
-        plot_single(df, x, y, f"{slug}-times-seconds", columns, outdir)
+        plot_single(
+            df, x, y, f"{slug}-times-seconds", columns, outdir, larger_size=False
+        )
 
     # Now plot each dataframe
     for slug, df in results.items():
@@ -275,18 +277,20 @@ def plot_results(data, outdir):
             raise ValueError(f"We do not know how to plot {slug}")
 
 
-def plot_single(df, x, y, slug, columns, outdir):
+def plot_single(df, x, y, slug, columns, outdir, larger_size=True):
     """
     Plot two values, and and y, over time
     """
     ax = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
     outfile = os.path.join(outdir, f"{slug}-hist-4-to-128.png")
-    make_plot(ax, slug=slug, outfile=outfile, xlabel=x)
+    make_plot(ax, slug=slug, outfile=outfile, xlabel=x, larger_size=larger_size)
 
 
 def plot_pairs(df, slug, columns, outdir):
     """
-    Plot two values, and and y, over time
+    Plot two values, and and y, over time.
+
+    We always plot these with larger size
     """
     # For most, Size is first followed by latency or bandwidth
     if columns[slug][0] == "Size":
@@ -315,14 +319,14 @@ def plot_pairs(df, slug, columns, outdir):
         dashes=True,
     )
     outfile = os.path.join(outdir, f"{slug}-line-4-to-128.png")
-    make_plot(ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel)
+    make_plot(ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel, larger_size=False)
 
     ax2 = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
     outfile = os.path.join(outdir, f"{slug}-box-4-to-128.png")
     make_plot(ax2, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel)
 
 
-def make_plot(ax, slug, outfile, xlabel=None, ylabel=None):
+def make_plot(ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True):
     """
     Generic plot making function for some x and y
     """
