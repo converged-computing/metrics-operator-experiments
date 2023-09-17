@@ -45,7 +45,7 @@ kubectl get nodes -o json > results/nodes-128.json
 Install the Metrics Operator SDK. Version 19 has added support for custom (raw) log parsing.
 
 ```bash
-pip install metricsoperator==0.0.19
+pip install metricsoperator==0.0.2
 # or with plotting libraries for later
 pip install -r requirements.txt
 ```

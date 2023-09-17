@@ -1,0 +1,294 @@
+{
+    "data": [
+        {
+            "fio version": "fio-3.28",
+            "timestamp": 1692233308,
+            "timestamp_ms": 1692233308902,
+            "time": "Thu Aug 17 00:48:28 2023",
+            "global options": {
+                "randrepeat": "1",
+                "ioengine": "libaio",
+                "direct": "1",
+                "gtod_reduce": "1"
+            },
+            "jobs": [
+                {
+                    "jobname": "test",
+                    "groupid": 0,
+                    "error": 0,
+                    "eta": 0,
+                    "elapsed": 7,
+                    "job options": {
+                        "name": "test",
+                        "bs": "128k",
+                        "iodepth": "64",
+                        "rw": "randrw",
+                        "rwmixread": "75",
+                        "size": "3G",
+                        "filename": "/filestore/test-83f1fd483cebde6e7944da5edc3000b3"
+                    },
+                    "read": {
+                        "io_bytes": 2419064832,
+                        "io_kbytes": 2362368,
+                        "bw_bytes": 370113958,
+                        "bw": 361439,
+                        "iops": 2823.74541,
+                        "runtime": 6536,
+                        "total_ios": 18456,
+                        "short_ios": 0,
+                        "drop_ios": 0,
+                        "slat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "clat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "lat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "bw_min": 174336,
+                        "bw_max": 454656,
+                        "bw_agg": 100.0,
+                        "bw_mean": 363111.307692,
+                        "bw_dev": 63345.378707,
+                        "bw_samples": 13,
+                        "iops_min": 1362,
+                        "iops_max": 3552,
+                        "iops_mean": 2836.769231,
+                        "iops_stddev": 494.892944,
+                        "iops_samples": 13
+                    },
+                    "write": {
+                        "io_bytes": 802160640,
+                        "io_kbytes": 783360,
+                        "bw_bytes": 122729596,
+                        "bw": 119853,
+                        "iops": 936.352509,
+                        "runtime": 6536,
+                        "total_ios": 6120,
+                        "short_ios": 0,
+                        "drop_ios": 0,
+                        "slat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "clat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "lat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "bw_min": 63744,
+                        "bw_max": 139520,
+                        "bw_agg": 99.732906,
+                        "bw_mean": 119533.076923,
+                        "bw_dev": 17579.383201,
+                        "bw_samples": 13,
+                        "iops_min": 498,
+                        "iops_max": 1090,
+                        "iops_mean": 933.846154,
+                        "iops_stddev": 137.33769,
+                        "iops_samples": 13
+                    },
+                    "trim": {
+                        "io_bytes": 0,
+                        "io_kbytes": 0,
+                        "bw_bytes": 0,
+                        "bw": 0,
+                        "iops": 0.0,
+                        "runtime": 0,
+                        "total_ios": 0,
+                        "short_ios": 0,
+                        "drop_ios": 0,
+                        "slat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "clat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "lat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        },
+                        "bw_min": 0,
+                        "bw_max": 0,
+                        "bw_agg": 0.0,
+                        "bw_mean": 0.0,
+                        "bw_dev": 0.0,
+                        "bw_samples": 0,
+                        "iops_min": 0,
+                        "iops_max": 0,
+                        "iops_mean": 0.0,
+                        "iops_stddev": 0.0,
+                        "iops_samples": 0
+                    },
+                    "sync": {
+                        "total_ios": 0,
+                        "lat_ns": {
+                            "min": 0,
+                            "max": 0,
+                            "mean": 0.0,
+                            "stddev": 0.0,
+                            "N": 0
+                        }
+                    },
+                    "job_runtime": 6535,
+                    "usr_cpu": 2.264728,
+                    "sys_cpu": 10.635042,
+                    "ctx": 19427,
+                    "majf": 0,
+                    "minf": 7,
+                    "iodepth_level": {
+                        "1": 0.1,
+                        "2": 0.1,
+                        "4": 0.1,
+                        "8": 0.1,
+                        "16": 0.1,
+                        "32": 0.130208,
+                        ">=64": 99.743652
+                    },
+                    "iodepth_submit": {
+                        "0": 0.0,
+                        "4": 100.0,
+                        "8": 0.0,
+                        "16": 0.0,
+                        "32": 0.0,
+                        "64": 0.0,
+                        ">=64": 0.0
+                    },
+                    "iodepth_complete": {
+                        "0": 0.0,
+                        "4": 99.995921,
+                        "8": 0.0,
+                        "16": 0.0,
+                        "32": 0.0,
+                        "64": 0.1,
+                        ">=64": 0.0
+                    },
+                    "latency_ns": {
+                        "2": 0.0,
+                        "4": 0.0,
+                        "10": 0.0,
+                        "20": 0.0,
+                        "50": 0.0,
+                        "100": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "750": 0.0,
+                        "1000": 0.0
+                    },
+                    "latency_us": {
+                        "2": 0.0,
+                        "4": 0.0,
+                        "10": 0.0,
+                        "20": 0.0,
+                        "50": 0.0,
+                        "100": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "750": 0.0,
+                        "1000": 0.0
+                    },
+                    "latency_ms": {
+                        "2": 0.0,
+                        "4": 0.0,
+                        "10": 0.0,
+                        "20": 0.0,
+                        "50": 0.0,
+                        "100": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "750": 0.0,
+                        "1000": 0.0,
+                        "2000": 0.0,
+                        ">=2000": 0.0
+                    },
+                    "latency_depth": 64,
+                    "latency_target": 0,
+                    "latency_percentile": 100.0,
+                    "latency_window": 0
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pods": 1,
+        "completions": 1,
+        "storageVolumePath": "/filestore",
+        "storageVolumeClaimName": "data",
+        "metricName": "io-fio",
+        "metricDescription": "Flexible IO Tester (FIO)",
+        "metricType": "storage",
+        "metricOptions": {
+            "blocksize": "128k",
+            "directory": "/filestore",
+            "iodepth": 64,
+            "size": "3G",
+            "testname": "test"
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha1",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "storage": {
+                "volume": {
+                    "claimName": "data",
+                    "path": "/filestore"
+                }
+            },
+            "metrics": [
+                {
+                    "name": "io-fio",
+                    "options": {
+                        "directory": "/filestore",
+                        "size": "3G",
+                        "blocksize": "128k"
+                    }
+                }
+            ]
+        }
+    },
+    "command": "fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --bs=128k --iodepth=64 --readwrite=randrw --rwmixread=75 --size=3G --filename=/filestore/test-83f1fd483cebde6e7944da5edc3000b3 --output-format=json\nF"
+}

@@ -1,0 +1,22 @@
+apiVersion: flux-framework.org/v1alpha1
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  storage:
+    volume:
+      # The claim name in pvc-filestore.yaml
+      claimName: data 
+
+      # Mount Google filestore here in the container
+      path: /filestore
+
+  metrics:
+    - name: io-fio
+      options:
+        directory: /filestore
+        size: 1G
+        blocksize: 64k
