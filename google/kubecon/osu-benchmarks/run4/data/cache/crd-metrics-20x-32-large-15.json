@@ -1,0 +1,261 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 1",
+            "Number of tasks total (across 32 nodes) is 32",
+            "Sleeping for 60 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 32 ip addresses",
+            "Hostlist",
+            "10.12.59.44",
+            "10.12.42.43",
+            "10.12.38.42",
+            "10.12.123.45",
+            "10.12.9.48",
+            "10.12.87.46",
+            "10.12.64.43",
+            "10.12.110.49",
+            "10.12.126.45",
+            "10.12.8.42",
+            "10.12.53.43",
+            "10.12.62.44",
+            "10.12.70.49",
+            "10.12.83.46",
+            "10.12.18.47",
+            "10.12.2.42",
+            "10.12.118.43",
+            "10.12.5.52",
+            "10.12.16.48",
+            "10.12.86.45",
+            "10.12.0.43",
+            "10.12.116.49",
+            "10.12.101.42",
+            "10.12.43.44",
+            "10.12.97.52",
+            "10.12.122.46",
+            "10.12.19.52",
+            "10.12.120.50",
+            "10.12.96.47",
+            "10.12.115.56",
+            "10.12.73.50",
+            "10.12.75.43",
+            "Hostlist for Pair to Pair",
+            "10.12.59.44",
+            "10.12.42.43",
+            "METADATA START {\"pods\":32,\"completions\":32,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricType\":\"standalone\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_ibarrier\",\"osu_mbw_mr\",\"osu_multi_lat\",\"osu_allgather\",\"osu_allreduce\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/collective/osu_ibarrier",
+            "# OSU MPI Non-blocking Barrier Latency Test v5.8",
+            "# Overall = Coll. Init + Compute + MPI_Test + MPI_Wait",
+            "       Overall(us)       Compute(us)    Pure Comm.(us)        Overlap(%)",
+            "            692.51            400.94            390.40             25.32",
+            "real\t0m3.562s",
+            "user\t0m1.214s",
+            "sys\t0m1.932s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr",
+            "# OSU MPI Multiple Bandwidth / Message Rate Test v5.8",
+            "# [ pairs: 16 ] [ window size: 64 ]",
+            "# Size                  MB/s        Messages/s",
+            "1                       2.44        2444764.85",
+            "2                       4.84        2418991.60",
+            "4                       9.70        2423983.38",
+            "8                      19.80        2475151.98",
+            "16                     38.43        2401956.83",
+            "32                     77.87        2433431.34",
+            "64                    153.73        2402097.07",
+            "128                   281.45        2198856.37",
+            "256                   584.25        2282234.24",
+            "512                  1142.41        2231263.15",
+            "1024                 1160.30        1133105.20",
+            "2048                 4463.65        2179515.26",
+            "4096                 8583.56        2095594.94",
+            "8192                11654.08        1422617.53",
+            "16384               16028.06         978275.29",
+            "32768               16264.86         496364.10",
+            "65536               19483.84         297299.76",
+            "131072              19564.67         149266.61",
+            "262144              19683.75          75087.53",
+            "524288              18583.77          35445.73",
+            "1048576             19557.90          18651.87",
+            "2097152             19523.21           9309.39",
+            "4194304             19529.75           4656.26",
+            "real\t1m3.835s",
+            "user\t0m7.326s",
+            "sys\t0m48.419s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_multi_lat",
+            "# OSU MPI Multi Latency Test v5.8",
+            "# Size          Latency (us)",
+            "0                      30.70",
+            "1                      28.40",
+            "2                      28.67",
+            "4                      29.64",
+            "8                      28.68",
+            "16                     28.53",
+            "32                     28.92",
+            "64                     50.67",
+            "128                    52.25",
+            "256                    52.97",
+            "512                    51.93",
+            "1024                   53.99",
+            "2048                   58.42",
+            "4096                   61.47",
+            "8192                   64.88",
+            "16384                  71.17",
+            "32768                  94.13",
+            "65536                 239.31",
+            "131072                278.85",
+            "262144                369.61",
+            "524288                546.10",
+            "1048576               893.72",
+            "2097152              1758.74",
+            "4194304              3336.83",
+            "real\t0m45.268s",
+            "user\t0m6.147s",
+            "sys\t0m37.385s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/collective/osu_allgather",
+            "# OSU MPI Allgather Latency Test v5.8",
+            "# Size       Avg Latency(us)",
+            "1                     435.44",
+            "2                     410.00",
+            "4                     404.84",
+            "8                     401.14",
+            "16                    465.43",
+            "32                    459.52",
+            "64                    493.50",
+            "128                   490.52",
+            "256                   575.10",
+            "512                   503.60",
+            "1024                  535.71",
+            "2048                 1568.62",
+            "4096                 1732.81",
+            "8192                 2001.34",
+            "16384                2576.80",
+            "32768                7964.51",
+            "65536               10552.79",
+            "131072              12933.09",
+            "262144              19769.62",
+            "524288              36737.34",
+            "1048576             71560.45",
+            "real\t0m43.159s",
+            "user\t0m5.655s",
+            "sys\t0m35.897s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce",
+            "# OSU MPI Allreduce Latency Test v5.8",
+            "# Size       Avg Latency(us)",
+            "4                     379.21",
+            "8                     337.80",
+            "16                    340.38",
+            "32                    330.52",
+            "64                    459.20",
+            "128                   524.64",
+            "256                   422.17",
+            "512                   566.04",
+            "1024                  577.74",
+            "2048                  522.62",
+            "4096                  531.73",
+            "8192                  581.69",
+            "16384                5688.68",
+            "32768                5656.31",
+            "65536                6162.30",
+            "131072               5655.69",
+            "262144               7201.64",
+            "524288               8898.40",
+            "1048576             14237.96",
+            "real\t0m35.238s",
+            "user\t0m5.505s",
+            "sys\t0m28.630s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 32,
+            "completions": 32,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricType": "standalone",
+            "metricOptions": {
+                "all": "false",
+                "flags": "",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_ibarrier",
+                    "osu_mbw_mr",
+                    "osu_multi_lat",
+                    "osu_allgather",
+                    "osu_allreduce"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha1",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 32,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_ibarrier",
+                                "osu_mbw_mr",
+                                "osu_multi_lat",
+                                "osu_allgather",
+                                "osu_allreduce"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha1",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 32,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_ibarrier",
+                            "osu_mbw_mr",
+                            "osu_multi_lat",
+                            "osu_allgather",
+                            "osu_allreduce"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true"
+                    }
+                }
+            ]
+        }
+    }
+}

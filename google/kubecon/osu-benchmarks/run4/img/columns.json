@@ -1,0 +1,93 @@
+{
+    "osu_ibarrier": [
+        "Overall(us)",
+        "Compute(us)",
+        "Pure Comm.(us)",
+        "Overlap(%)"
+    ],
+    "osu_mbw_mr": [
+        "Size",
+        "MB/s",
+        "Messages/s"
+    ],
+    "osu_multi_lat": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_allgather": [
+        "Size",
+        "Avg Latency(us)"
+    ],
+    "osu_allreduce": [
+        "Size",
+        "Avg Latency(us)"
+    ],
+    "osu_get_acc_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_acc_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_fop_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_get_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_put_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_bibw": [
+        "Size",
+        "Bandwidth (MB/s)"
+    ],
+    "osu_bw": [
+        "Size",
+        "Bandwidth (MB/s)"
+    ],
+    "osu_put_bw": [
+        "Size",
+        "Bandwidth (MB/s)"
+    ],
+    "osu_latency_mp": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_put_bibw": [
+        "Size",
+        "Bandwidth (MB/s)"
+    ],
+    "osu_init": [
+        "nprocs",
+        "min-ms",
+        "max-ms",
+        "avg-ms"
+    ],
+    "osu_get_bw": [
+        "Size",
+        "Bandwidth (MB/s)"
+    ],
+    "osu_cas_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_latency_mt": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_hello": [
+        "message"
+    ],
+    "osu_barrier": [
+        "Avg Latency(us)"
+    ]
+}
