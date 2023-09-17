@@ -193,132 +193,132 @@ this.
 
 > Latency Test for Accumulate with Active/Passive Synchronization. The accumulate latency benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the origin process calls MPI_Accumulate to combine data from the local buffer with the data in the remote window and store it in the remote window. The combining operation used in the test is MPI_SUM. The origin process then waits on a synchronization call (MPI_Win_complete) for completion of the operations. The remote process waits on a MPI_Win_wait call.
 
-![](img/osu_acc_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_acc_latency-times-seconds-4-to-128.png)
 
 ##### osu_allgather
 
-![](img/osu_allgather-times-seconds-hist-4-to-128.png)
+![](img/osu_allgather-times-seconds-4-to-128.png)
 
 ##### osu_allreduce
 
-![](img/osu_allreduce-times-seconds-hist-4-to-128.png)
+![](img/osu_allreduce-times-seconds-4-to-128.png)
 
 ##### osu_barrier
 
-![](img/osu_barrier-times-seconds-hist-4-to-128.png)
+![](img/osu_barrier-times-seconds-4-to-128.png)
 
 ##### osu_bibw
 
 > The bidirectional bandwidth test is similar to the bandwidth test, except that both the nodes involved send out a fixed number of back-to-back messages and wait for the reply. This test measures the maximum sustainable aggregate bandwidth by two nodes. 
 
-![](img/osu_bibw-times-seconds-hist-4-to-128.png)
+![](img/osu_bibw-times-seconds-4-to-128.png)
 
 ##### osu_bw
 
 > The bandwidth tests are carried out by having the sender sending out a fixed number (equal to the window size) of back-to-back messages to the receiver and then waiting for a reply from the receiver. The receiver sends the reply only after receiving all these messages. This process is repeated for several iterations and the bandwidth is calculated based on the elapsed time (from the time sender sends the first message until the time it receives the reply back from the receiver) and the number of bytes sent by the sender. The objective of this bandwidth test is to determine the maximum sustained date rate that can be achieved at the network level. Thus, non-blocking version of MPI functions (MPI_Isend and MPI_Irecv) are used in the test. 
 
-![](img/osu_bw-times-seconds-hist-4-to-128.png)
+![](img/osu_bw-times-seconds-4-to-128.png)
 
 ##### osu_cas_latency
 
 >  Latency Test for Compare and Swap with Active/Passive Synchronization
 The Compare_and_swap latency benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait,the origin process calls MPI_Compare_and_swap to place one element from origin buffer to target buffer. The initial value in the target buffer is returned to the calling process. The origin process then waits on a synchronization call (MPI_Win_complete) for local completion of the operations. The remote process waits on a MPI_Win_wait call. Several iterations of this test are carried out and the average Compare_and_swap latency number is obtained. The latency includes the synchronization time also. For passive synchronization, suppose users run with MPI_Win_lock/unlock, the origin process calls MPI_Win_lock to lock the target process's window and calls MPI_Compare_and_swap to place one element from origin buffer to target buffer. The initial value in the target buffer is returned to the calling process. Then it calls MPI_Win_flush to ensure completion of the Compare_and_swap. In the end, it calls MPI_Win_unlock to release lock on the window. This is carried out for several iterations and the average time for MPI_Compare_and_swap + MPI_Win_flush calls is measured. 
 
-![](img/osu_cas_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_cas_latency-times-seconds-4-to-128.png)
 
 ##### osu_fop_latency
 
 > Latency Test for Fetch and Op with Active/Passive Synchronization
 The Fetch_and_op latency benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the origin process calls MPI_Fetch_and_op to increase the element in target buffer by 1. The initial value from the target buffer is returned to the calling process. The origin process waits on a synchronization call (MPI_Win_complete) for completion of the operations. The remote process waits on a MPI_Win_wait call. Several iterations of this test are carried out and the average Fetch_and_op latency number is obtained. The latency includes the synchronization time also. 
 
-![](img/osu_fop_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_fop_latency-times-seconds-4-to-128.png)
 
 ##### osu_get_acc_latency
 
 >  Latency Test for Get_accumulate with Active/Passive Synchronization
 The Get_accumulate latency benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the origin process calls MPI_Get_accumulate to combine data from the local buffer with the data in the remote window and store it in the remote window. The combining operation used in the test is MPI_SUM. The initial value from the target buffer is returned to the calling process. The origin process waits on a synchronization call (MPI_Win_complete) for local completion of the operations. The remote process waits on a MPI_Win_wait call. Several iterations of this test are carried out and the average get accumulate latency number is obtained. The latency includes the synchronization time also.
 
-![](img/osu_get_acc_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_get_acc_latency-times-seconds-4-to-128.png)
 
 ##### osu_get_bw
 
 > Bandwidth Test for Get with Active/Passive Synchronization
 The get bandwidth benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the test is carried out by origin process calling a fixed number of back-to-back MPI_Gets and then waiting on a synchronization call (MPI_Win_complete) for their completion. The remote process participates in synchronization with MPI_Win_post and MPI_Win_wait calls. This process is repeated for several iterations and the bandwidth is calculated based on the elapsed time and the number of bytes received by the origin process. 
 
-![](img/osu_get_bw-times-seconds-hist-4-to-128.png)
+![](img/osu_get_bw-times-seconds-4-to-128.png)
 
 ##### osu_get_latency
 
 > Latency Test for Get with Active/Passive Synchronization
 The get latency benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the origin process calls MPI_Get to directly fetch data of a certain size from the target process's window into a local buffer. It then waits on a synchronization call (MPI_Win_complete) for local completion of the Gets. The remote process participates in synchronization with MPI_Win_post and MPI_Win_wait calls. Several iterations of this test is carried out and the average get latency numbers is reported. The latency includes the synchronization time also. 
 
-![](img/osu_get_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_get_latency-times-seconds-4-to-128.png)
 
 
 ##### osu_hello
 
 >  This benchmark measures the time it takes for all processes to execute MPI_Init + MPI_Finalize.
 
-![](img/osu_hello-times-seconds-hist-4-to-128.png)
+![](img/osu_hello-times-seconds-4-to-128.png)
 
 ##### osu_ibarrier
 
-![](img/osu_ibarrier-times-seconds-hist-4-to-128.png)
+![](img/osu_ibarrier-times-seconds-4-to-128.png)
 
 ##### osu_init
 
 > This benchmark measures the minimum, maximum, and average time each process takes to complete MPI_Init.
 
-![](img/osu_init-times-seconds-hist-4-to-128.png)
+![](img/osu_init-times-seconds-4-to-128.png)
 
 ##### osu_latency_mp
 
-![](img/osu_latency_mp-times-seconds-hist-4-to-128.png)
+![](img/osu_latency_mp-times-seconds-4-to-128.png)
 
 ##### osu_latency_mt
 
 > The multi-threaded latency test performs a ping-pong test with a single sender process and multiple threads on the receiving process. In this test the sending process sends a message of a given data size to the receiver and waits for a reply from the receiver process. The receiving process has a variable number of receiving threads (set by default to 2), where each thread calls MPI_Recv and upon receiving a message sends back a response of equal size. Many iterations are performed and the average one-way latency numbers are reported. Users can modify the number of communicating threads being used by using the "-t" runtime option. Examples: -t 4 // receiver threads = 4 and sender threads = 1 -t 4:6 // sender threads = 4 and receiver threads = 6 -t 2: // not defined 
 
-![](img/osu_latency_mt-times-seconds-hist-4-to-128.png)
+![](img/osu_latency_mt-times-seconds-4-to-128.png)
 
 ##### osu_latency
 
 > The latency tests are carried out in a ping-pong fashion. The sender sends a message with a certain data size to the receiver and waits for a reply from the receiver. The receiver receives the message from the sender and sends back a reply with the same data size. Many iterations of this ping-pong test are carried out and average one-way latency numbers are obtained. Blocking version of MPI functions (MPI_Send and MPI_Recv) are used in the tests. 
 
-![](img/osu_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_latency-times-seconds-4-to-128.png)
 
 
 ##### osu_mbw_mr
 
 > The multi-pair bandwidth and message rate test evaluates the aggregate uni-directional bandwidth and message rate between multiple pairs of processes. Each of the sending processes sends a fixed number of messages (the window size) back-to-back to the paired receiving process before waiting for a reply from the receiver. This process is repeated for several iterations. The objective of this benchmark is to determine the achieved bandwidth and message rate from one node to another node with a configurable number of processes running on each node. 
 
-![](img/osu_mbw_mr-times-seconds-hist-4-to-128.png)
+![](img/osu_mbw_mr-times-seconds-4-to-128.png)
 
 ##### osu_multi_lat
 
 > This test is very similar to the latency test. However, at the same instant multiple pairs are performing the same test simultaneously. In order to perform the test across just two nodes the hostnames must be specified in block fashion. 
 
-![](img/osu_multi_lat-times-seconds-hist-4-to-128.png)
+![](img/osu_multi_lat-times-seconds-4-to-128.png)
 
 ##### osu_put_bibw
 
 > Bi-directional Bandwidth Test for Put with Active Synchronization
 The put bi-directional bandwidth benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). This test is similar to the bandwidth test, except that both the processes involved send out a fixed number of back-to-back MPI_Puts and wait for their completion. This test measures the maximum sustainable aggregate bandwidth by two processes. 
 
-![](img/osu_put_bibw-times-seconds-hist-4-to-128.png)
+![](img/osu_put_bibw-times-seconds-4-to-128.png)
 
 ##### osu_put_bw
 
 >  Bandwidth Test for Put with Active/Passive Synchronization
 The put bandwidth benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the test is carried out by the origin process calling a fixed number of back-to-back MPI_Puts on remote window and then waiting on a synchronization call (MPI_Win_complete) for their completion. The remote process participates in synchronization with MPI_Win_post and MPI_Win_wait calls. This process is repeated for several iterations and the bandwidth is calculated based on the elapsed time and the number of bytes put by the origin process. 
 
-![](img/osu_put_bw-times-seconds-hist-4-to-128.png)
+![](img/osu_put_bw-times-seconds-4-to-128.png)
 
 ##### osu_put_latency
 
 > The put latency benchmark includes window initialization operations (MPI_Win_create, MPI_Win_allocate and MPI_Win_create_dynamic) and synchronization operations (MPI_Win_lock/unlock, MPI_Win_flush, MPI_Win_flush_local, MPI_Win_lock_all/unlock_all, MPI_Win_Post/Start/Complete/Wait and MPI_Win_fence). For active synchronization, suppose users run with MPI_Win_Post/Start/Complete/Wait, the origin process calls MPI_Put to directly place data of a certain size in the remote process's window and then waiting on a synchronization call (MPI_Win_complete) for completion. The remote process participates in synchronization with MPI_Win_post and MPI_Win_wait calls. Several iterations of this test is carried out and the average put latency numbers is reported. The latency includes the synchronization time also. 
 
-![](img/osu_put_latency-times-seconds-hist-4-to-128.png)
+![](img/osu_put_latency-times-seconds-4-to-128.png)
 
 
 #### Paired or One-Sided (two nodes)
@@ -438,7 +438,7 @@ These we might see an influence of scale. For each of allreduce, allgather, and 
 
 > This benchmark measures the minimum, maximum, and average time each process takes to complete MPI_Init.
 
-![](img/osu_init-hist-4-to-128.png)
+![](img/osu_init-4-to-128.png)
 
 ##### osu_ibarrier
 
@@ -448,29 +448,29 @@ ibarrier is collective but non-blocking.
 
 **Compute**
 
-![](img/osu_ibarrier-compute(us)-hist-4-to-128.png)
+![](img/osu_ibarrier-compute(us)-4-to-128.png)
 
 **Overall**
 
-![](img/osu_ibarrier-overall(us)-hist-4-to-128.png)
+![](img/osu_ibarrier-overall(us)-4-to-128.png)
 
 **Overlap %**
-![](img/osu_ibarrier-overlap(%)-hist-4-to-128.png)
+![](img/osu_ibarrier-overlap(%)-4-to-128.png)
 
 **Pure Comm**
 
-![](img/osu_ibarrier-pure-comm-(us)-hist-4-to-128.png)
+![](img/osu_ibarrier-pure-comm-(us)-4-to-128.png)
 
 ##### osu_barrier
 
-![](img/osu_barrier-hist-4-to-128.png)
+![](img/osu_barrier-4-to-128.png)
 
 ##### osu_mbw_mr
 
 > The multi-pair bandwidth and message rate test evaluates the aggregate uni-directional bandwidth and message rate between multiple pairs of processes. Each of the sending processes sends a fixed number of messages (the window size) back-to-back to the paired receiving process before waiting for a reply from the receiver. This process is repeated for several iterations. The objective of this benchmark is to determine the achieved bandwidth and message rate from one node to another node with a configurable number of processes running on each node. 
 
-![](img/osu_mbw_mr-mb-s-hist-4-to-128.png)
-![](img/osu_mbw_mr-messages-s-hist-4-to-128.png)
+![](img/osu_mbw_mr-mb-s-4-to-128.png)
+![](img/osu_mbw_mr-messages-s-4-to-128.png)
 
 ##### osu_multi_lat
 

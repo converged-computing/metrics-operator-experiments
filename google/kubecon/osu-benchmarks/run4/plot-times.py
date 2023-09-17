@@ -282,7 +282,7 @@ def plot_single(df, x, y, slug, columns, outdir, larger_size=True):
     Plot two values, and and y, over time
     """
     ax = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
-    outfile = os.path.join(outdir, f"{slug}-hist-4-to-128.png")
+    outfile = os.path.join(outdir, f"{slug}-4-to-128.png")
     make_plot(ax, slug=slug, outfile=outfile, xlabel=x, larger_size=larger_size)
 
 
