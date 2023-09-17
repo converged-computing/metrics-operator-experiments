@@ -87,8 +87,7 @@ def main():
 
             # Save single result file to cache to be conservative
             cache_file = os.path.join(cache_dir, f"{outname}-{i}.json")
-            cache_result = {"data": output, "spec": m.spec}
-            utils.write_json(cache_result, cache_file)
+            utils.write_json(output, cache_file)
 
             # Append final results
             results.append(output)
