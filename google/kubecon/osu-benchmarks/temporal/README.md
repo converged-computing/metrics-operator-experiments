@@ -56,14 +56,15 @@ done
 ```
 
 These smaller experiments are running and I'll assess if it's a better setup. Ideally I'd like to do 2 times during the week, possibly
-once during the weekend (varying Saturday / Sunday) and then each time, in the morning / late afternoon / evening (based on when I'm awake, lol).
+once during the weekend (varying Saturday / Sunday) and then each time, in the morning / late afternoon / evening (based on when I'm awake)
 
 ### Results
 
-TBA
+You can see a breakdown of results as follows:
 
 ```bash
 python plot-times.py --results ./data --out ./img
 ```
 
+We will need to change this view when there are more data points!
 

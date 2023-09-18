@@ -11,7 +11,7 @@ TIMESTAMP=$(date +"%A_DATE_%Y-%m-%d_TIME_%H-%M-%S")
 GOOGLE_PROJECT="${1}"
 SIZE=${2}
 INPUT_FILE=${3}
-ITER=${4:-20}
+ITER=${4:-5}
 
 # The metrics.yaml needs to exist
 if [[ ! -e "${INPUT_FILE}" ]]; then
@@ -48,4 +48,4 @@ kubectl get nodes -o json > ${outdir}/nodes-${SIZE}.json
 
 # Run the experiment for that many iterations
 python run-experiment.py --out ${outdir} --input ${INPUT_FILE} --iter ${ITER} --sleep 60
-gcloud container clusters delete ${CLUSTER_NAME}
+gcloud container clusters delete --quiet ${CLUSTER_NAME}
