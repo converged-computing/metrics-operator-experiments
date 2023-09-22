@@ -86,7 +86,7 @@ TLDR: I can run an hourly cron job on a small server as follows:
 python3 random-run.py -p 2.0 -c 3 --project ${GOOGLE_PROJECT}
 
 # But we can run (to source environment to) like:
-/bin/bash /path/to/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
+/usr/bin/bash /path/to/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
 ```
 
 And **important** you need to add Kubernetes admin to your GCP service account.
@@ -123,10 +123,10 @@ When you are ready to automate, add via crontab -e (use full paths)
 crontab -e
 ```
 ```console
-0 * * * * /bin/bash /home/youruser/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
+0 * * * * /usr/bin/bash /home/youruser/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
 ```
 
-Check status:
+Note that bash is in `/usr/bin/bash` on the instance, and you should double check "which bash" is active for you before using this line. Check status:
 
 ```bash
 sudo service cron status
