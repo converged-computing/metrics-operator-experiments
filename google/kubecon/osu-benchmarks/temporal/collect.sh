@@ -27,17 +27,21 @@ echo "Starting experiment run size ${SIZE} on ${TIMESTAMP} for ${ITER} iteration
 gcloud container clusters create ${CLUSTER_NAME} \
     --threads-per-core=1 \
     --placement-type=COMPACT \
+    --zone=us-central1-a \
     --num-nodes=${SIZE} \
     --machine-type=${INSTANCE} \
     --enable-gvnic
 
 # When that is done, we install JobSet
 VERSION=v0.2.0
+
 kubectl apply --server-side -f https://github.com/kubernetes-sigs/jobset/releases/download/$VERSION/manifests.yaml
 sleep 10
 
 # Now install the metrics operator. Here we keep the exact version and digest.
-kubectl apply -f $HERE/operator/metrics-operator.yaml
+# Test development version
+kubectl apply -f $HERE/operator/metrics-operator-dev.yaml 
+#kubectl apply -f $HERE/operator/metrics-operator.yaml
 sleep 10
 
 # Save some metadata about the nodes
@@ -48,4 +52,4 @@ kubectl get nodes -o json > ${outdir}/nodes-${SIZE}.json
 
 # Run the experiment for that many iterations
 python run-experiment.py --out ${outdir} --input ${INPUT_FILE} --iter ${ITER} --sleep 60
-gcloud container clusters delete --quiet ${CLUSTER_NAME}
+gcloud container clusters delete --quiet --zone=us-central1-a ${CLUSTER_NAME}

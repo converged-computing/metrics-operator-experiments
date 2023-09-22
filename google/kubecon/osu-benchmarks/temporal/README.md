@@ -47,11 +47,11 @@ Notes from testing (under [data/test](data/test), which I killed a little bit in
  - There is a 60 second sleep, always, to wait for network (we can't get around that), maybe could reduce a little but would be unwise.
 
 ```bash
-# Example for size 16, 5 iterations x 3 (likely could do this more frequently)
+# Example for size 16, 3 iterations x 3 (likely could do this more frequently)
 export GOOGLE_PROJECT=myproject
 for i in 1 2 3; do
     echo "🥞️ Running top level iteration ${i}"
-    time /bin/bash ./collect.sh ${GOOGLE_PROJECT} 18 ./crd/metrics-16.yaml 5
+    time /bin/bash ./collect.sh ${GOOGLE_PROJECT} 18 ./crd/metrics-16.yaml 3
 done
 ```
 
