@@ -86,7 +86,7 @@ TLDR: I can run an hourly cron job on a small server as follows:
 python random-run.py -p 2.0 -c 3 --project ${GOOGLE_PROJECT}
 
 # But we can run (to source environment to) like:
-/bin/bash /path/to/metrics-operator/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
+/bin/bash /path/to/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
 ```
 
 ### Instance
@@ -121,7 +121,7 @@ When you are ready to automate, add via crontab -e (use full paths)
 crontab -e
 ```
 ```console
-0 * * * * /bin/bash /home/youruser/metrics-operator/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
+0 * * * * /bin/bash /home/youruser/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
 ```
 
 Check status:
@@ -130,13 +130,14 @@ Check status:
 sudo service cron status
 ```
 
-To test the cron itself, do:
+And then CHECK ON IT REGULARLY to ensure that you are getting
+results and there aren't bugs. To copy to a local machine:
 
 ```bash
-
+gcloud compute scp --recurse instance-name:~/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/data ./data
 ```
-And then CHECK ON IT REGULARLY to ensure that you are getting
-results and there aren't bugs.
+
+And let's try that out!
 
 ### Design
 
