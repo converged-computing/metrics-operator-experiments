@@ -53,10 +53,6 @@ def main():
     if not args.project:
         sys.exit("--project is required.")
 
-    import IPython
-
-    IPython.embed()
-    sys.exit()
     dorun = random.choice(range(0, 100)) < args.p or args.force
     if not dorun:
         sys.exit("We are not running this time!")
