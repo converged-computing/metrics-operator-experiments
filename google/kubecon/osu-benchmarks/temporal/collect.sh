@@ -11,7 +11,7 @@ TIMESTAMP=$(date +"%A_DATE_%Y-%m-%d_TIME_%H-%M-%S")
 GOOGLE_PROJECT="${1}"
 SIZE=${2}
 INPUT_FILE=${3}
-ITER=${4:-5}
+ITER=${4:-20}
 
 # The metrics.yaml needs to exist
 if [[ ! -e "${INPUT_FILE}" ]]; then

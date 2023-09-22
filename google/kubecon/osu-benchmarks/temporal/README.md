@@ -47,11 +47,11 @@ Notes from testing (under [data/test](data/test), which I killed a little bit in
  - There is a 60 second sleep, always, to wait for network (we can't get around that), maybe could reduce a little but would be unwise.
 
 ```bash
-# Example for size 16, 3 iterations x 3 (likely could do this more frequently)
+# Example for size 16, 15 iterations x 3 (likely could do this more frequently)
 export GOOGLE_PROJECT=myproject
 for i in 1 2 3; do
     echo "🥞️ Running top level iteration ${i}"
-    time /bin/bash ./collect.sh ${GOOGLE_PROJECT} 18 ./crd/metrics-16.yaml 3
+    time /bin/bash ./collect.sh ${GOOGLE_PROJECT} 18 ./crd/metrics-16-subset.yaml 15
 done
 ```
 
@@ -75,6 +75,124 @@ time /bin/bash ./collect-set.sh ${GOOGLE_PROJECT}
 
 These smaller experiments are running and I'll assess if it's a better setup. Ideally I'd like to do 2 times during the week, possibly
 once during the weekend (varying Saturday / Sunday) and then each time, in the morning / late afternoon / evening (based on when I'm awake)
+
+### Automation
+
+TLDR: I can run an hourly cron job on a small server as follows:
+
+```
+# Run 3 clusters at a probability of 2% of running each run
+python random-run.py -p 2.0 -c 3
+```
+
+For now I'm going to aim for 6 months. Here is my thinking:
+
+- 3 metrics (in the metrics-16-subset.yaml)
+- 20 iterations each
+- 3 clusters per run
+
+For the above, for size 16 one cluster takes an hour, so 3 clusters == 3 hours. For 
+c2d-standard-2 that is about $5 per run. If we want to totally randomize this, I suspect thje easiest way is to use cron, and to run a script hourly, but then have some probability that it will actually run. Let's aim this to try and spend $1000 over a year (arbitrary and can be stopped or changed). Here is my thinking:
+
+```python
+import random
+
+# Tiny simulation of runs
+# This will count the number of runs we get
+counts = {}
+
+# Number of days we want to cover
+days = 365
+
+# Probabilities to test (0.1 to 5) and out of 100
+probs = [round(x * 0.1, 2) for x in list(range(30, 0, -1))]
+
+# Assuming we run it once an hour for that many days
+for i in range(0, days*24):
+    for prob in probs:
+        if prob not in counts:
+            counts[prob] = {True:0, False:0}
+
+        # Do the run?
+        dorun = random.choice(range(0,100)) < prob
+        counts[prob][dorun] +=1
+
+# What is the cost per run? (dollars)
+cost_per_run = 5
+
+# Show results!
+for prob, result in counts.items():
+    total_cost = cost_per_run * result[True]
+    print(f'Total cost for probabiltiy {prob}% over a year is ${total_cost}')
+```
+```console
+Total cost for probabiltiy 3.0% over a year is $1385
+Total cost for probabiltiy 2.9% over a year is $1355
+Total cost for probabiltiy 2.8% over a year is $1260
+Total cost for probabiltiy 2.7% over a year is $1235
+Total cost for probabiltiy 2.6% over a year is $1445
+Total cost for probabiltiy 2.5% over a year is $1350
+Total cost for probabiltiy 2.4% over a year is $1295
+Total cost for probabiltiy 2.3% over a year is $1295
+Total cost for probabiltiy 2.2% over a year is $1245
+Total cost for probabiltiy 2.1% over a year is $1350  <--- in here somewhere
+Total cost for probabiltiy 2.0% over a year is $900   <---
+Total cost for probabiltiy 1.9% over a year is $745
+Total cost for probabiltiy 1.8% over a year is $795
+Total cost for probabiltiy 1.7% over a year is $915
+Total cost for probabiltiy 1.6% over a year is $880
+Total cost for probabiltiy 1.5% over a year is $960
+Total cost for probabiltiy 1.4% over a year is $880
+Total cost for probabiltiy 1.3% over a year is $930
+Total cost for probabiltiy 1.2% over a year is $845
+Total cost for probabiltiy 1.1% over a year is $870
+Total cost for probabiltiy 1.0% over a year is $535
+Total cost for probabiltiy 0.9% over a year is $370
+Total cost for probabiltiy 0.8% over a year is $405
+Total cost for probabiltiy 0.7% over a year is $410
+Total cost for probabiltiy 0.6% over a year is $375
+Total cost for probabiltiy 0.5% over a year is $440
+Total cost for probabiltiy 0.4% over a year is $375
+Total cost for probabiltiy 0.3% over a year is $460
+Total cost for probabiltiy 0.2% over a year is $365
+Total cost for probabiltiy 0.1% over a year is $365
+```
+
+So I think if we ran this hourly, every day, and there is a 2% chance of it running, this
+would give us a good rate.  We would get about 280 samples.
+
+```bash
+{3.0: {True: 277, False: 8483},
+ 2.9: {True: 271, False: 8489},
+ 2.8: {True: 252, False: 8508},
+ 2.7: {True: 247, False: 8513},
+ 2.6: {True: 289, False: 8471},
+ 2.5: {True: 270, False: 8490},
+ 2.4: {True: 259, False: 8501},
+ 2.3: {True: 259, False: 8501},
+ 2.2: {True: 249, False: 8511},
+ 2.1: {True: 270, False: 8490},
+ 2.0: {True: 180, False: 8580}, <---
+ 1.9: {True: 149, False: 8611},
+ 1.8: {True: 159, False: 8601},
+ 1.7: {True: 183, False: 8577},
+ 1.6: {True: 176, False: 8584},
+ 1.5: {True: 192, False: 8568},
+ 1.4: {True: 176, False: 8584},
+ 1.3: {True: 186, False: 8574},
+ 1.2: {True: 169, False: 8591},
+ 1.1: {True: 174, False: 8586},
+ 1.0: {True: 107, False: 8653},
+ 0.9: {True: 74, False: 8686},
+ 0.8: {True: 81, False: 8679},
+ 0.7: {True: 82, False: 8678},
+ 0.6: {True: 75, False: 8685},
+ 0.5: {True: 88, False: 8672},
+ 0.4: {True: 75, False: 8685},
+ 0.3: {True: 92, False: 8668},
+ 0.2: {True: 73, False: 8687},
+ 0.1: {True: 73, False: 8687}}
+```
 
 ### Results
 

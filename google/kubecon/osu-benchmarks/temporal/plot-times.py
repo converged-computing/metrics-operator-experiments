@@ -127,7 +127,6 @@ def parse_data(files):
     # Lookup of iterations by size and metric
     iters = {}
     for filename in files:
-
         # Timestamp is directory name, keep as is for now
         timestamp = os.path.basename(os.path.dirname(filename))
         day_of_week, rest = timestamp.split("_DATE_")
@@ -142,7 +141,6 @@ def parse_data(files):
         # This is a list, each a json result, 20x
         items = utils.read_json(filename)
         for item in items:
-
             # Parse the data into a result, including times
             # The parser expects a raw log (not by lines)
             data = "\n".join(item["data"])
@@ -153,7 +151,6 @@ def parse_data(files):
 
             # Now we can parse the data
             for r in result["data"]:
-
                 # Look up the iteration from before
                 metric_name = slug = os.path.basename(r["command"])
                 uid = f"{pods}-{metric_name}"
@@ -296,7 +293,6 @@ def plot_results(data, outdir):
             "time_of_day",
             "day_of_week_time",
         ]:
-
             # For ibarrier make a plot for each
             if slug == "osu_ibarrier":
                 for y in columns[slug]:
