@@ -4,7 +4,6 @@ set -exuo pipefail
 
 HERE=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 INSTANCE="c2d-standard-2"
-CLUSTER_NAME="osu-cluster"
 TIMESTAMP=$(date +"%A_DATE_%Y-%m-%d_TIME_%H-%M-%S")
 
 # User variables
@@ -12,6 +11,11 @@ GOOGLE_PROJECT="${1}"
 SIZE=${2}
 INPUT_FILE=${3}
 ITER=${4:-20}
+CLUSTER_ID="${5:-1}"
+
+# I added the id for the tiny chance two happen in a row
+# they won't have the same name!
+CLUSTER_NAME="osu-cluster-${CLUSTER_ID}"
 
 # The metrics.yaml needs to exist
 if [[ ! -e "${INPUT_FILE}" ]]; then

@@ -53,14 +53,21 @@ def main():
     if not args.project:
         sys.exit("--project is required.")
 
+    print(f"    project: {args.project}")
+    print(f"probability: {args.p}")
+    print(f"   clusters: {args.c}")
+
     dorun = random.choice(range(0, 100)) < args.p or args.force
     if not dorun:
         sys.exit("We are not running this time!")
 
-    # This will create the cluster, run the operator, and clean up
+    # This will create the cluster, run the operator, and clean up, 20x each
     for i in range(0, args.c):
         print(f"🥞️ Running top level iteration {i}")
-        res = subprocess.run(["bash", collect_script, args.project, "18", metrics_yaml])
+        res = subprocess.run(
+            ["bash", collect_script, args.project, "18", metrics_yaml, "20", str(i)]
+        )
+        print(res)
 
 
 if __name__ == "__main__":

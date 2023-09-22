@@ -27,6 +27,7 @@ nodes, and output organized by day and time.
 # usage: ./collect.sh <project> <size> <metrics yaml> <iterations>
 time bash ./collect.sh llnl-flux 34 ./crd/metrics-32.yaml
 ```
+
 In the above, iterations is optional. For size, it should be 2 nodes larger than you need (one for JobSet and one for
 the Metrics Operator). As an example, to run three times in a row (to assess variability of clusters close together)
 
@@ -76,14 +77,68 @@ time /bin/bash ./collect-set.sh ${GOOGLE_PROJECT}
 These smaller experiments are running and I'll assess if it's a better setup. Ideally I'd like to do 2 times during the week, possibly
 once during the weekend (varying Saturday / Sunday) and then each time, in the morning / late afternoon / evening (based on when I'm awake)
 
-### Automation
+## Automation
 
 TLDR: I can run an hourly cron job on a small server as follows:
 
 ```
 # Run 3 clusters at a probability of 2% of running each run
-python random-run.py -p 2.0 -c 3
+python random-run.py -p 2.0 -c 3 --project ${GOOGLE_PROJECT}
+
+# But we can run (to source environment to) like:
+/bin/bash /path/to/metrics-operator/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
 ```
+
+### Instance
+
+Setting up the environment.
+
+This is an e2 shared core (2vcpu, 4GB memory instance with 50GB disk)
+I decided to scp data from there to my local machine instead of git pushing
+
+```bash
+sudo apt-get update && sudo apt-get install -y git python3-pip python3-venv cron
+sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+git clone https://github.com/converged-computing/metrics-operator-experiments
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/
+```
+
+Then setup the env and do a test run
+
+```bash
+cd ~/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal
+python -m venv env
+# metricsoperator was version 0.0.19
+pip install metricsoperator seaborn pandas
+python3 ./random-run.py -p 2.0 -c 1 --force --project ${GOOGLE_PROJECT}
+```
+
+When you are ready to automate, add via crontab -e (use full paths)
+
+```bash
+crontab -e
+```
+```console
+0 * * * * /bin/bash /home/youruser/metrics-operator/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
+```
+
+Check status:
+
+```bash
+sudo service cron status
+```
+
+To test the cron itself, do:
+
+```bash
+
+```
+And then CHECK ON IT REGULARLY to ensure that you are getting
+results and there aren't bugs.
+
+### Design
 
 For now I'm going to aim for 6 months. Here is my thinking:
 
@@ -195,6 +250,8 @@ would give us a good rate.  We would get about 280 samples.
 ```
 
 ### Results
+
+**TODO**
 
 You can see a breakdown of results as follows:
 
