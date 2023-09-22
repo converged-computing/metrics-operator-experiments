@@ -83,11 +83,13 @@ TLDR: I can run an hourly cron job on a small server as follows:
 
 ```
 # Run 3 clusters at a probability of 2% of running each run
-python random-run.py -p 2.0 -c 3 --project ${GOOGLE_PROJECT}
+python3 random-run.py -p 2.0 -c 3 --project ${GOOGLE_PROJECT}
 
 # But we can run (to source environment to) like:
 /bin/bash /path/to/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal/random-run.sh PROJECT
 ```
+
+And **important** you need to add Kubernetes admin to your GCP service account.
 
 ### Instance
 
@@ -109,7 +111,7 @@ Then setup the env and do a test run
 
 ```bash
 cd ~/metrics-operator-experiments/google/kubecon/osu-benchmarks/temporal
-python -m venv env
+python3 -m venv env
 # metricsoperator was version 0.0.19
 pip install metricsoperator seaborn pandas
 python3 ./random-run.py -p 2.0 -c 1 --force --project ${GOOGLE_PROJECT}
@@ -257,7 +259,7 @@ would give us a good rate.  We would get about 280 samples.
 You can see a breakdown of results as follows:
 
 ```bash
-python plot-times.py --results ./data --out ./img
+python3 plot-times.py --results ./data --out ./img
 ```
 
 We will need to change this view when there are more data points!

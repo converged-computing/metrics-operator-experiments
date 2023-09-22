@@ -4,6 +4,7 @@ set -exuo pipefail
 
 HERE=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 INSTANCE="c2d-standard-2"
+REGION="us-central1-a"
 TIMESTAMP=$(date +"%A_DATE_%Y-%m-%d_TIME_%H-%M-%S")
 
 # User variables
@@ -31,11 +32,14 @@ echo "Starting experiment run size ${SIZE} on ${TIMESTAMP} for ${ITER} iteration
 gcloud container clusters create ${CLUSTER_NAME} \
     --threads-per-core=1 \
     --placement-type=COMPACT \
-    --zone=us-central1-a \
+    --zone=${REGION} \
     --num-nodes=${SIZE} \
     --machine-type=${INSTANCE} \
     --enable-gvnic
 
+# Print some debug
+kubectl config current-context
+gcloud container clusters get-credentials ${CLUSTER_NAME} --region=${REGION}
 # When that is done, we install JobSet
 VERSION=v0.2.0
 
@@ -55,5 +59,5 @@ mkdir -p ${outdir}
 kubectl get nodes -o json > ${outdir}/nodes-${SIZE}.json
 
 # Run the experiment for that many iterations
-python run-experiment.py --out ${outdir} --input ${INPUT_FILE} --iter ${ITER} --sleep 60
-gcloud container clusters delete --quiet --zone=us-central1-a ${CLUSTER_NAME}
+python3 run-experiment.py --out ${outdir} --input ${INPUT_FILE} --iter ${ITER} --sleep 60
+gcloud container clusters delete --quiet --zone=${REGION} ${CLUSTER_NAME}
