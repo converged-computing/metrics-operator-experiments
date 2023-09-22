@@ -478,3 +478,22 @@ ibarrier is collective but non-blocking.
 
 ![](img/osu_multi_lat-box-4-to-128.png)
 ![](img/osu_multi_lat-line-4-to-128.png)
+
+
+## Notes
+
+- For presentation, we want: 
+  - osu_latency,hello,allreduce collect on our systems
+  - Run on HPC ([@milroy](https://github.com/milroy))
+  - To explain each metric before we show the plot [good resource](https://mpitutorial.com/tutorials/mpi-scatter-gather-and-allgather/)
+  - We will want to explain the communication needs of HPC vs. more ML or industry, e.g.,
+    - MPI is different than microservices - microservices or map reduce (apache spark) have independent execution, but for mpi we have intermit. computation, intertwined, and GCP sucks at that.
+
+- Barrier, ibarrier (non blocking, most applications prefer now) init, and allreduce and hello should be logarithmic
+- look up eager/lazy protocol
+- Adam Moody (talk to about OSU metrics)
+- 
+- which collective(s) does LAMMPS use
+- tests we want to see on hpc: allreduce/init/latency/
+- we need to explain them before we show them: https://mpitutorial.com/tutorials/mpi-scatter-gather-and-allgather/
+

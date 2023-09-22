@@ -55,6 +55,24 @@ for i in 1 2 3; do
 done
 ```
 
+I wound up reducing this to 3 - 5x took ~2 hours sometimes.
+
+```bash
+# Example for size 16, 5 iterations x 3 (likely could do this more frequently)
+export GOOGLE_PROJECT=myproject
+for i in 1 2 3; do
+    echo "🥞️ Running top level iteration ${i}"
+    time /bin/bash ./collect.sh ${GOOGLE_PROJECT} 18 ./crd/metrics-16.yaml 3
+done
+```
+
+And then after our meeting, we decided to reduce the number of things to run (down to 3) and increase collections back to 20
+(and I wrote a wrapper script to time this):
+
+```bash
+time /bin/bash ./collect-set.sh ${GOOGLE_PROJECT}
+```
+
 These smaller experiments are running and I'll assess if it's a better setup. Ideally I'd like to do 2 times during the week, possibly
 once during the weekend (varying Saturday / Sunday) and then each time, in the morning / late afternoon / evening (based on when I'm awake)
 

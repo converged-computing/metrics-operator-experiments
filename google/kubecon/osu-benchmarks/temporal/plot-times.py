@@ -98,6 +98,18 @@ def save_data(results, outdir):
         df.to_csv(os.path.join(outdir, f"{name}-time-wrapper-seconds-16.csv"))
 
 
+def parse_time_of_day(timestamp):
+    """
+    Parse the timestamp into a time of day.
+    """
+    hour, minute, seconds = timestamp.split("-")
+    if int(hour) < 12:
+        return "morning"
+    if int(hour) > 12 and int(hour) < 17:
+        return "afternoon"
+    return "evening"
+
+
 def parse_data(files):
     """
     Given a listing of files, parse into results data frame
@@ -120,6 +132,12 @@ def parse_data(files):
         timestamp = os.path.basename(os.path.dirname(filename))
         day_of_week, rest = timestamp.split("_DATE_")
         date, timestamp = rest.split("_TIME_")
+        day_of_week = day_of_week.lower()
+
+        # Parse the timestamp into a time of day
+        # We also will care about combined weekday and time of day
+        time_of_day = parse_time_of_day(timestamp)
+        day_of_week_time = f"{day_of_week}_{time_of_day}"
 
         # This is a list, each a json result, 20x
         items = utils.read_json(filename)
@@ -149,7 +167,15 @@ def parse_data(files):
                 if slug not in results:
                     results[slug] = pandas.DataFrame(
                         columns=r["columns"]
-                        + ["iter", "pods", "day_of_week", "date", "timestamp"]
+                        + [
+                            "iter",
+                            "pods",
+                            "day_of_week",
+                            "date",
+                            "timestamp",
+                            "time_of_day",
+                            "day_of_week_time",
+                        ]
                     )
                     idxs[slug] = 0
                     columns[slug] = r["columns"]
@@ -162,6 +188,8 @@ def parse_data(files):
                             day_of_week,
                             date,
                             timestamp,
+                            time_of_day,
+                            day_of_week_time,
                         ]
                     except Exception as e:
                         raise ValueError(f"There was an issue parsing {slug}: {e}")
@@ -179,6 +207,8 @@ def parse_data(files):
                             "day_of_week",
                             "date",
                             "timestamp",
+                            "time_of_day",
+                            "day_of_week_time",
                         ]
                     )
                     timed_idxs[slug] = 0
@@ -197,6 +227,8 @@ def parse_data(files):
                         day_of_week,
                         date,
                         timestamp,
+                        time_of_day,
+                        day_of_week_time,
                     ]
                     timed_idxs[slug] += 1
 
@@ -230,7 +262,13 @@ def plot_results(data, outdir):
 
     # Plot times for each
     for slug, df in times.items():
-        for by in ["date", "timestamp", "day_of_week"]:
+        for by in [
+            "date",
+            "timestamp",
+            "day_of_week",
+            "time_of_day",
+            "day_of_week_time",
+        ]:
             plot_single(
                 df,
                 by,
@@ -240,6 +278,7 @@ def plot_results(data, outdir):
                 outdir,
                 larger_size=False,
                 hue=by,
+                logarithmic=False,
             )
 
     # Now plot each dataframe, and vary by date / timestamp / day of week
@@ -250,7 +289,13 @@ def plot_results(data, outdir):
         if slug == "osu_hello":
             continue
 
-        for by in ["date", "timestamp", "day_of_week"]:
+        for by in [
+            "date",
+            "timestamp",
+            "day_of_week",
+            "time_of_day",
+            "day_of_week_time",
+        ]:
 
             # For ibarrier make a plot for each
             if slug == "osu_ibarrier":
@@ -287,13 +332,22 @@ def plot_results(data, outdir):
                 raise ValueError(f"We do not know how to plot {slug}")
 
 
-def plot_single(df, x, y, slug, columns, outdir, larger_size=True, hue="pods"):
+def plot_single(
+    df, x, y, slug, columns, outdir, larger_size=True, hue="pods", logarithmic=False
+):
     """
     Plot two values, and and y, over time
     """
     ax = sns.boxplot(data=df, x=x, y=y, hue=hue, palette="muted")
     outfile = os.path.join(outdir, f"{slug}-16.png")
-    make_plot(ax, slug=slug, outfile=outfile, xlabel=x, larger_size=larger_size)
+    make_plot(
+        ax,
+        slug=slug,
+        outfile=outfile,
+        xlabel=x,
+        larger_size=larger_size,
+        logarithmic=logarithmic,
+    )
 
 
 def plot_pairs(df, slug, columns, outdir, hue="pods"):
@@ -328,16 +382,19 @@ def plot_pairs(df, slug, columns, outdir, hue="pods"):
         markers=True,
         dashes=True,
     )
-    outfile = os.path.join(outdir, f"{slug}-line-16.png")
-    make_plot(
-        ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel, larger_size=False
-    )
+    # Don't need line plot for now
+    # outfile = os.path.join(outdir, f"{slug}-line-16.png")
+    # make_plot(
+    #    ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel, larger_size=False
+    # )
     ax2 = sns.boxplot(data=df, x=x, y=y, hue=hue, palette="muted")
     outfile = os.path.join(outdir, f"{slug}-box-16.png")
     make_plot(ax2, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel)
 
 
-def make_plot(ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True):
+def make_plot(
+    ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True, logarithmic=True
+):
     """
     Generic plot making function for some x and y
     """
@@ -353,7 +410,8 @@ def make_plot(ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True):
         ax.set_ylabel(ylabel, fontsize=16)
     ax.set_xticklabels(ax.get_xmajorticklabels(), fontsize=14)
     ax.set_yticklabels(ax.get_yticks(), fontsize=14)
-    plt.yscale("log")
+    if logarithmic:
+        plt.yscale("log")
     plt.tight_layout()
     plt.savefig(outfile)
     plt.clf()

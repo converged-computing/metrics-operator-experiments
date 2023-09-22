@@ -92,10 +92,12 @@ def save_data(results, outdir):
     # Full dataframes with results
     for name, df in results["results"].items():
         df.to_csv(os.path.join(outdir, f"{name}-4-to-128.csv"))
-
-        # Show (and save) grouped by data) (skip those without numberic like osu_hello)
         try:
-            group = df.groupby("pods").mean()
+            # Show (and save) grouped by data) (skip those without numberic like osu_hello)
+            if "Size" in df.columns:
+                group = df.groupby(["pods", "Size"]).mean()
+            else:
+                group = df.groupby("pods").mean()
             print(group)
             group.to_csv(os.path.join(outdir, f"{name}-groups-4-to-128.csv"))
         except:
@@ -230,7 +232,14 @@ def plot_results(data, outdir):
         x = "nodes"
         y = "real"
         plot_single(
-            df, x, y, f"{slug}-times-seconds", columns, outdir, larger_size=False
+            df,
+            x,
+            y,
+            f"{slug}-times-seconds",
+            columns,
+            outdir,
+            larger_size=False,
+            logarithmic=False,
         )
 
     # Now plot each dataframe
@@ -277,13 +286,20 @@ def plot_results(data, outdir):
             raise ValueError(f"We do not know how to plot {slug}")
 
 
-def plot_single(df, x, y, slug, columns, outdir, larger_size=True):
+def plot_single(df, x, y, slug, columns, outdir, larger_size=True, logarithmic=True):
     """
     Plot two values, and and y, over time
     """
     ax = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
     outfile = os.path.join(outdir, f"{slug}-4-to-128.png")
-    make_plot(ax, slug=slug, outfile=outfile, xlabel=x, larger_size=larger_size)
+    make_plot(
+        ax,
+        slug=slug,
+        outfile=outfile,
+        xlabel=x,
+        larger_size=larger_size,
+        logarithmic=logarithmic,
+    )
 
 
 def plot_pairs(df, slug, columns, outdir):
@@ -319,14 +335,18 @@ def plot_pairs(df, slug, columns, outdir):
         dashes=True,
     )
     outfile = os.path.join(outdir, f"{slug}-line-4-to-128.png")
-    make_plot(ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel, larger_size=False)
+    make_plot(
+        ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel, larger_size=False
+    )
 
     ax2 = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
     outfile = os.path.join(outdir, f"{slug}-box-4-to-128.png")
     make_plot(ax2, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel)
 
 
-def make_plot(ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True):
+def make_plot(
+    ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True, logarithmic=True
+):
     """
     Generic plot making function for some x and y
     """
@@ -342,7 +362,8 @@ def make_plot(ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True):
         ax.set_ylabel(ylabel, fontsize=16)
     ax.set_xticklabels(ax.get_xmajorticklabels(), fontsize=14)
     ax.set_yticklabels(ax.get_yticks(), fontsize=14)
-    plt.yscale("log")
+    if logarithmic:
+        plt.yscale("log")
     plt.tight_layout()
     plt.savefig(outfile)
     plt.clf()
