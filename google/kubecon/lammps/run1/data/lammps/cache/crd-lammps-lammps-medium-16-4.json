@@ -1,0 +1,148 @@
+{
+    "data": {
+        "data": [
+            "METADATA START {\"pods\":16,\"metricName\":\"app-lammps\",\"metricDescription\":\"LAMMPS molecular dynamic simulation\",\"metricOptions\":{\"command\":\"/opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 1408 --map-by socket lmp -v x 4 -v y 4 -v z 4 -in in.reaxc.hns -nocite\",\"soleTenacy\":\"false\",\"workdir\":\"/opt/lammps/examples/reaxff/HNS\"}}",
+            "METADATA END",
+            "Sleeping for 10 seconds waiting for network...",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "LAMMPS (29 Sep 2021 - Update 2)",
+            "OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)",
+            "  using 1 OpenMP thread(s) per MPI task",
+            "Reading data file ...",
+            "  triclinic box = (0.0000000 0.0000000 0.0000000) to (22.326000 11.141200 13.778966) with tilt (0.0000000 -5.0260300 0.0000000)",
+            "  16 by 8 by 11 MPI processor grid",
+            "  reading atoms ...",
+            "  304 atoms",
+            "  reading velocities ...",
+            "  304 velocities",
+            "  read_data CPU = 0.007 seconds",
+            "Replicating atoms ...",
+            "  triclinic box = (0.0000000 0.0000000 0.0000000) to (89.304000 44.564800 55.115864) with tilt (0.0000000 -20.104120 0.0000000)",
+            "  16 by 8 by 11 MPI processor grid",
+            "  bounding box image = (0 -1 -1) to (0 1 1)",
+            "  bounding box extra memory = 0.03 MB",
+            "  average # of replicas added to proc = 10.69 out of 64 (16.70%)",
+            "  19456 atoms",
+            "  replicate CPU = 0.011 seconds",
+            "Neighbor list info ...",
+            "  update every 20 steps, delay 0 steps, check no",
+            "  max neighbors/atom: 2000, page size: 100000",
+            "  master list distance cutoff = 11",
+            "  ghost atom cutoff = 11",
+            "  binsize = 5.5, bins = 20 9 11",
+            "  2 neighbor lists, perpetual/occasional/extra = 2 0 0",
+            "  (1) pair reax/c, perpetual",
+            "      attributes: half, newton off, ghost",
+            "      pair build: half/bin/newtoff/ghost",
+            "      stencil: full/ghost/bin/3d",
+            "      bin: standard",
+            "  (2) fix qeq/reax, perpetual, copy from (1)",
+            "      attributes: half, newton off, ghost",
+            "      pair build: copy",
+            "      stencil: none",
+            "      bin: none",
+            "Setting up Verlet run ...",
+            "  Unit style    : real",
+            "  Current step  : 0",
+            "  Time step     : 0.1",
+            "Per MPI rank memory allocation (min/avg/max) = 32.36 | 33.05 | 33.48 Mbytes",
+            "Step Temp PotEng Press E_vdwl E_coul Volume ",
+            "       0          300   -113.27833     438.8365   -111.57687   -1.7014647    219350.94 ",
+            "      10     301.2473   -113.28192    1324.9151   -111.58051   -1.7014165    219350.94 ",
+            "      20    302.25627   -113.28484    2550.3136   -111.58354   -1.7012946    219350.94 ",
+            "      30    301.57271    -113.2826    5400.3235   -111.58154   -1.7010544    219350.94 ",
+            "      40    299.70196   -113.27693     7272.981   -111.57623   -1.7007064    219350.94 ",
+            "      50    297.28908   -113.26968    6610.4598   -111.56937   -1.7003126    219350.94 ",
+            "      60    294.64774    -113.2617    5720.4203   -111.56178   -1.6999184    219350.94 ",
+            "      70    293.92945   -113.25953    5709.7784   -111.56001   -1.6995234    219350.94 ",
+            "      80    296.72363   -113.26783    6678.1913   -111.56871    -1.699117    219350.94 ",
+            "      90    301.41819   -113.28184    8078.0448   -111.58311   -1.6987273    219350.94 ",
+            "     100    303.68663   -113.28857    10072.353   -111.59016   -1.6984124    219350.94 ",
+            "Loop time of 6.00629 on 1408 procs for 100 steps with 19456 atoms",
+            "Performance: 0.144 ns/day, 166.841 hours/ns, 16.649 timesteps/s",
+            "61.8% CPU use with 1408 MPI tasks x 1 OpenMP threads",
+            "MPI task timing breakdown:",
+            "Section |  min time  |  avg time  |  max time  |%varavg| %total",
+            "---------------------------------------------------------------",
+            "Pair    | 0.90605    | 0.9996     | 1.114      |   3.0 | 16.64",
+            "Neigh   | 0.03649    | 0.038084   | 0.046153   |   0.3 |  0.63",
+            "Comm    | 0.29936    | 0.43779    | 0.55654    |   5.1 |  7.29",
+            "Output  | 0.025527   | 0.040064   | 0.050198   |   2.3 |  0.67",
+            "Modify  | 4.4595     | 4.49       | 4.5184     |   0.6 | 74.75",
+            "Other   |            | 0.0007973  |            |       |  0.01",
+            "Nlocal:        13.8182 ave          20 max           8 min",
+            "Histogram: 17 61 154 160 205 522 141 66 58 24",
+            "Nghost:        1886.32 ave        1918 max        1829 min",
+            "Histogram: 34 41 31 73 75 187 370 284 251 62",
+            "Neighs:        6689.27 ave        9621 max        3889 min",
+            "Histogram: 17 61 154 160 255 472 141 66 58 24",
+            "Total # of neighbors = 9418488",
+            "Ave neighs/atom = 484.09169",
+            "Neighbor list builds = 5",
+            "Dangerous builds not checked",
+            "Total wall time: 0:00:06",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 16,
+            "metricName": "app-lammps",
+            "metricDescription": "LAMMPS molecular dynamic simulation",
+            "metricOptions": {
+                "command": "/opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 1408 --map-by socket lmp -v x 4 -v y 4 -v z 4 -in in.reaxc.hns -nocite",
+                "soleTenacy": "false",
+                "workdir": "/opt/lammps/examples/reaxff/HNS"
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 16,
+                "metrics": [
+                    {
+                        "name": "app-lammps",
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "options": {
+                            "command": "/opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 1408 --map-by socket lmp -v x 4 -v y 4 -v z 4 -in in.reaxc.hns -nocite",
+                            "workdir": "/opt/lammps/examples/reaxff/HNS",
+                            "soleTenancy": "true"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 16,
+            "metrics": [
+                {
+                    "name": "app-lammps",
+                    "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                    "options": {
+                        "command": "/opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 1408 --map-by socket lmp -v x 4 -v y 4 -v z 4 -in in.reaxc.hns -nocite",
+                        "workdir": "/opt/lammps/examples/reaxff/HNS",
+                        "soleTenancy": "true"
+                    }
+                }
+            ]
+        }
+    }
+}

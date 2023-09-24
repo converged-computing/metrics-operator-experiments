@@ -726,7 +726,7 @@ spec:
         - --leader-elect
         command:
         - /manager
-        image: ghcr.io/converged-computing/metrics-operator:test
+        image: ghcr.io/converged-computing/metrics-operator:v0.1.0
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

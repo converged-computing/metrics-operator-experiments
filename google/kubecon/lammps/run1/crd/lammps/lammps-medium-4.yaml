@@ -15,6 +15,6 @@ spec:
      image: ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky
 
      options:
-       command: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 352 --map-by socket lmp -v x 8 -v y 4 -v z 4 -in in.reaxc.hns -nocite
+       command: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 352 --map-by socket lmp -v x 4 -v y 4 -v z 4 -in in.reaxc.hns -nocite
        workdir: /opt/lammps/examples/reaxff/HNS
        soleTenancy: "true"

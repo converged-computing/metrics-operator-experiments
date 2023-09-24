@@ -7,14 +7,16 @@ metadata:
   name: metricset-sample
 spec:
   # Number of pods for lammps (one launcher, the rest workers)
-  pods: 4
+  pods: 2
   metrics:
+
+   # Running more scaled lammps is our main goal
    - name: app-lammps
 
      # This has intel mpi on rocky linux, per suggested by Google
      image: ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky
 
      options:
-       command: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 352 --map-by socket lmp -v x 8 -v y 4 -v z 4 -in in.reaxc.hns -nocite
+       command: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 176 --map-by socket lmp -v x 4 -v y 4 -v z 4 -in in.reaxc.hns -nocite
        workdir: /opt/lammps/examples/reaxff/HNS
        soleTenancy: "true"

@@ -9,6 +9,7 @@ import metricsoperator.utils as utils
 
 here = os.path.abspath(os.path.dirname(__file__))
 
+
 def get_parser():
     parser = argparse.ArgumentParser(
         description="Run OSU Benchmarks Metric and Get Output",
