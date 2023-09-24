@@ -310,6 +310,17 @@ My overall takeaways:
  - I want to look at patterns and costs for today, and possibly run one more experiment that just does scaling of lammps of a small problem size up on a large cluster. I want to see where the small problem size stops working.
  
 
+## Results
+
+### OSU Benchmarks
+
+Let's plot results! Make sure you have seaborn / matplotlib / pandas installed.
+
+```bash
+mkdir -p ./img/osu-benchmarks
+python plot-times.py --results ./data/osu-benchmarks --out ./img/osu-benchmarks
+```
+
 ### Singularity for HPCToolkit
 
 We will need to run this as a post analysis to get the data locally, and across nodes.
