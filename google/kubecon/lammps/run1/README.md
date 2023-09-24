@@ -21,7 +21,13 @@ I'm going to assume ~85/hour for TIER-1 networking (about half). Here is a small
 | 4       |  $1020   |
 | 5       |  $1530   |
 
-We can go up to about 3k. Experiments are starting at 1pm Mountain.
+So for 1 hours, that would be $255, for 3 hours, $765. 
+Also note that the c3-standard-176 instance type has:
+
+ - 176 vCPU which is 88 actual cores
+ - 704 GB memory
+
+Let's start. We can go up to about 3k. Experiments are starting at 1pm Mountain.
 
 | Time | Status |
 |------|--------|
@@ -37,16 +43,10 @@ We can go up to about 3k. Experiments are starting at 1pm Mountain.
 | 2:45pm | Started automated lammps for large/medium/testing runs |
 | 3:50pm | Finished automated lammps - decided need large cluster to show pattern for 2x2x2 |
 | 3:50pm | Started OSU benchmark runs (size 16 3x took 45 minutes) |
-| 5:00pm | Shut down cluster |
+| 6:00pm | Shut down cluster |
 
-That looks about to be 4 hours, so let's hope the price is around 1K. I certainly hope there are no surprises
+That looks about to be 5 hours, so let's hope the price is around 1.5K. I certainly hope there are no surprises
 for network, etc.!
-
-So for 1 hours, that would be $255, for 3 hours, $765. 
-Also note that the c3-standard-176 instance type has:
-
- - 176 vCPU which is 88 actual cores
- - 704 GB memory
 
 ## Experiment Planning
 
