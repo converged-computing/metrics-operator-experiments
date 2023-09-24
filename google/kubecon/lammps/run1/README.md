@@ -84,7 +84,7 @@ We are measuring bootstrap of communicator but not the bootstrap of MPI, so it w
 
 ### Create the Cluster
 
-Let's test a cluster on c3-standard-176 for size 7.
+Let's test a cluster on c3-standard-176 for size 17.
 We are following [these best practices](https://cloud.google.com/architecture/best-practices-for-using-mpi-on-compute-engine).
 
 ```bash
