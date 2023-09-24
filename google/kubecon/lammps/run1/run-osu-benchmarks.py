@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
 import json
+import os
 import time
-from metricsoperator import MetricsOperator
+
 import metricsoperator.utils as utils
+from metricsoperator import MetricsOperator
 
 here = os.path.abspath(os.path.dirname(__file__))
 

@@ -318,8 +318,16 @@ Let's plot results! Make sure you have seaborn / matplotlib / pandas installed.
 
 ```bash
 mkdir -p ./img/osu-benchmarks
-python plot-times.py --results ./data/osu-benchmarks --out ./img/osu-benchmarks
+python plot-osu-benchmarks.py --results ./data/osu-benchmarks --out ./img/osu-benchmarks
 ```
+
+### LAMMPS
+
+```bash
+mkdir -p ./img/lammps
+python plot-lammps.py --results ./data/lammps --out ./img/lammps
+```
+
 
 ### Singularity for HPCToolkit
 

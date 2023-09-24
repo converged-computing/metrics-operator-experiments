@@ -1,13 +1,14 @@
 import argparse
-import pandas
-from metricsoperator.metrics import get_metric
-from metricsoperator import utils as utils
-import matplotlib.pyplot as plt
-import seaborn as sns
 import fnmatch
 import json
 import os
 import re
+
+import matplotlib.pyplot as plt
+import pandas
+import seaborn as sns
+from metricsoperator import utils as utils
+from metricsoperator.metrics import get_metric
 
 plt.style.use("bmh")
 here = os.path.dirname(os.path.abspath(__file__))
@@ -21,17 +22,14 @@ def get_parser():
     parser.add_argument(
         "--results",
         help="directory with raw results data",
-        default=os.path.join(here, "data"),
+        default=os.path.join(here, "data", "osu-benchmarks"),
     )
     parser.add_argument(
         "--out",
         help="directory to save parsed results",
-        default=os.path.join(here, "img"),
+        default=os.path.join(here, "img", "osu-benchmarks"),
     )
     return parser
-
-
-axes_default = {"x": "Size"}
 
 
 def recursive_find(base, pattern="*.*"):
