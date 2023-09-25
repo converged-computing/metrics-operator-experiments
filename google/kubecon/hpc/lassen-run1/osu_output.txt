@@ -1,0 +1,213 @@
+Sat Sep 23 23:54:08 PDT 2023
+lassen582
+JobID is 5223737
+Hosts: 
+logout
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@lassen710>
+Subject: Job 5223737: <kubecon_osu_128> in cluster <lassen> Done
+
+Job <kubecon_osu_128> was submitted from host <lassen708> by user <milroy1> in cluster <lassen> at Sat Sep 23 23:11:52 2023
+Job was executed on host(s) <1*lassen710>, in queue <pbatch>, as user <milroy1> in cluster <lassen> at Sat Sep 23 23:53:50 2023
+                            <40*lassen582>
+                            <40*lassen409>
+                            <40*lassen254>
+                            <40*lassen584>
+                            <40*lassen81>
+                            <40*lassen88>
+                            <40*lassen744>
+                            <40*lassen415>
+                            <40*lassen590>
+                            <40*lassen265>
+                            <40*lassen93>
+                            <40*lassen95>
+                            <40*lassen276>
+                            <40*lassen438>
+                            <40*lassen768>
+                            <40*lassen769>
+                            <40*lassen112>
+                            <40*lassen113>
+                            <40*lassen458>
+                            <40*lassen611>
+                            <40*lassen615>
+                            <40*lassen461>
+                            <40*lassen617>
+                            <40*lassen790>
+                            <40*lassen462>
+                            <40*lassen791>
+                            <40*lassen134>
+                            <40*lassen463>
+                            <40*lassen795>
+                            <40*lassen467>
+                            <40*lassen141>
+                            <40*lassen471>
+                            <40*lassen143>
+                            <40*lassen632>
+                            <40*lassen305>
+                            <40*lassen151>
+                            <40*lassen308>
+                            <40*lassen153>
+                            <40*lassen309>
+                            <40*lassen482>
+                            <40*lassen154>
+                            <40*lassen639>
+                            <40*lassen156>
+                            <40*lassen486>
+                            <40*lassen158>
+                            <40*lassen487>
+                            <40*lassen159>
+                            <40*lassen312>
+                            <40*lassen642>
+                            <40*lassen313>
+                            <40*lassen316>
+                            <40*lassen160>
+                            <40*lassen490>
+                            <40*lassen491>
+                            <40*lassen318>
+                            <40*lassen162>
+                            <40*lassen648>
+                            <40*lassen492>
+                            <40*lassen164>
+                            <40*lassen495>
+                            <40*lassen167>
+                            <40*lassen801>
+                            <40*lassen807>
+                            <40*lassen651>
+                            <40*lassen322>
+                            <40*lassen652>
+                            <40*lassen323>
+                            <40*lassen653>
+                            <40*lassen325>
+                            <40*lassen655>
+                            <40*lassen326>
+                            <40*lassen327>
+                            <40*lassen181>
+                            <40*lassen338>
+                            <40*lassen182>
+                            <40*lassen188>
+                            <40*lassen672>
+                            <40*lassen673>
+                            <40*lassen344>
+                            <40*lassen675>
+                            <40*lassen346>
+                            <40*lassen192>
+                            <40*lassen678>
+                            <40*lassen193>
+                            <40*lassen500>
+                            <40*lassen79>
+                            <40*lassen360>
+                            <40*lassen366>
+                            <40*lassen367>
+                            <40*lassen368>
+                            <40*lassen369>
+                            <40*lassen73>
+                            <40*lassen72>
+                            <40*lassen71>
+                            <40*lassen70>
+                            <40*lassen579>
+                            <40*lassen521>
+                            <40*lassen522>
+                            <40*lassen528>
+                            <40*lassen374>
+                            <40*lassen378>
+                            <40*lassen379>
+                            <40*lassen245>
+                            <40*lassen244>
+                            <40*lassen573>
+                            <40*lassen729>
+                            <40*lassen243>
+                            <40*lassen572>
+                            <40*lassen200>
+                            <40*lassen201>
+                            <40*lassen530>
+                            <40*lassen202>
+                            <40*lassen531>
+                            <40*lassen203>
+                            <40*lassen532>
+                            <40*lassen204>
+                            <40*lassen533>
+                            <40*lassen205>
+                            <40*lassen534>
+                            <40*lassen535>
+                            <40*lassen537>
+                            <40*lassen209>
+                            <40*lassen538>
+                            <40*lassen382>
+                            <40*lassen539>
+                            <40*lassen383>
+                            <40*lassen385>
+                            <40*lassen386>
+</g/g12/milroy1> was used as the home directory.
+</g/g12/milroy1/kubecon-2023> was used as the working directory.
+Started at Sat Sep 23 23:53:50 2023
+Terminated at Sun Sep 24 00:17:09 2023
+Results reported at Sun Sep 24 00:17:09 2023
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+### LSF syntax
+#BSUB -nnodes 128                   #number of nodes
+#BSUB -W 360                    #walltime in minutes
+#BSUB -G ice4hpc                   #account
+#BSUB -e osu_errors.txt             #stderr
+#BSUB -o osu_output.txt             #stdout
+#BSUB -J kubecon_osu_128                    #name of job
+#BSUB -q pbatch                   #queue to use
+
+### Shell scripting
+date; hostname
+echo -n 'JobID is '; echo $LSB_JOBID
+echo "Hosts: $LSB_HOSTS"
+cd /g/g12/milroy1/kubecon-2023
+
+for nnodes in {2..7}
+do
+    echo "Number of nodes: " $(( 2**$nnodes )) > /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+    for i in {1..20}
+    do
+        echo "==============" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        echo "Start run ${i} of 20" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        #echo -e "\ntime jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_ibarrier" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        #{ time -p jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_ibarrier ; } >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out 2>&1
+        echo -e "\ntime jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        { time -p jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr ; } >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out 2>&1
+        echo -e "\ntime jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        { time -p jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency ; } >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out 2>&1
+        echo -e "\ntime jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        { time -p jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello ; } >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out 2>&1
+        echo -e "\ntime jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+        { time -p jsrun -n $(( 2**$nnodes )) -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce ; } >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out 2>&1
+        echo -e "End run ${i} of 20\n" >> /p/gpfs1/milroy1/kubecon/lassen_osu_$(( 2**$nnodes ))_nodes.out
+    done
+done
+
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22.00 sec.
+    Max Memory :                                 125 MB
+    Average Memory :                             89.38 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   1450 MB
+    Max Processes :                              5
+    Max Threads :                                28
+    Run time :                                   1399 sec.
+    Turnaround time :                            3917 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <osu_errors.txt> for stderr output of this job.
+
