@@ -1,0 +1,2001 @@
+Number of nodes:  32
+==============
+Start run 1 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      55.92       55919829.31
+2                     115.19       57595521.95
+4                     228.15       57038615.25
+8                     459.74       57467135.98
+16                    885.73       55357844.68
+32                   1745.30       54540496.32
+64                   3488.07       54501162.67
+128                  6640.51       51878965.97
+256                 11723.54       45795081.32
+512                 21956.53       42883855.53
+1024                38141.74       37247795.32
+2048                60418.13       29501040.60
+4096                87993.94       21482894.56
+8192               121236.57       14799385.94
+16384              138432.12        8449226.22
+32768              160873.28        4909462.84
+65536              174233.76        2658596.17
+131072             194954.51        1487384.91
+262144             196312.05         748871.02
+524288             197244.00         376213.07
+1048576            197732.83         188572.72
+2097152            198028.79          94427.48
+4194304            198305.16          47279.64
+real 6.75
+user 0.21
+sys 0.03
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.22
+64                      1.21
+128                     1.30
+256                     1.62
+512                     1.76
+1024                    1.97
+2048                    2.76
+4096                    3.41
+8192                    4.91
+16384                   6.82
+32768                   9.16
+65536                  12.04
+131072                 17.07
+262144                 25.98
+524288                 44.55
+1048576                82.04
+2097152               157.49
+4194304               308.38
+real 2.46
+user 0.17
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.90
+user 0.20
+sys 0.03
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.92
+8                       8.75
+16                      8.84
+32                      8.83
+64                      8.88
+128                     9.31
+256                    10.58
+512                    11.25
+1024                   12.29
+2048                   16.38
+4096                   19.79
+8192                   27.89
+16384                  43.60
+32768                  51.32
+65536                  78.62
+131072                101.61
+262144                235.75
+524288                207.75
+1048576               323.78
+real 1.18
+user 0.17
+sys 0.07
+End run 1 of 20
+
+==============
+Start run 2 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      55.24       55244475.69
+2                     114.67       57336174.76
+4                     229.26       57314705.31
+8                     451.82       56477980.21
+16                    876.44       54777431.91
+32                   1744.50       54515757.40
+64                   3451.95       53936722.32
+128                  6527.26       50994212.85
+256                 11683.94       45640384.97
+512                 21713.72       42409611.41
+1024                37976.31       37086238.54
+2048                58863.00       28741697.47
+4096                89637.49       21884152.90
+8192               118716.66       14491779.38
+16384              138938.58        8480138.13
+32768              161569.53        4930710.75
+65536              177215.13        2704088.36
+131072             195217.62        1489392.26
+262144             196393.76         749182.75
+524288             197235.86         376197.55
+1048576            197745.91         188585.19
+2097152            198038.90          94432.30
+4194304            198343.45          47288.76
+real 5.99
+user 0.19
+sys 0.04
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.42
+8192                    4.90
+16384                   6.75
+32768                   9.19
+65536                  12.03
+131072                 17.07
+262144                 25.97
+524288                 44.54
+1048576                82.05
+2097152               157.49
+4194304               308.41
+real 2.43
+user 0.18
+sys 0.05
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.62
+user 0.18
+sys 0.05
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.97
+8                       8.81
+16                      8.81
+32                      8.81
+64                      8.94
+128                     9.33
+256                    10.64
+512                    11.25
+1024                   12.28
+2048                   16.44
+4096                   19.80
+8192                   27.89
+16384                  43.71
+32768                  51.27
+65536                  78.34
+131072                100.70
+262144                236.86
+524288                208.01
+1048576               324.24
+real 1.15
+user 0.17
+sys 0.07
+End run 2 of 20
+
+==============
+Start run 3 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.42       56422401.02
+2                     115.39       57695211.52
+4                     231.64       57909315.37
+8                     459.22       57403060.86
+16                    872.69       54543169.00
+32                   1743.36       54479966.38
+64                   3469.95       54217932.79
+128                  6553.45       51198796.83
+256                 11483.11       44855896.05
+512                 21425.96       41847570.23
+1024                37259.17       36385912.40
+2048                59048.91       28832473.47
+4096                88573.48       21624384.03
+8192               118573.25       14474273.60
+16384              134252.95        8194149.49
+32768              157556.57        4808244.94
+65536              177137.47        2702903.31
+131072             196859.51        1501918.90
+262144             196380.90         749133.67
+524288             197236.78         376199.30
+1048576            197742.69         188582.13
+2097152            198029.72          94427.93
+4194304            198330.36          47285.64
+real 5.98
+user 0.21
+sys 0.03
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.15
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.14
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.63
+512                     1.75
+1024                    1.96
+2048                    2.75
+4096                    3.41
+8192                    4.89
+16384                   6.77
+32768                   9.14
+65536                  12.01
+131072                 17.04
+262144                 25.96
+524288                 44.56
+1048576                82.05
+2097152               157.51
+4194304               308.39
+real 2.78
+user 0.17
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.66
+user 0.15
+sys 0.08
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.97
+8                       8.77
+16                      8.85
+32                      8.81
+64                      8.90
+128                     9.25
+256                    10.63
+512                    11.22
+1024                   12.26
+2048                   16.43
+4096                   19.79
+8192                   27.87
+16384                  43.84
+32768                  51.36
+65536                  78.50
+131072                101.33
+262144                237.04
+524288                208.19
+1048576               324.37
+real 1.23
+user 0.19
+sys 0.04
+End run 3 of 20
+
+==============
+Start run 4 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.59       56587091.07
+2                     114.57       57287290.17
+4                     230.23       57557774.18
+8                     455.49       56936399.15
+16                    886.16       55385301.04
+32                   1753.88       54808598.10
+64                   3336.28       52129362.27
+128                  6555.66       51216107.47
+256                 11731.36       45825617.42
+512                 21920.56       42813588.63
+1024                38200.46       37305140.75
+2048                60583.37       29581721.96
+4096                91229.85       22272911.46
+8192               122039.02       14897340.74
+16384              138640.70        8461956.73
+32768              160836.47        4908339.40
+65536              176769.48        2697288.19
+131072             198435.66        1513943.95
+262144             196346.05         749000.73
+524288             197258.62         376240.95
+1048576            197720.43         188560.90
+2097152            198020.66          94423.61
+4194304            198340.35          47288.02
+real 5.69
+user 0.17
+sys 0.06
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.14
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.75
+4096                    3.42
+8192                    4.89
+16384                   6.78
+32768                   9.15
+65536                  12.00
+131072                 17.04
+262144                 26.02
+524288                 44.55
+1048576                82.02
+2097152               157.47
+4194304               308.36
+real 2.45
+user 0.22
+sys 0.02
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.64
+user 0.18
+sys 0.05
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.95
+8                       8.77
+16                      8.84
+32                      8.85
+64                      8.95
+128                     9.31
+256                    10.62
+512                    11.24
+1024                   12.31
+2048                   16.42
+4096                   19.78
+8192                   27.89
+16384                  43.76
+32768                  51.27
+65536                  78.50
+131072                100.86
+262144                235.53
+524288                208.48
+1048576               325.09
+real 1.26
+user 0.22
+sys 0.01
+End run 4 of 20
+
+==============
+Start run 5 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.17       56173118.53
+2                     114.34       57168729.82
+4                     230.53       57633124.64
+8                     458.89       57361033.93
+16                    877.59       54849669.59
+32                   1736.42       54263040.09
+64                   3480.50       54382837.12
+128                  6571.89       51342861.51
+256                 11679.49       45622998.98
+512                 21906.48       42786093.35
+1024                39189.59       38271088.62
+2048                61857.58       30203896.95
+4096                92949.57       22692767.19
+8192               123058.98       15021847.69
+16384              138897.92        8477656.33
+32768              160791.69        4906973.09
+65536              175901.23        2684039.74
+131072             194990.07        1487656.18
+262144             196406.97         749233.14
+524288             197249.25         376223.08
+1048576            198521.93         189325.26
+2097152            198024.75          94425.56
+4194304            198339.00          47287.70
+real 5.67
+user 0.20
+sys 0.03
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.14
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.97
+2048                    2.75
+4096                    3.41
+8192                    4.88
+16384                   6.76
+32768                   9.17
+65536                  12.01
+131072                 17.07
+262144                 25.97
+524288                 44.55
+1048576                82.04
+2097152               157.50
+4194304               308.39
+real 2.44
+user 0.19
+sys 0.05
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.67
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.93
+8                       8.71
+16                      8.82
+32                      8.84
+64                      8.92
+128                     9.25
+256                    10.61
+512                    11.21
+1024                   12.31
+2048                   16.41
+4096                   19.78
+8192                   27.90
+16384                  43.73
+32768                  51.37
+65536                  78.33
+131072                101.08
+262144                235.98
+524288                208.88
+1048576               323.14
+real 1.25
+user 0.18
+sys 0.05
+End run 5 of 20
+
+==============
+Start run 6 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.63       56631530.05
+2                     115.75       57875832.60
+4                     229.83       57456882.09
+8                     459.88       57485460.22
+16                    885.74       55358622.78
+32                   1728.46       54014478.41
+64                   3498.29       54660793.48
+128                  6697.01       52320415.54
+256                 11719.15       45777945.67
+512                 21939.83       42851230.49
+1024                38219.66       37323891.56
+2048                60597.58       29588662.69
+4096                91086.43       22237896.85
+8192               121072.02       14779299.17
+16384              138108.27        8429459.91
+32768              160799.03        4907196.95
+65536              174353.02        2660415.94
+131072             197013.99        1503097.49
+262144             196326.87         748927.56
+524288             197222.88         376172.78
+1048576            197693.30         188535.02
+2097152            198033.43          94429.70
+4194304            198324.67          47284.29
+real 5.67
+user 0.19
+sys 0.04
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.41
+8192                    4.91
+16384                   6.85
+32768                   9.14
+65536                  12.02
+131072                 17.07
+262144                 25.96
+524288                 44.55
+1048576                82.04
+2097152               157.49
+4194304               308.38
+real 2.42
+user 0.21
+sys 0.03
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.68
+user 0.22
+sys 0.02
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.95
+8                       8.79
+16                      8.84
+32                      8.81
+64                      8.96
+128                     9.29
+256                    10.62
+512                    11.18
+1024                   12.45
+2048                   16.40
+4096                   19.80
+8192                   27.90
+16384                  43.75
+32768                  51.41
+65536                  78.43
+131072                100.12
+262144                236.27
+524288                207.46
+1048576               324.72
+real 1.29
+user 0.20
+sys 0.03
+End run 6 of 20
+
+==============
+Start run 7 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      55.96       55955305.70
+2                     115.15       57575444.07
+4                     230.88       57721196.47
+8                     458.93       57366721.81
+16                    879.34       54958856.00
+32                   1752.85       54776640.76
+64                   3484.56       54446219.74
+128                  6623.73       51747906.84
+256                 11762.21       45946129.06
+512                 21973.58       42917141.84
+1024                38324.07       37425847.30
+2048                60714.76       29645876.53
+4096                91079.09       22236105.31
+8192               121994.40       14891894.16
+16384              138538.71        8455731.56
+32768              160665.55        4903123.57
+65536              176781.58        2697472.79
+131072             194973.16        1487527.19
+262144             196338.21         748970.82
+524288             197241.12         376207.58
+1048576            197739.78         188579.35
+2097152            198540.15          94671.32
+4194304            198313.02          47281.51
+real 5.70
+user 0.18
+sys 0.06
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.14
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.43
+8192                    4.91
+16384                   6.84
+32768                   9.18
+65536                  12.05
+131072                 17.03
+262144                 25.98
+524288                 44.57
+1048576                82.07
+2097152               157.50
+4194304               308.36
+real 2.41
+user 0.21
+sys 0.03
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.64
+user 0.18
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.94
+8                       8.74
+16                      8.87
+32                      8.83
+64                      8.91
+128                     9.31
+256                    10.62
+512                    11.21
+1024                   12.31
+2048                   16.39
+4096                   19.81
+8192                   27.87
+16384                  43.80
+32768                  51.37
+65536                  78.46
+131072                100.50
+262144                236.82
+524288                207.67
+1048576               323.43
+real 1.29
+user 0.17
+sys 0.06
+End run 7 of 20
+
+==============
+Start run 8 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.74       56736959.92
+2                     114.18       57091022.83
+4                     230.83       57706818.93
+8                     459.67       57458494.09
+16                    885.73       55358323.51
+32                   1747.60       54612517.79
+64                   3486.59       54477937.50
+128                  6629.71       51794628.23
+256                 11805.51       46115282.80
+512                 21992.59       42954281.38
+1024                37868.78       36981233.47
+2048                60752.59       29664349.62
+4096                90863.25       22183410.88
+8192               121900.23       14880398.79
+16384              138409.57        8447849.54
+32768              160979.28        4912697.67
+65536              176795.99        2697692.66
+131072             197456.85        1506476.24
+262144             196426.94         749309.31
+524288             197224.14         376175.20
+1048576            197745.05         188584.38
+2097152            198265.79          94540.49
+4194304            198337.02          47287.23
+real 5.68
+user 0.16
+sys 0.07
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.14
+8                       1.15
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.42
+8192                    4.91
+16384                   6.78
+32768                   9.17
+65536                  12.05
+131072                 17.04
+262144                 25.97
+524288                 44.57
+1048576                82.06
+2097152               157.54
+4194304               308.40
+real 2.50
+user 0.17
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.68
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       9.00
+8                       8.74
+16                      8.84
+32                      8.82
+64                      8.92
+128                     9.29
+256                    10.61
+512                    11.18
+1024                   12.25
+2048                   16.40
+4096                   19.83
+8192                   27.89
+16384                  43.75
+32768                  51.42
+65536                  78.29
+131072                101.08
+262144                236.48
+524288                208.69
+1048576               324.87
+real 1.19
+user 0.19
+sys 0.04
+End run 8 of 20
+
+==============
+Start run 9 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.60       56595816.88
+2                     115.68       57838860.03
+4                     228.82       57205936.90
+8                     457.24       57155200.37
+16                    887.22       55451043.34
+32                   1758.34       54948180.22
+64                   3430.83       53606671.52
+128                  6320.99       49382763.68
+256                 11758.43       45931372.97
+512                 21951.28       42873603.26
+1024                38162.05       37267627.79
+2048                60573.53       29576920.07
+4096                91140.28       22251045.25
+8192               121842.35       14873333.38
+16384              138474.08        8451786.97
+32768              160849.27        4908730.22
+65536              176893.87        2699186.31
+131072             198161.45        1511851.90
+262144             196404.89         749225.20
+524288             197214.20         376156.24
+1048576            197728.22         188568.32
+2097152            198022.19          94424.34
+4194304            198334.43          47286.61
+real 5.64
+user 0.17
+sys 0.07
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.14
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.30
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.41
+8192                    4.90
+16384                   6.77
+32768                   9.17
+65536                  12.03
+131072                 17.05
+262144                 25.98
+524288                 44.56
+1048576                82.03
+2097152               157.51
+4194304               308.42
+real 2.44
+user 0.23
+sys 0.01
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.65
+user 0.17
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.92
+8                       8.77
+16                      8.91
+32                      8.86
+64                      8.90
+128                     9.27
+256                    10.66
+512                    11.23
+1024                   12.28
+2048                   16.44
+4096                   19.84
+8192                   27.90
+16384                  43.67
+32768                  51.34
+65536                  78.55
+131072                100.73
+262144                236.41
+524288                207.29
+1048576               324.70
+real 1.31
+user 0.19
+sys 0.04
+End run 9 of 20
+
+==============
+Start run 10 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.62       56623200.25
+2                     115.92       57960186.33
+4                     229.97       57491495.58
+8                     459.69       57461009.00
+16                    885.18       55324048.19
+32                   1758.72       54959858.91
+64                   3467.02       54172126.64
+128                  6621.00       51726576.55
+256                 11719.57       45779562.47
+512                 21995.20       42959381.15
+1024                38215.00       37319334.70
+2048                60452.06       29517606.21
+4096                91040.73       22226741.85
+8192               121653.79       14850316.35
+16384              138384.87        8446342.34
+32768              160728.81        4905054.15
+65536              176772.62        2697336.15
+131072             197490.75        1506734.81
+262144             196339.51         748975.78
+524288             197226.74         376180.15
+1048576            198328.15         189140.46
+2097152            198023.71          94425.06
+4194304            198332.57          47286.17
+real 5.69
+user 0.19
+sys 0.04
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.30
+256                     1.62
+512                     1.75
+1024                    1.95
+2048                    2.75
+4096                    3.41
+8192                    4.90
+16384                   6.76
+32768                   9.13
+65536                  12.05
+131072                 17.08
+262144                 25.97
+524288                 44.57
+1048576                82.05
+2097152               157.52
+4194304               308.43
+real 2.42
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.67
+user 0.17
+sys 0.07
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.97
+8                       8.78
+16                      8.85
+32                      8.85
+64                      8.93
+128                     9.26
+256                    10.63
+512                    11.27
+1024                   12.31
+2048                   16.36
+4096                   19.86
+8192                   27.91
+16384                  43.71
+32768                  51.53
+65536                  78.81
+131072                100.88
+262144                235.90
+524288                207.55
+1048576               324.03
+real 1.25
+user 0.18
+sys 0.05
+End run 10 of 20
+
+==============
+Start run 11 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      55.79       55789981.23
+2                     116.21       58106345.96
+4                     224.24       56058997.72
+8                     456.94       57117581.34
+16                    885.21       55325751.98
+32                   1743.43       54482343.25
+64                   3451.51       53929819.61
+128                  6680.23       52189300.38
+256                 11796.33       46079424.01
+512                 21991.87       42952876.00
+1024                38169.23       37274641.30
+2048                59039.35       28827806.22
+4096                90735.17       22152141.08
+8192               121201.90       14795154.30
+16384              138276.10        8439703.27
+32768              160335.70        4893057.31
+65536              176989.15        2700640.16
+131072             196820.87        1501624.08
+262144             196327.40         748929.61
+524288             197220.88         376168.98
+1048576            197753.89         188592.81
+2097152            198356.30          94583.66
+4194304            198339.35          47287.79
+real 5.66
+user 0.18
+sys 0.05
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.17
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.97
+2048                    2.77
+4096                    3.41
+8192                    4.89
+16384                   6.78
+32768                   9.16
+65536                  12.04
+131072                 17.04
+262144                 26.01
+524288                 44.55
+1048576                82.05
+2097152               157.48
+4194304               308.40
+real 2.43
+user 0.18
+sys 0.05
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.63
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       9.00
+8                       8.74
+16                      8.85
+32                      8.80
+64                      8.93
+128                     9.28
+256                    10.58
+512                    11.27
+1024                   12.32
+2048                   16.36
+4096                   19.79
+8192                   27.88
+16384                  43.77
+32768                  51.35
+65536                  78.57
+131072                101.10
+262144                236.88
+524288                208.09
+1048576               324.80
+real 1.16
+user 0.19
+sys 0.04
+End run 11 of 20
+
+==============
+Start run 12 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.51       56509490.45
+2                     114.71       57357499.66
+4                     230.13       57533293.74
+8                     459.12       57389452.45
+16                    861.55       53846671.60
+32                   1735.32       54228901.04
+64                   3461.71       54089173.19
+128                  6622.53       51738546.53
+256                 11784.62       46033685.51
+512                 21883.68       42741553.43
+1024                38065.59       37173425.65
+2048                60625.36       29602228.72
+4096                90984.02       22212894.54
+8192               121420.32       14821816.15
+16384              138455.74        8450667.50
+32768              160946.72        4911704.20
+65536              176853.12        2698564.40
+131072             197320.41        1505435.26
+262144             196343.23         748989.99
+524288             198546.01         378696.47
+1048576            197717.06         188557.68
+2097152            197940.53          94385.40
+4194304            198331.57          47285.93
+real 5.63
+user 0.15
+sys 0.08
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.14
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.63
+512                     1.76
+1024                    1.97
+2048                    2.76
+4096                    3.41
+8192                    4.89
+16384                   6.78
+32768                   9.10
+65536                  11.96
+131072                 17.05
+262144                 25.96
+524288                 44.55
+1048576                82.05
+2097152               157.47
+4194304               308.35
+real 2.67
+user 0.14
+sys 0.09
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.65
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.96
+8                       8.74
+16                      8.85
+32                      8.87
+64                      8.96
+128                     9.25
+256                    10.64
+512                    11.26
+1024                   12.32
+2048                   16.40
+4096                   19.81
+8192                   27.88
+16384                  43.73
+32768                  51.37
+65536                  78.48
+131072                100.44
+262144                236.40
+524288                207.98
+1048576               324.32
+real 1.15
+user 0.20
+sys 0.04
+End run 12 of 20
+
+==============
+Start run 13 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.70       56695117.58
+2                     115.56       57779756.43
+4                     229.89       57471296.62
+8                     456.31       57038805.88
+16                    882.54       55158564.71
+32                   1760.26       55008041.70
+64                   3493.33       54583232.50
+128                  6579.14       51399532.99
+256                 11642.90       45480063.39
+512                 21940.88       42853274.82
+1024                38219.55       37323782.72
+2048                60146.55       29368432.43
+4096                90949.57       22204484.66
+8192               121564.96       14839472.13
+16384              138043.82        8425525.92
+32768              160887.26        4909889.62
+65536              176696.16        2696169.36
+131072             195021.72        1487897.67
+262144             196384.59         749147.76
+524288             197231.09         376188.46
+1048576            197738.12         188577.77
+2097152            198018.17          94422.42
+4194304            198298.38          47278.02
+real 5.67
+user 0.19
+sys 0.04
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.14
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.43
+8192                    4.91
+16384                   6.78
+32768                   9.16
+65536                  12.02
+131072                 17.08
+262144                 25.98
+524288                 44.57
+1048576                82.09
+2097152               157.55
+4194304               308.37
+real 2.41
+user 0.20
+sys 0.03
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.61
+user 0.21
+sys 0.02
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.94
+8                       8.73
+16                      8.85
+32                      8.81
+64                      8.93
+128                     9.29
+256                    10.63
+512                    11.22
+1024                   12.31
+2048                   16.39
+4096                   19.84
+8192                   27.91
+16384                  43.76
+32768                  51.41
+65536                  78.51
+131072                100.57
+262144                236.08
+524288                207.37
+1048576               323.58
+real 1.46
+user 0.18
+sys 0.05
+End run 13 of 20
+
+==============
+Start run 14 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.76       56756582.99
+2                     116.12       58061703.03
+4                     229.87       57466523.22
+8                     459.80       57474425.56
+16                    886.59       55412154.96
+32                   1754.46       54826968.44
+64                   3458.13       54033346.60
+128                  6587.12       51461889.56
+256                 11695.86       45686955.13
+512                 21883.43       42741071.75
+1024                38216.61       37320912.47
+2048                60297.59       29442182.77
+4096                91154.76       22254580.23
+8192               121540.44       14836479.25
+16384              138067.59        8426977.16
+32768              160839.44        4908430.21
+65536              176834.84        2698285.58
+131072             197436.81        1506323.28
+262144             196383.51         749143.63
+524288             197214.38         376156.57
+1048576            197743.19         188582.60
+2097152            198031.25          94428.66
+4194304            198335.21          47286.80
+real 5.66
+user 0.19
+sys 0.04
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.17
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.42
+8192                    4.91
+16384                   6.77
+32768                   9.19
+65536                  11.98
+131072                 16.99
+262144                 25.97
+524288                 44.57
+1048576                82.05
+2097152               157.52
+4194304               308.40
+real 2.60
+user 0.21
+sys 0.02
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.61
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.97
+8                       8.74
+16                      8.82
+32                      8.78
+64                      8.94
+128                     9.29
+256                    10.54
+512                    11.20
+1024                   12.28
+2048                   16.37
+4096                   19.81
+8192                   27.90
+16384                  43.74
+32768                  51.39
+65536                  78.44
+131072                100.98
+262144                236.69
+524288                207.61
+1048576               323.81
+real 1.17
+user 0.21
+sys 0.02
+End run 14 of 20
+
+==============
+Start run 15 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      54.57       54571015.33
+2                     112.36       56180730.78
+4                     221.62       55404120.03
+8                     442.29       55286203.28
+16                    862.36       53897204.77
+32                   1709.36       53417437.98
+64                   3381.77       52840103.99
+128                  6478.27       50611514.61
+256                 11765.28       45958109.90
+512                 22078.50       43122071.68
+1024                38254.36       37357769.60
+2048                60484.77       29533577.14
+4096                91243.40       22276220.79
+8192               121780.03       14865726.49
+16384              138759.60        8469213.62
+32768              161055.73        4915030.69
+65536              176940.61        2699899.41
+131072             196520.66        1499333.68
+262144             196374.76         749110.26
+524288             197234.39         376194.74
+1048576            197745.41         188584.72
+2097152            198026.83          94426.55
+4194304            198340.00          47287.94
+real 5.62
+user 0.20
+sys 0.03
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.76
+4096                    3.42
+8192                    4.90
+16384                   6.78
+32768                   9.16
+65536                  12.01
+131072                 17.09
+262144                 25.97
+524288                 44.56
+1048576                82.04
+2097152               157.50
+4194304               308.40
+real 2.57
+user 0.20
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.61
+user 0.17
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.93
+8                       8.79
+16                      8.90
+32                      8.90
+64                      8.90
+128                     9.29
+256                    10.64
+512                    11.21
+1024                   12.26
+2048                   16.37
+4096                   19.84
+8192                   27.89
+16384                  43.71
+32768                  51.39
+65536                  78.34
+131072                101.07
+262144                236.69
+524288                208.52
+1048576               323.94
+real 1.18
+user 0.18
+sys 0.05
+End run 15 of 20
+
+==============
+Start run 16 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.51       56510893.80
+2                     116.27       58137323.31
+4                     232.25       58062493.16
+8                     457.97       57246328.60
+16                    887.27       55454196.40
+32                   1752.83       54776084.03
+64                   3479.37       54365196.08
+128                  6600.34       51565184.64
+256                 11717.95       45773259.66
+512                 21975.69       42921279.27
+1024                38272.72       37375700.25
+2048                60466.56       29524687.14
+4096                91057.26       22230775.86
+8192               121583.12       14841689.61
+16384              138405.89        8447625.14
+32768              160882.54        4909745.55
+65536              176857.25        2698627.48
+131072             196965.25        1502725.57
+262144             196355.35         749036.22
+524288             197224.61         376176.09
+1048576            197726.99         188567.15
+2097152            198025.01          94425.69
+4194304            198332.56          47286.17
+real 5.69
+user 0.16
+sys 0.07
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.30
+256                     1.62
+512                     1.75
+1024                    1.96
+2048                    2.75
+4096                    3.42
+8192                    4.89
+16384                   6.76
+32768                   9.14
+65536                  12.00
+131072                 17.06
+262144                 25.97
+524288                 44.55
+1048576                82.04
+2097152               157.51
+4194304               308.39
+real 2.52
+user 0.17
+sys 0.07
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.61
+user 0.18
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.96
+8                       8.73
+16                      8.88
+32                      8.80
+64                      8.91
+128                     9.31
+256                    10.66
+512                    11.22
+1024                   12.31
+2048                   16.39
+4096                   19.81
+8192                   27.90
+16384                  43.79
+32768                  51.29
+65536                  78.37
+131072                100.68
+262144                235.97
+524288                206.75
+1048576               323.26
+real 1.19
+user 0.19
+sys 0.04
+End run 16 of 20
+
+==============
+Start run 17 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.08       56083375.82
+2                     114.30       57148980.25
+4                     227.95       56986272.10
+8                     451.89       56485644.15
+16                    879.75       54984205.46
+32                   1734.91       54215837.27
+64                   3443.22       53800274.89
+128                  6612.31       51658677.40
+256                 11738.51       45853545.39
+512                 21456.39       41907014.72
+1024                36773.25       35911377.45
+2048                60682.06       29629912.55
+4096                91218.99       22270261.81
+8192               122193.07       14916146.20
+16384              138939.32        8480183.08
+32768              160660.38        4902965.81
+65536              176679.40        2695913.68
+131072             194817.88        1486342.50
+262144             196376.38         749116.45
+524288             197236.02         376197.85
+1048576            197705.68         188546.83
+2097152            198018.53          94422.59
+4194304            198333.36          47286.36
+real 5.69
+user 0.18
+sys 0.05
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.14
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.30
+256                     1.63
+512                     1.75
+1024                    1.97
+2048                    2.76
+4096                    3.40
+8192                    4.88
+16384                   6.74
+32768                   9.16
+65536                  12.01
+131072                 17.08
+262144                 25.97
+524288                 44.56
+1048576                82.04
+2097152               157.49
+4194304               308.39
+real 2.63
+user 0.19
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.66
+user 0.21
+sys 0.02
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.96
+8                       8.80
+16                      8.93
+32                      8.83
+64                      8.94
+128                     9.32
+256                    10.65
+512                    11.22
+1024                   12.30
+2048                   16.33
+4096                   19.82
+8192                   27.84
+16384                  43.69
+32768                  51.43
+65536                  78.32
+131072                100.95
+262144                236.79
+524288                207.97
+1048576               322.85
+real 1.19
+user 0.19
+sys 0.05
+End run 17 of 20
+
+==============
+Start run 18 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.60       56603982.18
+2                     115.13       57566089.98
+4                     231.70       57923826.77
+8                     460.19       57524276.48
+16                    877.02       54813644.32
+32                   1748.32       54635129.11
+64                   3492.70       54573458.33
+128                  6616.12       51688455.91
+256                 11720.54       45783369.55
+512                 21786.84       42552431.12
+1024                37589.14       36708140.17
+2048                59735.46       29167706.34
+4096                89032.72       21736504.74
+8192               121383.67       14817342.25
+16384              134717.79        8222521.34
+32768              156044.44        4762098.53
+65536              174409.75        2661281.66
+131072             195237.56        1489544.39
+262144             196398.20         749199.70
+524288             197241.24         376207.81
+1048576            197734.56         188574.38
+2097152            197956.24          94392.89
+4194304            198346.66          47289.53
+real 5.93
+user 0.20
+sys 0.03
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.14
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.30
+256                     1.63
+512                     1.75
+1024                    1.96
+2048                    2.75
+4096                    3.42
+8192                    4.89
+16384                   6.76
+32768                   9.16
+65536                  12.04
+131072                 17.08
+262144                 25.96
+524288                 44.54
+1048576                82.05
+2097152               157.48
+4194304               308.39
+real 2.44
+user 0.14
+sys 0.09
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.70
+user 0.20
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.97
+8                       8.78
+16                      8.85
+32                      8.88
+64                      8.95
+128                     9.31
+256                    10.68
+512                    11.26
+1024                   12.29
+2048                   16.45
+4096                   19.79
+8192                   27.89
+16384                  43.76
+32768                  51.32
+65536                  78.41
+131072                101.12
+262144                236.66
+524288                207.71
+1048576               323.24
+real 1.19
+user 0.18
+sys 0.06
+End run 18 of 20
+
+==============
+Start run 19 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.01       56008313.73
+2                     113.94       56971592.65
+4                     231.05       57763687.85
+8                     459.22       57402320.76
+16                    882.38       55148494.32
+32                   1754.39       54824620.11
+64                   3472.42       54256628.55
+128                  6587.22       51462665.44
+256                 11572.45       45204883.19
+512                 21804.10       42586125.66
+1024                38912.56       38000547.74
+2048                61541.59       30049602.39
+4096                92100.49       22485470.08
+8192               120528.47       14712948.08
+16384              136709.26        8344071.03
+32768              156628.08        4779909.67
+65536              171741.57        2620568.41
+131072             196822.56        1501636.94
+262144             196318.51         748895.68
+524288             197225.96         376178.67
+1048576            197717.85         188558.44
+2097152            198048.34          94436.81
+4194304            198320.40          47283.27
+real 5.67
+user 0.19
+sys 0.04
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.16
+1                       1.13
+2                       1.13
+4                       1.14
+8                       1.15
+16                      1.17
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.63
+512                     1.76
+1024                    1.97
+2048                    2.75
+4096                    3.41
+8192                    4.89
+16384                   6.80
+32768                   9.12
+65536                  11.93
+131072                 17.07
+262144                 25.95
+524288                 44.52
+1048576                82.04
+2097152               157.49
+4194304               308.36
+real 2.41
+user 0.22
+sys 0.02
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.64
+user 0.18
+sys 0.06
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.93
+8                       8.73
+16                      8.84
+32                      8.81
+64                      8.91
+128                     9.31
+256                    10.62
+512                    11.19
+1024                   12.33
+2048                   16.37
+4096                   19.78
+8192                   27.90
+16384                  43.82
+32768                  51.43
+65536                  78.54
+131072                101.04
+262144                235.89
+524288                207.88
+1048576               323.14
+real 1.19
+user 0.21
+sys 0.02
+End run 19 of 20
+
+==============
+Start run 20 of 20
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_mbw_mr
+# OSU MPI Multiple Bandwidth / Message Rate Test v5.8
+# [ pairs: 16 ] [ window size: 64 ]
+# Size                  MB/s        Messages/s
+1                      56.17       56168157.81
+2                     115.13       57566089.98
+4                     229.33       57332579.35
+8                     459.20       57400486.67
+16                    885.50       55343962.18
+32                   1739.22       54350537.61
+64                   3471.66       54244643.34
+128                  6641.67       51888009.06
+256                 11769.68       45975318.80
+512                 21830.82       42638329.94
+1024                38256.09       37359459.66
+2048                60713.00       29645018.28
+4096                91126.00       22247559.72
+8192               122063.38       14900314.86
+16384              138268.01        8439209.42
+32768              160893.64        4910084.32
+65536              176827.81        2698178.23
+131072             195039.80        1488035.60
+262144             196353.57         749029.43
+524288             197223.93         376174.80
+1048576            198233.58         189050.28
+2097152            198030.25          94428.18
+4194304            198338.38          47287.55
+real 5.96
+user 0.18
+sys 0.06
+
+time jsrun -n 2 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.15
+1                       1.13
+2                       1.13
+4                       1.13
+8                       1.15
+16                      1.16
+32                      1.21
+64                      1.21
+128                     1.29
+256                     1.62
+512                     1.75
+1024                    1.97
+2048                    2.76
+4096                    3.41
+8192                    4.91
+16384                   6.81
+32768                   9.12
+65536                  11.97
+131072                 17.06
+262144                 25.95
+524288                 44.55
+1048576                82.04
+2097152               157.49
+4194304               308.38
+real 2.45
+user 0.20
+sys 0.04
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.8
+This is a test with 32 processes
+real 0.66
+user 0.20
+sys 0.03
+
+time jsrun -n 32 -a 1 -c 1 -r 1 -l cpu-cpu osu-micro-benchmarks-5.8/install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
+
+# OSU MPI Allreduce Latency Test v5.8
+# Size       Avg Latency(us)
+4                       8.94
+8                       8.79
+16                      8.90
+32                      8.83
+64                      8.91
+128                     9.29
+256                    10.63
+512                    11.21
+1024                   12.31
+2048                   16.37
+4096                   19.80
+8192                   27.92
+16384                  43.85
+32768                  51.29
+65536                  78.52
+131072                100.70
+262144                235.74
+524288                208.46
+1048576               325.35
+real 1.44
+user 0.19
+sys 0.04
+End run 20 of 20
+
