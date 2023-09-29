@@ -213,6 +213,9 @@ def plot_results(data, outdir):
     for slug, df in results.items():
         print(f"Plotting boxplot for {slug}")
 
+        if slug == "osu_latency":
+            plot_pairs(df, slug, columns, outdir, logarithmic=False)
+
         # Nothing to plot for osu_hello
         if slug == "osu_hello":
             continue
@@ -268,7 +271,7 @@ def plot_single(df, x, y, slug, outdir, larger_size=True, logarithmic=True):
     )
 
 
-def plot_pairs(df, slug, columns, outdir):
+def plot_pairs(df, slug, columns, outdir, logarithmic=True):
     """
     Plot two values, and and y, over time.
 
@@ -307,7 +310,14 @@ def plot_pairs(df, slug, columns, outdir):
 
     ax2 = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
     outfile = os.path.join(outdir, f"{slug}-box-2-to-128.png")
-    make_plot(ax2, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel)
+    make_plot(
+        ax2,
+        slug=slug,
+        outfile=outfile,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        logarithmic=logarithmic,
+    )
 
 
 def make_plot(
@@ -330,6 +340,8 @@ def make_plot(
     ax.set_yticklabels(ax.get_yticks(), fontsize=14)
     if logarithmic:
         plt.yscale("log")
+    else:
+        outfile = outfile.replace('.png', "-no-log.png")
     plt.tight_layout()
     plt.savefig(outfile)
     plt.clf()
