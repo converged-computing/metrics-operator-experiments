@@ -1,0 +1,14 @@
+{
+    "osu_mbw_mr": [
+        "Size",
+        "MB/s",
+        "Messages/s"
+    ],
+    "osu_latency": [
+        "Size",
+        "Latency(us)"
+    ],
+    "osu_hello": [
+        "message"
+    ]
+}

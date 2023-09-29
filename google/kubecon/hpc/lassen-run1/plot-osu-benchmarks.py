@@ -1,18 +1,18 @@
 import argparse
 import fnmatch
-import json
 import os
 import re
+import sys
 
 import matplotlib.pyplot as plt
 import pandas
 import seaborn as sns
 from metricsoperator import utils as utils
-from metricsoperator.metrics import get_metric
-from metricsoperator.metrics.network.osu_benchmark import run_parsing_function
 
 plt.style.use("bmh")
 here = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, here)
+from osu import run_parsing_function
 
 # Separator for runs within a size file
 separator = "=============="
@@ -76,45 +76,42 @@ def main():
     # This does the actual parsing of data into a formatted variant
     # Has keys results, iters, and columns
     results = parse_data(files)
-    utils.write_json(results, os.path.join(outdir, "lassen-results.json"))
-    # Save raw results (and data frames for each)
-    # save_data(results, outdir)
-    # plot_results(results, outdir)
+    plot_results(results, outdir)
+    save_data(results, outdir)
 
 
 def save_data(results, outdir):
     """
     Save all data in results to output directory.
     """
-    utils.write_json(results["iters"], os.path.join(outdir, "iterations.json"))
     utils.write_json(results["columns"], os.path.join(outdir, "columns.json"))
 
     # Full dataframes with results
     for name, df in results["results"].items():
-        df.to_csv(os.path.join(outdir, f"{name}-2-to-16.csv"))
+        df.to_csv(os.path.join(outdir, f"{name}-2-to-128.csv"))
         try:
             # Show (and save) grouped by data) (skip those without numberic like osu_hello)
             if "Size" in df.columns:
-                group = df.groupby(["pods", "Size"]).mean()
+                group = df.groupby(["nodes", "Size"]).mean()
             else:
-                group = df.groupby("pods").mean()
+                group = df.groupby("nodes").mean()
             print(group)
-            group.to_csv(os.path.join(outdir, f"{name}-groups-2-to-16.csv"))
+            group.to_csv(os.path.join(outdir, f"{name}-groups-2-to-128.csv"))
         except:
             print(f"Skipping {name}, likely not numeric data.")
 
     # Times to do the runs (wrappers)
-    if "times" not in results:
+    if "timed" not in results:
         return
 
-    for name, df in results["times"].items():
-        df.to_csv(os.path.join(outdir, f"{name}-time-wrapper-seconds-2-to-16.csv"))
+    for name, df in results["timed"].items():
+        df.to_csv(os.path.join(outdir, f"{name}-time-wrapper-seconds-2-to-128.csv"))
 
         # Show (and save) grouped by data)
-        group = df.groupby("pods").mean()
+        group = df.groupby("nodes").mean()
         print(group)
         group.to_csv(
-            os.path.join(outdir, f"{name}-time-wrapper-seconds-groups-2-to-16.csv")
+            os.path.join(outdir, f"{name}-time-wrapper-seconds-groups-2-to-128.csv")
         )
 
 
@@ -122,9 +119,6 @@ def parse_data(files):
     """
     Given a listing of files, parse into results data frame
     """
-    # Derive metric handle (empty without a spec)
-    m = get_metric("network-osu-benchmark")()
-
     # Read in output files and organize data frames by nodes, then identifier, then list of raw data
     results = {}
 
@@ -163,15 +157,183 @@ def parse_data(files):
                     result["data"].append(line)
 
     # Now for each, artificially assemble into metrics operator result to parse
-    # TODO this needs further parsing into data frames
-    # I don't have the spirit to take this on today.
-    # for nodes, result in results.items():
-    #    for metric, r in result.items():
-    #        for section in r:
-    #            datum = run_parsing_function(section['command'] + "\n" + "\n".join(section['data']))
-    #        results.append(datum)
-    #
-    return results
+    final = {}
+    idxs = {}
+    times_idxs = {}
+    times = {}
+    columns = {}
+    for nodes, result in results.items():
+        for metric, r in result.items():
+            for section in r:
+                datum = run_parsing_function(
+                    section["command"] + "\n" + "\n".join(section["data"])
+                )
+            if metric not in final:
+                final[metric] = pandas.DataFrame(columns=datum["columns"] + ["nodes"])
+                times[metric] = pandas.DataFrame(
+                    columns=list(datum["timed"].keys()) + ["nodes"]
+                )
+                idxs[metric] = 0
+                times_idxs[metric] = 0
+                columns[metric] = datum["columns"]
+            times[metric].loc[times_idxs[metric], :] = list(datum["timed"].values()) + [
+                nodes
+            ]
+            times_idxs[metric] += 1
+            for row in datum["matrix"]:
+                final[metric].loc[idxs[metric], :] = row + [nodes]
+                idxs[metric] += 1
+    return {"raw": results, "results": final, "timed": times, "columns": columns}
+
+
+def plot_results(data, outdir):
+    """
+    Make plots for each result item.
+    """
+    # Unwrap data
+    results = data["results"]
+    columns = data["columns"]
+    times = data.get("timed") or {}
+
+    # Plot times for each
+    for slug, df in times.items():
+        x = "nodes"
+        y = "real"
+        plot_single(
+            df,
+            x,
+            y,
+            f"{slug}-times-seconds",
+            outdir,
+            larger_size=False,
+            logarithmic=False,
+        )
+
+    # Now plot each dataframe
+    for slug, df in results.items():
+        print(f"Plotting boxplot for {slug}")
+
+        # Nothing to plot for osu_hello
+        if slug == "osu_hello":
+            continue
+
+        # For ibarrier make a plot for each
+        elif slug == "osu_ibarrier":
+            x = "nodes"
+            for y in columns[slug]:
+                suffix = re.sub("([.]| )", "-", y.lower())
+                plot_single(df, x, y, f"{slug}-{suffix}", columns, outdir)
+
+        elif slug == "osu_mbw_mr":
+            x = "Size"
+            for y in columns[slug][1:]:
+                suffix = re.sub("([/]|[.]| )", "-", y.lower())
+                plot_single(df, x, y, f"{slug}-{suffix}", outdir)
+
+        # min, max, etc
+        elif slug == "osu_init":
+            x = "nodes"
+            y = "avg-ms"
+            plot_single(df, x, y, slug, columns, outdir)
+
+        # Just one average latency
+        elif slug == "osu_barrier":
+            x = "nodes"
+            y = columns[slug][0]
+            plot_single(df, x, y, slug, columns, outdir)
+
+        elif len(columns[slug]) == 2:
+            plot_pairs(df, slug, columns, outdir)
+        elif len(columns[slug]) == 1:
+            plot_single(df, slug, columns, outdir)
+        else:
+            raise ValueError(f"We do not know how to plot {slug}")
+
+
+def plot_single(df, x, y, slug, outdir, larger_size=True, logarithmic=True):
+    """
+    Plot two values, and and y, over time
+    """
+    print(slug)
+    print(df)
+    ax = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
+    outfile = os.path.join(outdir, f"{slug}-2-to-128.png")
+    make_plot(
+        ax,
+        slug=slug,
+        outfile=outfile,
+        xlabel=x,
+        larger_size=larger_size,
+        logarithmic=logarithmic,
+    )
+
+
+def plot_pairs(df, slug, columns, outdir):
+    """
+    Plot two values, and and y, over time.
+
+    We always plot these with larger size
+    """
+    # For most, Size is first followed by latency or bandwidth
+    if columns[slug][0] == "Size":
+        x = columns[slug][0]
+        y = columns[slug][1]
+    else:
+        raise ValueError(f"Unrecognized column pair: {columns[slug]}")
+
+    # For bandwith, higher is better
+    memo = "higher is better"
+    if "latency" in y.lower():
+        memo = "lower is better"
+    xlabel = "Packet size (bits)"
+    ylabel = y + " " + memo + " (logscale)"
+
+    # Make x int, never actually a float
+    df[x] = [int(x) for x in df[x]]
+    ax1 = sns.lineplot(
+        data=df,
+        x=x,
+        y=y,
+        hue="nodes",
+        palette="muted",
+        errorbar=("ci", 95),
+        markers=True,
+        dashes=True,
+    )
+    outfile = os.path.join(outdir, f"{slug}-line-2-to-128.png")
+    make_plot(
+        ax1, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel, larger_size=False
+    )
+
+    ax2 = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
+    outfile = os.path.join(outdir, f"{slug}-box-2-to-128.png")
+    make_plot(ax2, slug=slug, outfile=outfile, xlabel=xlabel, ylabel=ylabel)
+
+
+def make_plot(
+    ax, slug, outfile, xlabel=None, ylabel=None, larger_size=True, logarithmic=True
+):
+    """
+    Generic plot making function for some x and y
+    """
+    # for sty in plt.style.available:
+    title = slug.replace("-", " ")
+    sns.set(rc={"figure.figsize": (28, 10)})
+    plt.title(title)
+
+    # For bandwith, higher is better
+    if xlabel:
+        ax.set_xlabel(xlabel, fontsize=16)
+    if ylabel:
+        ax.set_ylabel(ylabel, fontsize=16)
+    ax.set_xticklabels(ax.get_xmajorticklabels(), fontsize=14)
+    ax.set_yticklabels(ax.get_yticks(), fontsize=14)
+    if logarithmic:
+        plt.yscale("log")
+    plt.tight_layout()
+    plt.savefig(outfile)
+    plt.clf()
+    plt.close()
 
 
 if __name__ == "__main__":
