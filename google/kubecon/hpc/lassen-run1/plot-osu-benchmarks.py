@@ -154,7 +154,15 @@ def parse_data(files):
                     result = {"data": [], "command": line, "identifier": identifier}
                     continue
                 else:
-                    result["data"].append(line)
+                    # Don't add empty or ending line
+                    if line and not line.startswith("End"):
+                        result["data"].append(line)
+
+            # Add the last result
+            if result and identifier:
+                if identifier not in results[nodes]:
+                    results[nodes][identifier] = []
+                results[nodes][identifier].append(result)
 
     # Now for each, artificially assemble into metrics operator result to parse
     final = {}
@@ -341,7 +349,7 @@ def make_plot(
     if logarithmic:
         plt.yscale("log")
     else:
-        outfile = outfile.replace('.png', "-no-log.png")
+        outfile = outfile.replace(".png", "-no-log.png")
     plt.tight_layout()
     plt.savefig(outfile)
     plt.clf()

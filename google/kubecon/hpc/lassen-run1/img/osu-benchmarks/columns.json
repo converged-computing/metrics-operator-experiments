@@ -10,5 +10,9 @@
     ],
     "osu_hello": [
         "message"
+    ],
+    "osu_allreduce": [
+        "Size",
+        "Avg Latency(us)"
     ]
 }
