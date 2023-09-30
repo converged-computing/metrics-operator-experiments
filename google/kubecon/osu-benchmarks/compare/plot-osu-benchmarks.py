@@ -49,12 +49,15 @@ def main():
     df_reduce_gcp = pandas.read_csv(
         os.path.join(here, "osu_allreduce-2-to-128-gcp.csv"), index_col=0
     )
+
     df_reduce_gcp = df_reduce_gcp.rename(columns={"pods": "nodes"})
     df_reduce_gcp = df_reduce_gcp.drop("iter", axis=1)
     df_reduce_gcp["environment"] = "cloud"
 
     # Combine them!
     df_reduce_comb = pandas.concat([df_reduce, df_reduce_gcp])
+    df_reduce_comb.to_csv(os.path.join(here, "osu_allreduce-combined.csv"))
+      
     print(f"Plotting boxplot for allreduce")
     plot_pairs(
         df_reduce_comb,
@@ -76,17 +79,33 @@ def main():
     df_latency_gcp = pandas.read_csv(
         os.path.join(here, "osu_latency-2-to-128-gcp.csv"), index_col=0
     )
-    df_latency_gcp = df_reduce_gcp.rename(columns={"pods": "nodes"})
-    df_latency_gcp = df_reduce_gcp.rename(columns={"Avg Latency(us)": "Latency(us)"})
+    df_latency_gcp = df_latency_gcp.rename(columns={"pods": "nodes"})
 
     df_latency_gcp["environment"] = "cloud"
+
+    # Ensure they are both the same data type, ug, pandas why
+    df_latency.Size =  pandas.to_numeric(df_latency.Size, downcast='integer')
+    df_latency_gcp.Size = pandas.to_numeric(df_latency_gcp.Size, downcast='integer')
     df_latency_comb = pandas.concat([df_latency, df_latency_gcp])
+    df_latency_comb.to_csv(os.path.join(here, "osu_latency-combined.csv"))
+
     print(f"Plotting boxplot for latency")
     plot_pairs(
         df_latency_comb,
         x="Size",
-        y="Avg Latency(us)",
+        y="Latency(us)",
         slug="latency",
+        outdir=outdir,
+        title="Average Point to Point Latency High Performance Computing System vs. Cloud (microseconds) across node sizes",
+    )
+
+    # Finally, consolidate across the sizes (they don't really matter)
+    plot_pairs(
+        df_latency_comb,
+        hue="environment",
+        x="Size",
+        y="Latency(us)",
+        slug="latency-by-cloud",
         outdir=outdir,
         title="Average Point to Point Latency High Performance Computing System vs. Cloud (microseconds) across node sizes",
     )
@@ -110,7 +129,7 @@ def plot_single(df, x, y, slug, outdir, larger_size=True, logarithmic=True):
     )
 
 
-def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True):
+def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True, hue="nodes"):
     """
     Plot two values, and and y, over time.
 
@@ -133,7 +152,7 @@ def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True):
         data=df,
         x=x,
         y=y,
-        hue="nodes",
+        hue=hue,
         palette="muted",
         errorbar=("ci", 95),
         markers=True,
@@ -150,7 +169,7 @@ def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True):
         title=title,
     )
 
-    ax2 = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
+    ax2 = sns.boxplot(data=df, x=x, y=y, hue=hue, palette="muted")
     outfile = os.path.join(outdir, f"{slug}-box-2-to-128.png")
     make_plot(
         ax2,

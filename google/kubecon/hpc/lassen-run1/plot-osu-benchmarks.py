@@ -141,18 +141,17 @@ def parse_data(files):
             # Separated by the time jsrun line
             result = {"data": []}
             identifier = None
-
+           
             for line in lines:
                 # This is the start of a block
                 if "time jsrun" in line:
                     # Save the previous result
                     if result and identifier:
                         if identifier not in results[nodes]:
-                            results[nodes][identifier] = []
+                            results[nodes][identifier] = [] 
                         results[nodes][identifier].append(result)
                     identifier = line.split("/")[-1]
                     result = {"data": [], "command": line, "identifier": identifier}
-                    continue
                 else:
                     # Don't add empty or ending line
                     if line and not line.startswith("End"):
@@ -172,10 +171,12 @@ def parse_data(files):
     columns = {}
     for nodes, result in results.items():
         for metric, r in result.items():
-            for section in r:
-                datum = run_parsing_function(
-                    section["command"] + "\n" + "\n".join(section["data"])
-                )
+
+            # We need the first datum for labels, etc. They are all the same
+            section = r[0]
+            datum = run_parsing_function(
+                section["command"] + "\n" + "\n".join(section["data"])
+            )
             if metric not in final:
                 final[metric] = pandas.DataFrame(columns=datum["columns"] + ["nodes"])
                 times[metric] = pandas.DataFrame(
@@ -184,13 +185,17 @@ def parse_data(files):
                 idxs[metric] = 0
                 times_idxs[metric] = 0
                 columns[metric] = datum["columns"]
-            times[metric].loc[times_idxs[metric], :] = list(datum["timed"].values()) + [
-                nodes
-            ]
-            times_idxs[metric] += 1
-            for row in datum["matrix"]:
-                final[metric].loc[idxs[metric], :] = row + [nodes]
-                idxs[metric] += 1
+
+            # Now add each datum section properly
+            for section in r:
+                datum = run_parsing_function(
+                    section["command"] + "\n" + "\n".join(section["data"])
+                )
+                times[metric].loc[times_idxs[metric], :] = list(datum["timed"].values()) + [nodes]
+                times_idxs[metric] += 1
+                for row in datum["matrix"]:
+                    final[metric].loc[idxs[metric], :] = row + [nodes]
+                    idxs[metric] += 1
     return {"raw": results, "results": final, "timed": times, "columns": columns}
 
 
