@@ -1,0 +1,993 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "batch.kubernetes.io/job-completion-index": "0",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "l",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1"
+                },
+                "creationTimestamp": "2023-10-03T00:46:45Z",
+                "finalizers": [
+                    "batch.kubernetes.io/job-tracking"
+                ],
+                "generateName": "metricset-sample-l-0-0-",
+                "labels": {
+                    "app.kubernetes.io/name": "metricset-sample",
+                    "batch.kubernetes.io/controller-uid": "2c765a3e-b24f-4587-bb84-1494e58bdd3c",
+                    "batch.kubernetes.io/job-name": "metricset-sample-l-0",
+                    "cluster-name": "metricset-sample",
+                    "controller-uid": "2c765a3e-b24f-4587-bb84-1494e58bdd3c",
+                    "job-name": "metricset-sample-l-0",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/job-key": "73ef7bd09402fe24d28b8b2c287f7cedb044f1dc",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "l",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1",
+                    "jobset.sigs.k8s.io/restart-attempt": "0",
+                    "metricset-name": "metricset-sample",
+                    "namespace": "default"
+                },
+                "name": "metricset-sample-l-0-0-8kwqx",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "metricset-sample-l-0",
+                        "uid": "2c765a3e-b24f-4587-bb84-1494e58bdd3c"
+                    }
+                ],
+                "resourceVersion": "102444",
+                "uid": "819f16e7-5e32-4a1f-8ca9-bbf8d3ea19a6"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "command": [
+                            "/bin/bash",
+                            "/metrics_operator/launcher.sh"
+                        ],
+                        "env": [
+                            {
+                                "name": "JOB_COMPLETION_INDEX",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.annotations['batch.kubernetes.io/job-completion-index']"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "launcher",
+                        "resources": {
+                            "limits": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            },
+                            "requests": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            }
+                        },
+                        "securityContext": {
+                            "capabilities": {},
+                            "privileged": false
+                        },
+                        "stdin": true,
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "tty": true,
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/metrics_operator/",
+                                "name": "metricset-sample",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-6vwvx",
+                                "readOnly": true
+                            }
+                        ],
+                        "workingDir": "/opt/lammps/examples/reaxff/HNS"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "metricset-sample-l-0-0",
+                "nodeName": "gke-test-cluster-default-pool-c849047d-bwsg",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "OnFailure",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "setHostnameAsFQDN": true,
+                "shareProcessNamespace": false,
+                "subdomain": "ms",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "items": [
+                                {
+                                    "key": "launcher",
+                                    "mode": 511,
+                                    "path": "launcher.sh"
+                                },
+                                {
+                                    "key": "worker",
+                                    "mode": 511,
+                                    "path": "worker.sh"
+                                }
+                            ],
+                            "name": "metricset-sample"
+                        },
+                        "name": "metricset-sample"
+                    },
+                    {
+                        "name": "kube-api-access-6vwvx",
+                        "projected": {
+                            "defaultMode": 420,
+                            "sources": [
+                                {
+                                    "serviceAccountToken": {
+                                        "expirationSeconds": 3607,
+                                        "path": "token"
+                                    }
+                                },
+                                {
+                                    "configMap": {
+                                        "items": [
+                                            {
+                                                "key": "ca.crt",
+                                                "path": "ca.crt"
+                                            }
+                                        ],
+                                        "name": "kube-root-ca.crt"
+                                    }
+                                },
+                                {
+                                    "downwardAPI": {
+                                        "items": [
+                                            {
+                                                "fieldRef": {
+                                                    "apiVersion": "v1",
+                                                    "fieldPath": "metadata.namespace"
+                                                },
+                                                "path": "namespace"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "containerd://30bfc1dab672e0eda31e7162d1e6fb19f778e5b5f6f0b65a01b7153ae1eb8cfb",
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imageID": "ghcr.io/converged-computing/metric-lammps-intel-mpi@sha256:4e55f6d4aa9f340523b31cb5c3724f05732223d9ed996e4179be6b8b580cf36d",
+                        "lastState": {},
+                        "name": "launcher",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2023-10-03T00:46:46Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.128.0.125",
+                "phase": "Running",
+                "podIP": "10.8.40.23",
+                "podIPs": [
+                    {
+                        "ip": "10.8.40.23"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2023-10-03T00:46:45Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "batch.kubernetes.io/job-completion-index": "0",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "w",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1"
+                },
+                "creationTimestamp": "2023-10-03T00:46:45Z",
+                "finalizers": [
+                    "batch.kubernetes.io/job-tracking"
+                ],
+                "generateName": "metricset-sample-w-0-0-",
+                "labels": {
+                    "app.kubernetes.io/name": "metricset-sample",
+                    "batch.kubernetes.io/controller-uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df",
+                    "batch.kubernetes.io/job-name": "metricset-sample-w-0",
+                    "cluster-name": "metricset-sample",
+                    "controller-uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df",
+                    "job-name": "metricset-sample-w-0",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/job-key": "947957b301317bb7854338519ac797fa1da0cb11",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "w",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1",
+                    "jobset.sigs.k8s.io/restart-attempt": "0",
+                    "metricset-name": "metricset-sample",
+                    "namespace": "default"
+                },
+                "name": "metricset-sample-w-0-0-fnsd4",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "metricset-sample-w-0",
+                        "uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df"
+                    }
+                ],
+                "resourceVersion": "102441",
+                "uid": "e4ba3a24-845b-4764-88a5-7db6d9f75688"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "command": [
+                            "/bin/bash",
+                            "/metrics_operator/worker.sh"
+                        ],
+                        "env": [
+                            {
+                                "name": "JOB_COMPLETION_INDEX",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.annotations['batch.kubernetes.io/job-completion-index']"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "workers",
+                        "resources": {
+                            "limits": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            },
+                            "requests": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            }
+                        },
+                        "securityContext": {
+                            "capabilities": {},
+                            "privileged": false
+                        },
+                        "stdin": true,
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "tty": true,
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/metrics_operator/",
+                                "name": "metricset-sample",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-2rzf9",
+                                "readOnly": true
+                            }
+                        ],
+                        "workingDir": "/opt/lammps/examples/reaxff/HNS"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "metricset-sample-w-0-0",
+                "nodeName": "gke-test-cluster-default-pool-c849047d-5tzd",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "OnFailure",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "setHostnameAsFQDN": true,
+                "shareProcessNamespace": false,
+                "subdomain": "ms",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "items": [
+                                {
+                                    "key": "launcher",
+                                    "mode": 511,
+                                    "path": "launcher.sh"
+                                },
+                                {
+                                    "key": "worker",
+                                    "mode": 511,
+                                    "path": "worker.sh"
+                                }
+                            ],
+                            "name": "metricset-sample"
+                        },
+                        "name": "metricset-sample"
+                    },
+                    {
+                        "name": "kube-api-access-2rzf9",
+                        "projected": {
+                            "defaultMode": 420,
+                            "sources": [
+                                {
+                                    "serviceAccountToken": {
+                                        "expirationSeconds": 3607,
+                                        "path": "token"
+                                    }
+                                },
+                                {
+                                    "configMap": {
+                                        "items": [
+                                            {
+                                                "key": "ca.crt",
+                                                "path": "ca.crt"
+                                            }
+                                        ],
+                                        "name": "kube-root-ca.crt"
+                                    }
+                                },
+                                {
+                                    "downwardAPI": {
+                                        "items": [
+                                            {
+                                                "fieldRef": {
+                                                    "apiVersion": "v1",
+                                                    "fieldPath": "metadata.namespace"
+                                                },
+                                                "path": "namespace"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "containerd://0782c69f8c5938bb3929aca8a4fbaf75f0136b54324ad4868bc19c00db04cfb8",
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imageID": "ghcr.io/converged-computing/metric-lammps-intel-mpi@sha256:4e55f6d4aa9f340523b31cb5c3724f05732223d9ed996e4179be6b8b580cf36d",
+                        "lastState": {},
+                        "name": "workers",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2023-10-03T00:46:46Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.128.0.151",
+                "phase": "Running",
+                "podIP": "10.8.117.32",
+                "podIPs": [
+                    {
+                        "ip": "10.8.117.32"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2023-10-03T00:46:45Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "batch.kubernetes.io/job-completion-index": "1",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "w",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1"
+                },
+                "creationTimestamp": "2023-10-03T00:46:45Z",
+                "finalizers": [
+                    "batch.kubernetes.io/job-tracking"
+                ],
+                "generateName": "metricset-sample-w-0-1-",
+                "labels": {
+                    "app.kubernetes.io/name": "metricset-sample",
+                    "batch.kubernetes.io/controller-uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df",
+                    "batch.kubernetes.io/job-name": "metricset-sample-w-0",
+                    "cluster-name": "metricset-sample",
+                    "controller-uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df",
+                    "job-name": "metricset-sample-w-0",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/job-key": "947957b301317bb7854338519ac797fa1da0cb11",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "w",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1",
+                    "jobset.sigs.k8s.io/restart-attempt": "0",
+                    "metricset-name": "metricset-sample",
+                    "namespace": "default"
+                },
+                "name": "metricset-sample-w-0-1-mnrpr",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "metricset-sample-w-0",
+                        "uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df"
+                    }
+                ],
+                "resourceVersion": "102460",
+                "uid": "aa210d63-cc54-4c4e-82ae-8875a077a80b"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "command": [
+                            "/bin/bash",
+                            "/metrics_operator/worker.sh"
+                        ],
+                        "env": [
+                            {
+                                "name": "JOB_COMPLETION_INDEX",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.annotations['batch.kubernetes.io/job-completion-index']"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "workers",
+                        "resources": {
+                            "limits": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            },
+                            "requests": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            }
+                        },
+                        "securityContext": {
+                            "capabilities": {},
+                            "privileged": false
+                        },
+                        "stdin": true,
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "tty": true,
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/metrics_operator/",
+                                "name": "metricset-sample",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-tm8g5",
+                                "readOnly": true
+                            }
+                        ],
+                        "workingDir": "/opt/lammps/examples/reaxff/HNS"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "metricset-sample-w-0-1",
+                "nodeName": "gke-test-cluster-default-pool-c849047d-l143",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "OnFailure",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "setHostnameAsFQDN": true,
+                "shareProcessNamespace": false,
+                "subdomain": "ms",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "items": [
+                                {
+                                    "key": "launcher",
+                                    "mode": 511,
+                                    "path": "launcher.sh"
+                                },
+                                {
+                                    "key": "worker",
+                                    "mode": 511,
+                                    "path": "worker.sh"
+                                }
+                            ],
+                            "name": "metricset-sample"
+                        },
+                        "name": "metricset-sample"
+                    },
+                    {
+                        "name": "kube-api-access-tm8g5",
+                        "projected": {
+                            "defaultMode": 420,
+                            "sources": [
+                                {
+                                    "serviceAccountToken": {
+                                        "expirationSeconds": 3607,
+                                        "path": "token"
+                                    }
+                                },
+                                {
+                                    "configMap": {
+                                        "items": [
+                                            {
+                                                "key": "ca.crt",
+                                                "path": "ca.crt"
+                                            }
+                                        ],
+                                        "name": "kube-root-ca.crt"
+                                    }
+                                },
+                                {
+                                    "downwardAPI": {
+                                        "items": [
+                                            {
+                                                "fieldRef": {
+                                                    "apiVersion": "v1",
+                                                    "fieldPath": "metadata.namespace"
+                                                },
+                                                "path": "namespace"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "containerd://189d5dd424ca076578eff05f2f5482ecf5c4df3bca7b2aba632533fd12df1dbb",
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imageID": "ghcr.io/converged-computing/metric-lammps-intel-mpi@sha256:4e55f6d4aa9f340523b31cb5c3724f05732223d9ed996e4179be6b8b580cf36d",
+                        "lastState": {},
+                        "name": "workers",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2023-10-03T00:46:46Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.128.15.193",
+                "phase": "Running",
+                "podIP": "10.8.44.23",
+                "podIPs": [
+                    {
+                        "ip": "10.8.44.23"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2023-10-03T00:46:45Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "batch.kubernetes.io/job-completion-index": "2",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "w",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1"
+                },
+                "creationTimestamp": "2023-10-03T00:46:45Z",
+                "finalizers": [
+                    "batch.kubernetes.io/job-tracking"
+                ],
+                "generateName": "metricset-sample-w-0-2-",
+                "labels": {
+                    "app.kubernetes.io/name": "metricset-sample",
+                    "batch.kubernetes.io/controller-uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df",
+                    "batch.kubernetes.io/job-name": "metricset-sample-w-0",
+                    "cluster-name": "metricset-sample",
+                    "controller-uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df",
+                    "job-name": "metricset-sample-w-0",
+                    "jobset.sigs.k8s.io/job-index": "0",
+                    "jobset.sigs.k8s.io/job-key": "947957b301317bb7854338519ac797fa1da0cb11",
+                    "jobset.sigs.k8s.io/jobset-name": "metricset-sample",
+                    "jobset.sigs.k8s.io/replicatedjob-name": "w",
+                    "jobset.sigs.k8s.io/replicatedjob-replicas": "1",
+                    "jobset.sigs.k8s.io/restart-attempt": "0",
+                    "metricset-name": "metricset-sample",
+                    "namespace": "default"
+                },
+                "name": "metricset-sample-w-0-2-qshml",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "metricset-sample-w-0",
+                        "uid": "53230bb6-8305-4af9-b71e-8a8c5bed90df"
+                    }
+                ],
+                "resourceVersion": "102445",
+                "uid": "7aada27c-7f91-4dc8-b537-68713921e7d0"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "command": [
+                            "/bin/bash",
+                            "/metrics_operator/worker.sh"
+                        ],
+                        "env": [
+                            {
+                                "name": "JOB_COMPLETION_INDEX",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.annotations['batch.kubernetes.io/job-completion-index']"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imagePullPolicy": "IfNotPresent",
+                        "name": "workers",
+                        "resources": {
+                            "limits": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            },
+                            "requests": {
+                                "cpu": "50",
+                                "memory": "430G"
+                            }
+                        },
+                        "securityContext": {
+                            "capabilities": {},
+                            "privileged": false
+                        },
+                        "stdin": true,
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "tty": true,
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/metrics_operator/",
+                                "name": "metricset-sample",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-xtcsm",
+                                "readOnly": true
+                            }
+                        ],
+                        "workingDir": "/opt/lammps/examples/reaxff/HNS"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "metricset-sample-w-0-2",
+                "nodeName": "gke-test-cluster-default-pool-c849047d-z8hq",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "OnFailure",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "setHostnameAsFQDN": true,
+                "shareProcessNamespace": false,
+                "subdomain": "ms",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "items": [
+                                {
+                                    "key": "launcher",
+                                    "mode": 511,
+                                    "path": "launcher.sh"
+                                },
+                                {
+                                    "key": "worker",
+                                    "mode": 511,
+                                    "path": "worker.sh"
+                                }
+                            ],
+                            "name": "metricset-sample"
+                        },
+                        "name": "metricset-sample"
+                    },
+                    {
+                        "name": "kube-api-access-xtcsm",
+                        "projected": {
+                            "defaultMode": 420,
+                            "sources": [
+                                {
+                                    "serviceAccountToken": {
+                                        "expirationSeconds": 3607,
+                                        "path": "token"
+                                    }
+                                },
+                                {
+                                    "configMap": {
+                                        "items": [
+                                            {
+                                                "key": "ca.crt",
+                                                "path": "ca.crt"
+                                            }
+                                        ],
+                                        "name": "kube-root-ca.crt"
+                                    }
+                                },
+                                {
+                                    "downwardAPI": {
+                                        "items": [
+                                            {
+                                                "fieldRef": {
+                                                    "apiVersion": "v1",
+                                                    "fieldPath": "metadata.namespace"
+                                                },
+                                                "path": "namespace"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:46Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2023-10-03T00:46:45Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "containerd://4f479901c2bb6f86803f33ba06d49efcb5c238115ad50a1fbe0b749f5ebf7e1f",
+                        "image": "ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky",
+                        "imageID": "ghcr.io/converged-computing/metric-lammps-intel-mpi@sha256:4e55f6d4aa9f340523b31cb5c3724f05732223d9ed996e4179be6b8b580cf36d",
+                        "lastState": {},
+                        "name": "workers",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2023-10-03T00:46:46Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.128.0.168",
+                "phase": "Running",
+                "podIP": "10.8.128.23",
+                "podIPs": [
+                    {
+                        "ip": "10.8.128.23"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2023-10-03T00:46:45Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

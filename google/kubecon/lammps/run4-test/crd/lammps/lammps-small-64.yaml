@@ -1,0 +1,29 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  # Number of pods for lammps (one launcher, the rest workers)
+  pods: 64
+  metrics:
+   - name: app-lammps
+     image: ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky
+     options:
+       command: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 3200 -ppn 50 lmp -v x 32 -v y 16 -v z 16 -in in.reaxc.hns -nocite
+       workdir: /opt/lammps/examples/reaxff/HNS
+       soleTenancy: "true"
+
+     # Ensure we don't go over this (lammps will try)
+     resources:
+       limits:
+       
+         # has 56 actual cores and 448 GB memory
+         cpu: 50
+         memory: "430G"
+       requests:
+         cpu: 50
+         memory: "430G"
+

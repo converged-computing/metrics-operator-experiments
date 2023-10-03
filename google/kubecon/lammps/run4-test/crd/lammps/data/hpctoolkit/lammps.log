@@ -1,0 +1,325 @@
+METADATA START {"pods":8,"metricName":"app-lammps","metricDescription":"LAMMPS molecular dynamic simulation","metricOptions":{"command":"lmp -v x 32 -v y 16 -v z 16 -in in.reaxc.hns -nocite","soleTenacy":"false","workdir":"/opt/lammps/examples/reaxff/HNS"}}
+METADATA END
+Sleeping for 10 seconds waiting for network...
+METRICS OPERATOR COLLECTION START
+METRICS OPERATOR TIMEPOINT
+ADDON METADATA START {"pods":0,"metricName":"perf-hpctoolkit","metricOptions":{"command":"","entrypoint":"/metrics_operator/-entrypoint.sh","events":"-e REALTIME@10000","image":"ghcr.io/converged-computing/metric-hpctoolkit-view:rocky","mount":"/opt/mnt","prefix":"/opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 400 -ppn 50","privileged":"false","workdir":"/opt/lammps/examples/reaxff/HNS"}}
+ADDON METADATA END
+--2023-09-26 05:08:28--  https://github.com/converged-computing/goshare/releases/download/2023-09-06/wait-fs
+Resolving github.com (github.com)... 140.82.113.4
+Connecting to github.com (github.com)|140.82.113.4|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/670447414/dac45779-6f67-4c45-9a94-1d4ab9dc7331?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230926%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230926T050828Z&X-Amz-Expires=300&X-Amz-Signature=a34414d8e9ec741ee95bdc8c41d8f6b42fc38950d14e9bf8299fe09473a6f2dc&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=670447414&response-content-disposition=attachment%3B%20filename%3Dwait-fs&response-content-type=application%2Foctet-stream [following]
+--2023-09-26 05:08:28--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/670447414/dac45779-6f67-4c45-9a94-1d4ab9dc7331?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230926%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230926T050828Z&X-Amz-Expires=300&X-Amz-Signature=a34414d8e9ec741ee95bdc8c41d8f6b42fc38950d14e9bf8299fe09473a6f2dc&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=670447414&response-content-disposition=attachment%3B%20filename%3Dwait-fs&response-content-type=application%2Foctet-stream
+Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2116087 (2.0M) [application/octet-stream]
+Saving to: ‘wait-fs’
+
+wait-fs               0%[                    ]       0  --.-KB/s               wait-fs             100%[===================>]   2.02M  --.-KB/s    in 0.07s   
+
+2023-09-26 05:08:29 (28.1 MB/s) - ‘wait-fs’ saved [2116087/2116087]
+
+🟧️  wait-fs: 2023/09/26 05:08:29 wait-fs.go:40: /opt/mnt/software
+🟧️  wait-fs: 2023/09/26 05:08:29 wait-fs.go:53: Path /opt/mnt/software does not exist yet, sleeping 5
+🟧️  wait-fs: 2023/09/26 05:08:34 wait-fs.go:49: Found existing path /opt/mnt/software
+🟧️  wait-fs: 2023/09/26 05:08:45 wait-fs.go:40: /opt/mnt/view/bin/hpcrun
+🟧️  wait-fs: 2023/09/26 05:08:45 wait-fs.go:49: Found existing path /opt/mnt/view/bin/hpcrun
+🟧️  wait-fs: 2023/09/26 05:08:45 wait-fs.go:40: /opt/mnt/metrics-operator-done.txt
+🟧️  wait-fs: 2023/09/26 05:08:45 wait-fs.go:49: Found existing path /opt/mnt/metrics-operator-done.txt
+tee: /proc/sys/kernel/perf_event_paranoid: Read-only file system
+-1
+METRICS OPERATOR COLLECTION START
+METRICS OPERATOR TIMEPOINT
+Changing directory to /opt/lammps/examples/reaxff/HNS
+LAMMPS (29 Sep 2021 - Update 2)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+Reading data file ...
+  triclinic box = (0.0000000 0.0000000 0.0000000) to (22.326000 11.141200 13.778966) with tilt (0.0000000 -5.0260300 0.0000000)
+  10 by 5 by 8 MPI processor grid
+  reading atoms ...
+  304 atoms
+  reading velocities ...
+  304 velocities
+  read_data CPU = 0.009 seconds
+Replicating atoms ...
+  triclinic box = (0.0000000 0.0000000 0.0000000) to (714.43200 178.25920 220.46346) with tilt (0.0000000 -80.416480 0.0000000)
+  16 by 5 by 5 MPI processor grid
+  bounding box image = (0 -1 -1) to (0 1 1)
+  bounding box extra memory = 0.03 MB
+  average # of replicas added to proc = 78.12 out of 8192 (0.95%)
+  2490368 atoms
+  replicate CPU = 0.011 seconds
+Neighbor list info ...
+  update every 20 steps, delay 0 steps, check no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 11
+  ghost atom cutoff = 11
+  binsize = 5.5, bins = 145 33 41
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: full/ghost/bin/3d
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Setting up Verlet run ...
+  Unit style    : real
+  Current step  : 0
+  Time step     : 0.1
+Per MPI rank memory allocation (min/avg/max) = 383.5 | 385.1 | 386.9 Mbytes
+Step Temp PotEng Press E_vdwl E_coul Volume 
+       0          300   -113.27833    439.01898   -111.57687   -1.7014647     28076920 
+      10    300.80942   -113.28057    771.84454   -111.57914   -1.7014344     28076920 
+      20    302.48468   -113.28543     1617.899    -111.5841   -1.7013225     28076920 
+      30    302.59604   -113.28563    4192.7202   -111.58454   -1.7010941     28076920 
+      40    300.62527   -113.27968     6255.561   -111.57892   -1.7007682     28076920 
+      50    297.47082   -113.27023    6362.8069   -111.56983    -1.700403     28076920 
+      60    294.82187   -113.26229     6159.607   -111.56225   -1.7000342     28076920 
+      70    294.73873     -113.262    6821.3555   -111.56234   -1.6996612     28076920 
+      80    297.78121   -113.27105     8243.865   -111.57176    -1.699289     28076920 
+      90    301.63837   -113.28255    9412.3141   -111.58359   -1.6989588     28076920 
+     100    302.57931    -113.2853    10403.978   -111.58658   -1.6987219     28076920 
+Loop time of 81.01 on 400 procs for 100 steps with 2490368 atoms
+
+Performance: 0.011 ns/day, 2250.277 hours/ns, 1.234 timesteps/s
+91.2% CPU use with 400 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 47.013     | 52.676     | 57.826     |  27.4 | 65.02
+Neigh   | 0.63933    | 0.6471     | 0.73618    |   0.8 |  0.80
+Comm    | 0.12417    | 4.7464     | 11.19      |  93.6 |  5.86
+Output  | 0.08801    | 0.3075     | 0.60027    |  23.3 |  0.38
+Modify  | 21.962     | 22.629     | 23.26      |   9.3 | 27.93
+Other   |            | 0.003823   |            |       |  0.00
+
+Nlocal:        6225.92 ave        6286 max        6159 min
+Histogram: 11 20 39 64 53 48 73 43 18 31
+Nghost:        16712.0 ave       16859 max       16550 min
+Histogram: 28 19 27 30 56 93 52 52 26 17
+Neighs:    1.95632e+06 ave 1.97444e+06 max 1.93646e+06 min
+Histogram: 12 18 47 63 47 46 81 38 17 31
+
+Total # of neighbors = 7.825267e+08
+Ave neighs/atom = 314.22131
+Neighbor list builds = 5
+Dangerous builds not checked
+Total wall time: 0:01:22
+METRICS OPERATOR COLLECTION END
+Running post analysis for host metricset-sample-l-0-0.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-0.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-1.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-2.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-3.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-4.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-5.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+Running post analysis for host metricset-sample-w-0-6.ms.default.svc.cluster.local
+ADVICE: See the usage message for how to use a structure cache to accelerate analysis of CPU and GPU binaries
+
+INFO: Using a pool of 28 threads to analyze binaries in a measurement directory
+INFO: Analyzing each large binary of >= 100000000 bytes in parallel using 16 threads
+INFO: Analyzing each small binary using 2 threads
+
+ begin parallel analysis of CPU binary libc-2.28.so (size = 2089984, threads = 2)
+ begin parallel analysis of CPU binary ld-2.28.so (size = 1062168, threads = 2)
+ begin parallel analysis of CPU binary lmp (size = 75525560, threads = 2)
+ begin parallel analysis of CPU binary libm-2.28.so (size = 1598840, threads = 2)
+ begin parallel analysis of CPU binary librxm-fi.so (size = 434838, threads = 2)
+ begin parallel analysis of CPU binary libmpi.so.12.0.0 (size = 15674270, threads = 2)
+ begin parallel analysis of CPU binary libtcp-fi.so (size = 365036, threads = 2)
+ begin parallel analysis of CPU binary libdl-2.28.so (size = 19128, threads = 2)
+ begin parallel analysis of CPU binary libpthread-2.28.so (size = 149984, threads = 2)
+   end parallel analysis of CPU binary libdl-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libpthread-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libtcp-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary librxm-fi.so (Cache disabled by user)
+   end parallel analysis of CPU binary ld-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libm-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary libc-2.28.so (Cache disabled by user)
+   end parallel analysis of CPU binary lmp (Cache disabled by user)
+   end parallel analysis of CPU binary libmpi.so.12.0.0 (Cache disabled by user)
+
+METRICS-OPERATOR HPCTOOLKIT Post analysis done.
