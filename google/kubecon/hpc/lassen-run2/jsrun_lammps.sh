@@ -1,6 +1,6 @@
 #!/bin/bash
 ### LSF syntax
-#BSUB -nnodes 128                 #number of nodes
+#BSUB -nnodes 160                 #number of nodes
 #BSUB -W 120                      #walltime in minutes
 #BSUB -G cnvgdcmp                 #account
 #BSUB -e lammps_errors.txt        #stderr
