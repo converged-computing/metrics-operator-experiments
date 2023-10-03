@@ -1,7 +1,7 @@
 #!/bin/bash
 ### LSF syntax
 #BSUB -nnodes 160                 #number of nodes
-#BSUB -W 120                      #walltime in minutes
+#BSUB -W 240                      #walltime in minutes
 #BSUB -G cnvgdcmp                 #account
 #BSUB -e lammps_errors.txt        #stderr
 #BSUB -o lammps_output.txt        #stdout
@@ -27,26 +27,16 @@ problem="-v x 64 -v y 16 -v z 16 -in in.reaxc.hns -nocite"
 
 # To submit
 # bsub < jsrun_lammps.sh
+output=/p/gpfs1/sochat1/kubecon
 
-# TODO I didn't change jsrun arguments because I don't have a clue
 # We need to make sure we only use this number of ranks
-# On cloud, this was 4, 8, 16, 32, 64, 128 nodes
-for ranks in 200 400 800 1600 3200 6400
+# On cloud, this was 8, 16, 32, 64, 128 nodes
+for ranks in 400 800 1600 3200 6400
 do
-    outfile=/p/gpfs1/sochat1/kubecon/lassen_lammps_${ranks}_ranks.out
-    echo "Number of ranks: ${ranks}" > $outfile
-    for i in {1..20}
+    for i in {1..5}
     do
-        echo "==============" >> $outfile
-        echo "Start run ${i} of 20" >> $outfile
-        echo -e "\ntime jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem}" >> ${outfile}
-        time -p jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem} >> ${outfile} &
-        echo -e "\ntime jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem} " >> ${outfile}
-        time -p jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem} >> ${outfile} &
-        echo -e "\ntime jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem}" >> ${outfile}
-        time -p jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem} >> ${outfile} &
-        echo -e "\ntime jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem}" >> ${outfile}
-        time -p jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 -l cpu-cpu ${lmp} ${problem} >> ${outfile}
-        echo -e "End run ${i} of 20\n" >> ${outfile}
+        outfile=${output}/lassen_lammps_${ranks}_${i}_ranks.out
+        echo -e "\njsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 --stdio_stderr=${outfile} --stdio_stdout=${outfile} ${lmp} ${problem}" >> ${outfile}
+        jsrun -p $ranks --rs_per_socket=1 -c 20 -r 2 --stdio_stderr=${outfile} --stdio_stdout=${outfile} ${lmp} ${problem}
     done
 done
