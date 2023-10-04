@@ -80,7 +80,7 @@ def main():
         title="All Reduce Average Latency Cloud c2d (microseconds) across node sizes",
     )
     plot_pairs(
-        df_reduce_gcp,
+        df_reduce_gcp_c3,
         hue="nodes",
         x="Size",
         y="Avg Latency(us)",
