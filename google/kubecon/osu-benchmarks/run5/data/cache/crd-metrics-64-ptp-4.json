@@ -1,0 +1,187 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 2",
+            "Number of tasks total (across 64 nodes) is 128",
+            "Sleeping for 10 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 64 ip addresses",
+            "Hostlist",
+            "10.12.96.54",
+            "10.12.29.52",
+            "10.12.4.52",
+            "10.12.16.53",
+            "10.12.3.55",
+            "10.12.104.55",
+            "10.12.74.54",
+            "10.12.41.56",
+            "10.12.1.55",
+            "10.12.40.53",
+            "10.12.58.52",
+            "10.12.60.54",
+            "10.12.14.55",
+            "10.12.65.53",
+            "10.12.110.55",
+            "10.12.88.53",
+            "10.12.83.55",
+            "10.12.103.56",
+            "10.12.47.53",
+            "10.12.10.55",
+            "10.12.44.51",
+            "10.12.17.54",
+            "10.12.21.55",
+            "10.12.87.54",
+            "10.12.71.54",
+            "10.12.15.55",
+            "10.12.75.52",
+            "10.12.106.54",
+            "10.12.101.55",
+            "10.12.23.53",
+            "10.12.68.54",
+            "10.12.80.54",
+            "10.12.113.53",
+            "10.12.126.55",
+            "10.12.30.54",
+            "10.12.123.52",
+            "10.12.86.56",
+            "10.12.66.52",
+            "10.12.61.53",
+            "10.12.94.54",
+            "10.12.26.52",
+            "10.12.27.53",
+            "10.12.78.53",
+            "10.12.62.52",
+            "10.12.48.53",
+            "10.12.128.52",
+            "10.12.8.55",
+            "10.12.108.55",
+            "10.12.45.54",
+            "10.12.6.52",
+            "10.12.93.54",
+            "10.12.109.52",
+            "10.12.70.53",
+            "10.12.57.54",
+            "10.12.13.54",
+            "10.12.63.54",
+            "10.12.124.54",
+            "10.12.84.54",
+            "10.12.119.51",
+            "10.12.98.53",
+            "10.12.18.52",
+            "10.12.51.52",
+            "10.12.79.54",
+            "10.12.33.53",
+            "Hostlist for Pair to Pair",
+            "10.12.96.54",
+            "10.12.29.52",
+            "METADATA START {\"pods\":64,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_latency\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist-pairs.txt --allow-run-as-root -np 2 -map-by ppr:1:node /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency",
+            "# OSU MPI Latency Test v5.8",
+            "# Size          Latency (us)",
+            "0                      18.83",
+            "1                      18.82",
+            "2                      18.76",
+            "4                      18.77",
+            "8                      18.83",
+            "16                     18.81",
+            "32                     18.84",
+            "64                     18.85",
+            "128                    18.97",
+            "256                    20.13",
+            "512                    19.88",
+            "1024                   20.17",
+            "2048                   38.82",
+            "4096                   39.23",
+            "8192                   39.81",
+            "16384                  39.35",
+            "32768                  45.39",
+            "65536                 111.37",
+            "131072                129.12",
+            "262144                171.75",
+            "524288                280.81",
+            "1048576               469.79",
+            "2097152              1028.55",
+            "4194304              1981.69",
+            "real\t0m16.220s",
+            "user\t0m4.466s",
+            "sys\t0m11.376s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 64,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricOptions": {
+                "all": "false",
+                "flags": "",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_latency"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 64,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_latency"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true",
+                            "sleep": 10
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 64,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_latency"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true",
+                        "sleep": 10
+                    }
+                }
+            ]
+        }
+    }
+}

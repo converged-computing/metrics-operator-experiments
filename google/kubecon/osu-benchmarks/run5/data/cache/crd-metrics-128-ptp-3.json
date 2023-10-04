@@ -1,0 +1,251 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 2",
+            "Number of tasks total (across 128 nodes) is 256",
+            "Sleeping for 10 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 128 ip addresses",
+            "Hostlist",
+            "10.12.126.13",
+            "10.12.119.13",
+            "10.12.17.13",
+            "10.12.13.13",
+            "10.12.100.14",
+            "10.12.78.13",
+            "10.12.103.14",
+            "10.12.62.13",
+            "10.12.118.13",
+            "10.12.26.13",
+            "10.12.2.14",
+            "10.12.113.13",
+            "10.12.109.13",
+            "10.12.111.13",
+            "10.12.57.13",
+            "10.12.27.13",
+            "10.12.93.13",
+            "10.12.106.15",
+            "10.12.61.14",
+            "10.12.82.14",
+            "10.12.94.14",
+            "10.12.22.13",
+            "10.12.9.13",
+            "10.12.70.13",
+            "10.12.92.13",
+            "10.12.35.13",
+            "10.12.47.13",
+            "10.12.105.13",
+            "10.12.20.14",
+            "10.12.8.14",
+            "10.12.51.13",
+            "10.12.125.14",
+            "10.12.50.13",
+            "10.12.38.13",
+            "10.12.122.14",
+            "10.12.123.13",
+            "10.12.44.13",
+            "10.12.63.13",
+            "10.12.74.13",
+            "10.12.39.14",
+            "10.12.33.14",
+            "10.12.23.13",
+            "10.12.34.13",
+            "10.12.3.14",
+            "10.12.29.13",
+            "10.12.76.13",
+            "10.12.19.13",
+            "10.12.110.14",
+            "10.12.58.13",
+            "10.12.86.14",
+            "10.12.124.13",
+            "10.12.71.13",
+            "10.12.121.13",
+            "10.12.16.13",
+            "10.12.48.13",
+            "10.12.54.13",
+            "10.12.97.13",
+            "10.12.0.13",
+            "10.12.112.13",
+            "10.12.77.13",
+            "10.12.10.13",
+            "10.12.31.13",
+            "10.12.12.14",
+            "10.12.64.13",
+            "10.12.45.14",
+            "10.12.21.14",
+            "10.12.60.14",
+            "10.12.37.13",
+            "10.12.98.13",
+            "10.12.14.14",
+            "10.12.88.13",
+            "10.12.80.13",
+            "10.12.87.13",
+            "10.12.120.13",
+            "10.12.127.13",
+            "10.12.96.14",
+            "10.12.79.13",
+            "10.12.69.14",
+            "10.12.59.13",
+            "10.12.1.14",
+            "10.12.114.14",
+            "10.12.56.15",
+            "10.12.102.11",
+            "10.12.42.15",
+            "10.12.46.15",
+            "10.12.30.13",
+            "10.12.25.14",
+            "10.12.41.15",
+            "10.12.68.13",
+            "10.12.91.13",
+            "10.12.65.13",
+            "10.12.73.13",
+            "10.12.66.13",
+            "10.12.85.13",
+            "10.12.90.15",
+            "10.12.107.15",
+            "10.12.115.15",
+            "10.12.5.15",
+            "10.12.72.15",
+            "10.12.43.15",
+            "10.12.40.13",
+            "10.12.128.14",
+            "10.12.24.13",
+            "10.12.4.13",
+            "10.12.84.14",
+            "10.12.83.14",
+            "10.12.89.13",
+            "10.12.36.15",
+            "10.12.81.13",
+            "10.12.116.16",
+            "10.12.99.16",
+            "10.12.129.14",
+            "10.12.28.15",
+            "10.12.53.13",
+            "10.12.15.13",
+            "10.12.67.13",
+            "10.12.55.13",
+            "10.12.117.13",
+            "10.12.108.14",
+            "10.12.18.13",
+            "10.12.6.13",
+            "10.12.104.13",
+            "10.12.95.13",
+            "10.12.52.14",
+            "10.12.32.14",
+            "10.12.101.14",
+            "10.12.75.13",
+            "10.12.7.13",
+            "Hostlist for Pair to Pair",
+            "10.12.126.13",
+            "10.12.119.13",
+            "METADATA START {\"pods\":128,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_latency\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist-pairs.txt --allow-run-as-root -np 2 -map-by ppr:1:node /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency",
+            "# OSU MPI Latency Test v5.8",
+            "# Size          Latency (us)",
+            "0                      17.67",
+            "1                      17.75",
+            "2                      17.71",
+            "4                      17.73",
+            "8                      17.86",
+            "16                     18.10",
+            "32                     17.83",
+            "64                     17.98",
+            "128                    17.94",
+            "256                    18.84",
+            "512                    18.96",
+            "1024                   19.54",
+            "2048                   37.13",
+            "4096                   37.28",
+            "8192                   38.65",
+            "16384                  37.67",
+            "32768                  41.80",
+            "65536                 102.23",
+            "131072                107.13",
+            "262144                142.74",
+            "524288                211.41",
+            "1048576               322.47",
+            "2097152               564.36",
+            "4194304              1131.36",
+            "real\t0m12.647s",
+            "user\t0m3.218s",
+            "sys\t0m8.865s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 128,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricOptions": {
+                "all": "false",
+                "flags": "",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_latency"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 128,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_latency"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true",
+                            "sleep": 10
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 128,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_latency"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true",
+                        "sleep": 10
+                    }
+                }
+            ]
+        }
+    }
+}

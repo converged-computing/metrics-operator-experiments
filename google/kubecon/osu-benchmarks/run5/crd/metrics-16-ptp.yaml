@@ -1,0 +1,17 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  pods: 16
+  metrics:
+   - name: network-osu-benchmark
+     listOptions:
+       commands:
+        - osu_latency
+     options:
+       timed: "true"
+       sleep: 10

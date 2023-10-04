@@ -1,0 +1,258 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 2",
+            "Number of tasks total (across 128 nodes) is 256",
+            "Sleeping for 10 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 128 ip addresses",
+            "Hostlist",
+            "10.12.26.42",
+            "10.12.82.43",
+            "10.12.36.44",
+            "10.12.91.42",
+            "10.12.53.42",
+            "10.12.105.42",
+            "10.12.61.43",
+            "10.12.114.43",
+            "10.12.68.42",
+            "10.12.79.42",
+            "10.12.86.43",
+            "10.12.64.42",
+            "10.12.58.42",
+            "10.12.7.42",
+            "10.12.23.42",
+            "10.12.97.42",
+            "10.12.18.42",
+            "10.12.117.42",
+            "10.12.31.42",
+            "10.12.63.42",
+            "10.12.29.42",
+            "10.12.70.42",
+            "10.12.94.43",
+            "10.12.45.43",
+            "10.12.39.43",
+            "10.12.14.43",
+            "10.12.113.42",
+            "10.12.20.43",
+            "10.12.112.42",
+            "10.12.1.43",
+            "10.12.8.43",
+            "10.12.57.42",
+            "10.12.25.43",
+            "10.12.0.42",
+            "10.12.6.42",
+            "10.12.37.42",
+            "10.12.98.42",
+            "10.12.24.42",
+            "10.12.124.42",
+            "10.12.110.43",
+            "10.12.33.43",
+            "10.12.59.42",
+            "10.12.78.42",
+            "10.12.92.42",
+            "10.12.27.42",
+            "10.12.111.42",
+            "10.12.9.42",
+            "10.12.126.42",
+            "10.12.106.44",
+            "10.12.77.42",
+            "10.12.100.43",
+            "10.12.17.42",
+            "10.12.60.43",
+            "10.12.93.42",
+            "10.12.32.43",
+            "10.12.15.42",
+            "10.12.80.42",
+            "10.12.66.42",
+            "10.12.125.43",
+            "10.12.87.42",
+            "10.12.74.42",
+            "10.12.4.42",
+            "10.12.21.43",
+            "10.12.123.42",
+            "10.12.96.43",
+            "10.12.89.42",
+            "10.12.127.42",
+            "10.12.51.42",
+            "10.12.81.42",
+            "10.12.71.42",
+            "10.12.102.38",
+            "10.12.72.44",
+            "10.12.90.44",
+            "10.12.43.44",
+            "10.12.107.44",
+            "10.12.52.39",
+            "10.12.28.38",
+            "10.12.129.43",
+            "10.12.99.38",
+            "10.12.115.42",
+            "10.12.109.42",
+            "10.12.12.43",
+            "10.12.119.42",
+            "10.12.75.42",
+            "10.12.56.45",
+            "10.12.85.42",
+            "10.12.128.43",
+            "10.12.5.44",
+            "10.12.118.42",
+            "10.12.101.43",
+            "10.12.103.43",
+            "10.12.30.42",
+            "10.12.42.44",
+            "10.12.46.39",
+            "10.12.50.42",
+            "10.12.34.42",
+            "10.12.19.42",
+            "10.12.41.44",
+            "10.12.3.43",
+            "10.12.22.42",
+            "10.12.54.42",
+            "10.12.62.42",
+            "10.12.65.42",
+            "10.12.38.42",
+            "10.12.108.43",
+            "10.12.95.42",
+            "10.12.121.42",
+            "10.12.40.42",
+            "10.12.48.42",
+            "10.12.84.43",
+            "10.12.44.42",
+            "10.12.104.42",
+            "10.12.73.42",
+            "10.12.35.42",
+            "10.12.13.42",
+            "10.12.47.42",
+            "10.12.16.42",
+            "10.12.10.42",
+            "10.12.69.43",
+            "10.12.76.42",
+            "10.12.120.42",
+            "10.12.55.42",
+            "10.12.49.40",
+            "10.12.67.42",
+            "10.12.88.42",
+            "10.12.2.43",
+            "10.12.122.43",
+            "10.12.83.43",
+            "Hostlist for Pair to Pair",
+            "10.12.26.42",
+            "10.12.82.43",
+            "METADATA START {\"pods\":128,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"-np 128 -map-by ppr:1:node -rank-by core\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_hello\",\"osu_allreduce\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 128 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/startup/osu_hello",
+            "# OSU MPI Hello World Test v5.8",
+            "This is a test with 128 processes",
+            "real\t0m5.660s",
+            "user\t0m5.416s",
+            "sys\t0m4.722s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 128 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce",
+            "# OSU MPI Allreduce Latency Test v5.8",
+            "# Size       Avg Latency(us)",
+            "4                     240.17",
+            "8                     244.57",
+            "16                    446.06",
+            "32                    270.06",
+            "64                    248.85",
+            "128                   251.65",
+            "256                   254.47",
+            "512                   326.46",
+            "1024                  324.21",
+            "2048                  345.43",
+            "4096                  365.57",
+            "8192                  353.46",
+            "16384                6996.67",
+            "32768                7216.83",
+            "65536                6633.58",
+            "131072               6981.64",
+            "262144               9716.07",
+            "524288              12255.18",
+            "1048576             12536.47",
+            "real\t0m36.126s",
+            "user\t0m11.056s",
+            "sys\t0m26.738s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 128,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricOptions": {
+                "all": "false",
+                "flags": "-np 128 -map-by ppr:1:node -rank-by core",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_hello",
+                    "osu_allreduce"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 128,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_hello",
+                                "osu_allreduce"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true",
+                            "flags": "-np 128 -map-by ppr:1:node -rank-by core",
+                            "sleep": 10
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 128,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_hello",
+                            "osu_allreduce"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true",
+                        "flags": "-np 128 -map-by ppr:1:node -rank-by core",
+                        "sleep": 10
+                    }
+                }
+            ]
+        }
+    }
+}
