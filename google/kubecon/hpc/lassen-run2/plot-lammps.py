@@ -88,10 +88,6 @@ def plot_results(df, outdir):
     types = list(df.ranks.unique())
     types.sort()
 
-    import IPython
-
-    IPython.embed()
-    sys.exit()
     # ALWAYS double check this ordering, this
     # is almost always wrong and the colors are messed up
     palette = collections.OrderedDict()

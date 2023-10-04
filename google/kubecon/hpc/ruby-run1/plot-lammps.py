@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import metricsoperator.utils as utils
 import pandas
 import seaborn as sns
-from metricsoperator.metrics import get_metric
+from metricsoperator.metrics.app.lammps import parse_lammps
 
 plt.style.use("bmh")
 here = os.path.dirname(os.path.abspath(__file__))
@@ -23,12 +23,12 @@ def get_parser():
     parser.add_argument(
         "--results",
         help="directory with raw results data",
-        default=os.path.join(here, "data", "lammps"),
+        default=os.path.join(here, "data"),
     )
     parser.add_argument(
         "--out",
         help="directory to save parsed results",
-        default=os.path.join(here, "img", "lammps"),
+        default=os.path.join(here, "img"),
     )
     return parser
 
@@ -42,15 +42,13 @@ def recursive_find(base, pattern="*.*"):
             yield os.path.join(root, filename)
 
 
-def find_json_inputs(input_dir):
+def find_inputs(input_dir):
     """
-    Find json inputs (results files)
+    Find inputs (results files)
     """
     files = []
-    for filename in recursive_find(input_dir, pattern="*.json"):
+    for filename in recursive_find(input_dir, pattern="*.out"):
         # We only have data for small
-        if "-small-" not in filename or "cache" in filename:
-            continue
         files.append(filename)
     return files
 
@@ -69,7 +67,7 @@ def main():
         os.makedirs(outdir)
 
     # Find input files (skip anything with test)
-    files = find_json_inputs(indir)
+    files = find_inputs(indir)
     if not files:
         raise ValueError(f"There are no input files in {indir}")
 
@@ -89,6 +87,7 @@ def plot_results(df, times_df, outdir):
     colors = sns.color_palette("hls", 16)
     hexcolors = colors.as_hex()
     types = list(df.ranks.unique())
+    types.sort()
 
     # ALWAYS double check this ordering, this
     # is almost always wrong and the colors are messed up
@@ -112,32 +111,6 @@ def plot_results(df, times_df, outdir):
         ylabel="Time (seconds)",
     )
 
-    colors = sns.color_palette("hls", 16)
-    hexcolors = colors.as_hex()
-    types = list(df.pods.unique())
-
-    # ALWAYS double check this ordering, this
-    # is almost always wrong and the colors are messed up
-    palette = collections.OrderedDict()
-    for t in types:
-        palette[t] = hexcolors.pop(0)
-
-    make_plot(
-        df,
-        title="LAMMPS Times (64x16x16) by Nodes",
-        tag="lammps-pods",
-        ydimension="time",
-        xdimension="pods",
-        palette=palette,
-        outdir=outdir,
-        ext="png",
-        plotname="lammps-nodes",
-        hue="pods",
-        plot_type="bar",
-        xlabel="Nodes",
-        ylabel="Time (seconds)",
-    )
-
     # Plot each of the times we care about, point to point and comm
     make_plot(
         times_df,
@@ -149,9 +122,9 @@ def plot_results(df, times_df, outdir):
         outdir=outdir,
         ext="png",
         plotname="lammps-times-mpi-communication-type",
-        hue="pods",
+        hue="ranks",
         plot_type="bar",
-        xlabel="Nodes",
+        xlabel="MP Ranks",
         ylabel="Percentage Total Time",
     )
 
@@ -161,49 +134,43 @@ def parse_data(files):
     Given a listing of files, parse into results data frame
     """
     # Parse into data frame
-    df = pandas.DataFrame(
-        columns=[
-            "ranks",
-            "pods",
-            "time",
-        ]
-    )
+    df = pandas.DataFrame(columns=["ranks", "time"])
     times_df = pandas.DataFrame(
         columns=[
             "ranks",
-            "pods",
             "percent_time",
             "call_type",
         ]
     )
     idx = 0
     idx_times = 0
-    m = get_metric("app-lammps")()
 
     for filename in files:
+        pieces = os.path.basename(filename).split("_")
+        ranks = int(pieces[2])
+        iter = int(pieces[3])
+
         # This is a list, each a json result, 20x
-        items = utils.read_json(filename)
-        for item in items:
-            # Parse the data into a result, including times
-            # The parser expects a raw log (not by lines)
-            data = "\n".join(item["data"])
+        item = utils.read_file(filename)
 
-            result = m.parse_log(data)
+        # Full command is the first item
+        lines = [x for x in item.split("\n") if x]
+        command = lines.pop(0)
+        item = "\n".join(lines)
+        result = parse_lammps(item)
 
-            # These are used for identifiers across the data
-            pods = result["metadata"]["pods"]
-            for datum in result["data"]:
-                ranks = datum["ranks"]
-                loop_time = datum["loop_time"]
+        # These are used for identifiers across the data
+        loop_time = result["loop_time"]
+        ranks = result["ranks"]
+        df.loc[idx, :] = [ranks, loop_time]
+        idx += 1
 
-                for call_row in datum["times"]["matrix"]:
-                    call_type = call_row[0]
-                    call_time = call_row[-1]
-                    times_df.loc[idx_times, :] = [ranks, pods, call_time, call_type]
-                    idx_times += 1
+        for call_row in result["times"]["matrix"]:
+            call_type = call_row[0]
+            call_time = call_row[-1]
+            times_df.loc[idx_times, :] = [ranks, call_time, call_type]
+            idx_times += 1
 
-                df.loc[idx, :] = [ranks, pods, loop_time]
-                idx += 1
     return df, times_df
 
 
