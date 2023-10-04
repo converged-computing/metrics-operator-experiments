@@ -124,7 +124,7 @@ def plot_results(df, times_df, outdir):
         plotname="lammps-times-mpi-communication-type",
         hue="ranks",
         plot_type="bar",
-        xlabel="MP Ranks",
+        xlabel="MPI Ranks",
         ylabel="Percentage Total Time",
     )
 
