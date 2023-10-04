@@ -114,14 +114,14 @@ def plot_results(df, times_df, outdir):
     # Plot each of the times we care about, point to point and comm
     make_plot(
         times_df,
-        title="LAMMPS Times (64x16x16) Percent Total Time Spent in MPI Communication Type",
+        title="LAMMPS Times (64x16x16) Percent Total Time Spent in Categories of LAMMPS Computation",
         tag="lammps-communication-type",
         ydimension="percent_time",
         xdimension="call_type",
         palette=palette,
         outdir=outdir,
         ext="png",
-        plotname="lammps-times-mpi-communication-type",
+        plotname="lammps-times-lammps-types",
         hue="ranks",
         plot_type="bar",
         xlabel="MPI Ranks",
