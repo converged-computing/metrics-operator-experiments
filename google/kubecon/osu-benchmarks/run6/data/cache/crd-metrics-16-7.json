@@ -1,0 +1,146 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 28",
+            "Number of tasks total (across 16 nodes) is 448",
+            "Sleeping for 10 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 16 ip addresses",
+            "Hostlist",
+            "10.12.49.51",
+            "10.12.39.40",
+            "10.12.25.43",
+            "10.12.27.43",
+            "10.12.51.43",
+            "10.12.43.39",
+            "10.12.62.40",
+            "10.12.7.48",
+            "10.12.57.47",
+            "10.12.60.43",
+            "10.12.2.47",
+            "10.12.64.46",
+            "10.12.40.44",
+            "10.12.14.47",
+            "10.12.8.44",
+            "10.12.11.41",
+            "Hostlist for Pair to Pair",
+            "10.12.49.51",
+            "10.12.39.40",
+            "METADATA START {\"pods\":16,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"-np 16 -map-by ppr:1:node -rank-by core\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_hello\",\"osu_allreduce\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 16 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/startup/osu_hello",
+            "# OSU MPI Hello World Test v5.8",
+            "This is a test with 16 processes",
+            "real\t0m0.539s",
+            "user\t0m0.582s",
+            "sys\t0m0.917s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 16 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce",
+            "# OSU MPI Allreduce Latency Test v5.8",
+            "# Size       Avg Latency(us)",
+            "4                     124.92",
+            "8                     122.13",
+            "16                    121.79",
+            "32                    120.86",
+            "64                    140.56",
+            "128                   142.82",
+            "256                   145.08",
+            "512                   145.23",
+            "1024                  144.62",
+            "2048                  152.58",
+            "4096                  160.14",
+            "8192                  180.51",
+            "16384                1036.56",
+            "32768                1097.37",
+            "65536                1150.49",
+            "131072               1301.48",
+            "262144               1698.44",
+            "524288               2253.06",
+            "1048576              5465.10",
+            "real\t0m8.130s",
+            "user\t0m1.828s",
+            "sys\t0m7.271s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 16,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricOptions": {
+                "all": "false",
+                "flags": "-np 16 -map-by ppr:1:node -rank-by core",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_hello",
+                    "osu_allreduce"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 16,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_hello",
+                                "osu_allreduce"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true",
+                            "flags": "-np 16 -map-by ppr:1:node -rank-by core",
+                            "sleep": 10
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 16,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_hello",
+                            "osu_allreduce"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true",
+                        "flags": "-np 16 -map-by ppr:1:node -rank-by core",
+                        "sleep": 10
+                    }
+                }
+            ]
+        }
+    }
+}

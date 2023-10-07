@@ -1,0 +1,162 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 28",
+            "Number of tasks total (across 32 nodes) is 896",
+            "Sleeping for 10 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 32 ip addresses",
+            "Hostlist",
+            "10.12.51.38",
+            "10.12.33.34",
+            "10.12.28.40",
+            "10.12.65.38",
+            "10.12.52.38",
+            "10.12.4.41",
+            "10.12.53.41",
+            "10.12.0.38",
+            "10.12.30.37",
+            "10.12.48.39",
+            "10.12.9.37",
+            "10.12.20.41",
+            "10.12.57.38",
+            "10.12.49.43",
+            "10.12.18.38",
+            "10.12.29.37",
+            "10.12.38.40",
+            "10.12.47.39",
+            "10.12.22.40",
+            "10.12.63.41",
+            "10.12.55.40",
+            "10.12.59.37",
+            "10.12.26.39",
+            "10.12.62.36",
+            "10.12.60.36",
+            "10.12.50.38",
+            "10.12.16.39",
+            "10.12.43.35",
+            "10.12.44.38",
+            "10.12.31.41",
+            "10.12.5.37",
+            "10.12.13.38",
+            "Hostlist for Pair to Pair",
+            "10.12.51.38",
+            "10.12.33.34",
+            "METADATA START {\"pods\":32,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"-np 32 -map-by ppr:1:node -rank-by core\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_hello\",\"osu_allreduce\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/startup/osu_hello",
+            "# OSU MPI Hello World Test v5.8",
+            "This is a test with 32 processes",
+            "real\t0m0.579s",
+            "user\t0m1.110s",
+            "sys\t0m1.870s",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist.txt --allow-run-as-root -np 32 -map-by ppr:1:node -rank-by core /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce",
+            "# OSU MPI Allreduce Latency Test v5.8",
+            "# Size       Avg Latency(us)",
+            "4                     162.19",
+            "8                     163.13",
+            "16                    156.35",
+            "32                    167.40",
+            "64                    181.70",
+            "128                   182.62",
+            "256                   190.75",
+            "512                   188.92",
+            "1024                  188.25",
+            "2048                  201.44",
+            "4096                  209.92",
+            "8192                  239.59",
+            "16384                2301.24",
+            "32768                2335.09",
+            "65536                2530.72",
+            "131072               2517.10",
+            "262144               2836.53",
+            "524288               3781.90",
+            "1048576              4998.66",
+            "real\t0m12.761s",
+            "user\t0m2.968s",
+            "sys\t0m12.196s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 32,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricOptions": {
+                "all": "false",
+                "flags": "-np 32 -map-by ppr:1:node -rank-by core",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_hello",
+                    "osu_allreduce"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 32,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_hello",
+                                "osu_allreduce"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true",
+                            "flags": "-np 32 -map-by ppr:1:node -rank-by core",
+                            "sleep": 10
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 32,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_hello",
+                            "osu_allreduce"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true",
+                        "flags": "-np 32 -map-by ppr:1:node -rank-by core",
+                        "sleep": 10
+                    }
+                }
+            ]
+        }
+    }
+}

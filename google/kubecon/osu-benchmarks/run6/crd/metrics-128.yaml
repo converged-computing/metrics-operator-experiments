@@ -1,0 +1,19 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  pods: 128
+  metrics:
+   - name: network-osu-benchmark
+     listOptions:
+       commands:
+        - osu_hello
+        - osu_allreduce
+     options:
+       timed: "true"
+       flags: "-np 128 -map-by ppr:1:node -rank-by core"
+       sleep: 10

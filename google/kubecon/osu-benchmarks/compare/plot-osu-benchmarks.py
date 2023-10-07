@@ -53,11 +53,24 @@ def main():
 
     # The other df uses nodes instead of pods, and does not have an iter column
     # Note that we have fewer data points because it took much longer to run here
-    df_reduce_gcp = read_gcp_data("osu_allreduce-2-to-128-gcp.csv", "cloud-c2d")
-    df_reduce_gcp_c3 = read_gcp_data("osu_allreduce-2-to-128-gcp-c3.csv", "cloud-c3")
+    df_reduce_gcp = read_gcp_data("osu_allreduce-4-to-128-gcp.csv", "cloud")
 
+    # Add label for cloud or hpc to size
+    nodes = list(df_reduce['nodes'])
+    labels = []
+    for size in nodes:
+        labels.append(f"hpc-{size}")
+    df_reduce['label'] = labels
+
+    nodes = list(df_reduce_gcp['nodes'])
+    labels = []
+    for size in nodes:
+        labels.append(f"cloud-{size}")
+    df_reduce_gcp['label'] = labels
+
+   
     # Combine them!
-    df_reduce_comb = pandas.concat([df_reduce, df_reduce_gcp, df_reduce_gcp_c3])
+    df_reduce_comb = pandas.concat([df_reduce, df_reduce_gcp])
     df_reduce_comb.to_csv(os.path.join(here, "osu_allreduce-combined.csv"))
       
     print(f"Plotting boxplot for allreduce")
@@ -80,11 +93,11 @@ def main():
         title="All Reduce Average Latency Cloud c2d (microseconds) across node sizes",
     )
     plot_pairs(
-        df_reduce_gcp_c3,
-        hue="nodes",
+        df_reduce_comb,
+        hue="label",
         x="Size",
         y="Avg Latency(us)",
-        slug="allreduce-cloud-c3",
+        slug="allreduce-cloud-vs-hpc",
         outdir=outdir,
         title="All Reduce Average Latency Cloud c3 (microseconds) across node sizes",
     )
@@ -97,29 +110,16 @@ def main():
 
     # The other df uses nodes instead of pods, and does not have an iter column
     # Note that we have fewer data points because it took much longer to run here
-    df_latency_gcp = read_gcp_data("osu_latency-2-to-128-gcp.csv", "cloud-c2d")
-    df_latency_gcp_c3 = read_gcp_data("osu_latency-2-to-128-gcp-c3.csv", "cloud-c3")
+    df_latency_gcp = read_gcp_data("osu_latency-4-to-128-gcp.csv", "cloud")
 
     # Ensure they are both the same data type, ug, pandas why
     # df_latency.Size =  pandas.to_numeric(df_latency.Size, downcast='integer')
     # df_latency_gcp.Size = pandas.to_numeric(df_latency_gcp.Size, downcast='integer')
-    df_latency_comb = pandas.concat([df_latency, df_latency_gcp, df_latency_gcp_c3])
+    df_latency_comb = pandas.concat([df_latency, df_latency_gcp])
     df_latency_comb.to_csv(os.path.join(here, "osu_latency-combined.csv"))
     groups = df_latency_comb.groupby(['Size','environment']).mean()
     groups.to_csv(os.path.join(here, "osu_latency-groups-combined.csv"))
     
-    print(f"Plotting boxplot for latency")
-    plot_pairs(
-        df_latency_comb,
-        dodge=False,
-        x="Size",
-        y="Latency(us)",
-        slug="latency",
-        width=0.5,
-        outdir=outdir,
-        title="Average Point to Point Latency High Performance Computing System vs. Cloud (microseconds) across node sizes",
-    )
-
     # Finally, consolidate across the sizes (they don't really matter)
     plot_pairs(
         df_latency_comb,

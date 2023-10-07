@@ -1,0 +1,155 @@
+{
+    "data": {
+        "data": [
+            "Number of tasks (nproc on one node) is 28",
+            "Number of tasks total (across 32 nodes) is 896",
+            "Sleeping for 10 seconds waiting for network...",
+            "Starting to look for ip addresses...",
+            "Done finding 32 ip addresses",
+            "Hostlist",
+            "10.12.22.30",
+            "10.12.44.28",
+            "10.12.6.29",
+            "10.12.47.30",
+            "10.12.2.30",
+            "10.12.14.30",
+            "10.12.20.31",
+            "10.12.54.29",
+            "10.12.4.30",
+            "10.12.53.29",
+            "10.12.18.31",
+            "10.12.61.30",
+            "10.12.41.30",
+            "10.12.38.29",
+            "10.12.59.28",
+            "10.12.7.30",
+            "10.12.15.29",
+            "10.12.1.29",
+            "10.12.29.27",
+            "10.12.24.27",
+            "10.12.43.28",
+            "10.12.48.27",
+            "10.12.10.28",
+            "10.12.23.29",
+            "10.12.21.30",
+            "10.12.51.30",
+            "10.12.64.29",
+            "10.12.26.30",
+            "10.12.35.29",
+            "10.12.17.29",
+            "10.12.8.29",
+            "10.12.30.30",
+            "Hostlist for Pair to Pair",
+            "10.12.22.30",
+            "10.12.44.28",
+            "METADATA START {\"pods\":32,\"metricName\":\"network-osu-benchmark\",\"metricDescription\":\"point to point MPI benchmarks\",\"metricOptions\":{\"all\":\"false\",\"flags\":\"\",\"sole-tenancy\":\"true\",\"tasks\":0,\"timed\":\"true\"},\"metricListOptions\":{\"commands\":[\"osu_latency\"]}}",
+            "METADATA END",
+            "METRICS OPERATOR COLLECTION START",
+            "METRICS OPERATOR TIMEPOINT",
+            "time mpirun --hostfile ./hostlist-pairs.txt --allow-run-as-root -np 2 -map-by ppr:1:node /opt/osu-benchmark/build.openmpi/libexec/osu-micro-benchmarks/mpi/pt2pt/osu_latency",
+            "# OSU MPI Latency Test v5.8",
+            "# Size          Latency (us)",
+            "0                      30.85",
+            "1                      30.39",
+            "2                      30.37",
+            "4                      30.85",
+            "8                      30.67",
+            "16                     31.01",
+            "32                     30.96",
+            "64                     34.47",
+            "128                    34.67",
+            "256                    36.01",
+            "512                    36.26",
+            "1024                   36.70",
+            "2048                   38.81",
+            "4096                   41.65",
+            "8192                   48.81",
+            "16384                  58.93",
+            "32768                  83.13",
+            "65536                 181.68",
+            "131072                219.68",
+            "262144                290.96",
+            "524288                420.93",
+            "1048576               686.02",
+            "2097152              1212.80",
+            "4194304              2262.60",
+            "real\t0m22.042s",
+            "user\t0m3.154s",
+            "sys\t0m18.510s",
+            "METRICS OPERATOR COLLECTION END"
+        ],
+        "metadata": {
+            "pods": 32,
+            "metricName": "network-osu-benchmark",
+            "metricDescription": "point to point MPI benchmarks",
+            "metricOptions": {
+                "all": "false",
+                "flags": "",
+                "sole-tenancy": "true",
+                "tasks": 0,
+                "timed": "true"
+            },
+            "metricListOptions": {
+                "commands": [
+                    "osu_latency"
+                ]
+            }
+        },
+        "spec": {
+            "apiVersion": "flux-framework.org/v1alpha2",
+            "kind": "MetricSet",
+            "metadata": {
+                "labels": {
+                    "app.kubernetes.io/name": "metricset",
+                    "app.kubernetes.io/instance": "metricset-sample"
+                },
+                "name": "metricset-sample"
+            },
+            "spec": {
+                "pods": 32,
+                "metrics": [
+                    {
+                        "name": "network-osu-benchmark",
+                        "listOptions": {
+                            "commands": [
+                                "osu_latency"
+                            ]
+                        },
+                        "options": {
+                            "timed": "true",
+                            "sleep": 10
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 32,
+            "metrics": [
+                {
+                    "name": "network-osu-benchmark",
+                    "listOptions": {
+                        "commands": [
+                            "osu_latency"
+                        ]
+                    },
+                    "options": {
+                        "timed": "true",
+                        "sleep": 10
+                    }
+                }
+            ]
+        }
+    }
+}

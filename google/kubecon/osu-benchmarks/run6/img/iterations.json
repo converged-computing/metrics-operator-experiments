@@ -1,0 +1,17 @@
+{
+    "32-osu_hello": 12,
+    "32-osu_allreduce": 12,
+    "32-osu_latency": 12,
+    "64-osu_allreduce": 12,
+    "64-osu_hello": 12,
+    "8-osu_hello": 12,
+    "8-osu_allreduce": 12,
+    "8-osu_latency": 12,
+    "4-osu_hello": 12,
+    "4-osu_allreduce": 12,
+    "16-osu_latency": 12,
+    "64-osu_latency": 12,
+    "4-osu_latency": 12,
+    "16-osu_hello": 12,
+    "16-osu_allreduce": 12
+}
