@@ -9,6 +9,7 @@ import sys
 import time
 
 from metricsoperator import MetricsOperator
+import metricsoperator.metrics as mutils
 from kubescaler.scaler.aws import EKSCluster
 
 # import the script we have two levels up
@@ -38,7 +39,7 @@ spec:
   metrics:
    - name: app-lammps
      options:
-       command: mpirun --hostfile ./hostlist.txt -np [[NP]] -ppn 12 lmp -v x 32 -v y 16 -v z 16 -in in.reaxc.hns -nocite
+       command: mpirun --hostfile ./hostlist.txt -np [[NP]] -ppn 12 lmp -v x 16 -v y 8 -v z 8 -in in.reaxc.hns -nocite
        soleTenancy: "true"
      # 32 vCPU == 16 CPU so a limit of 12 is reasonable
      resources:
@@ -49,9 +50,6 @@ spec:
 """
 
 # This is quasi manual, we need to add a volume to actually persist the data. We will copy for now.
-# Note that this is not added yet! TBA for when we finish with just spot.
-# The goal would be to get an idea of working / not working setups, and
-# see if we can tell why via the hwloc output.
 hwloc_template = """
 apiVersion: flux-framework.org/v1alpha2
 kind: MetricSet
@@ -61,11 +59,11 @@ metadata:
     app.kubernetes.io/instance: metricset-sample
   name: metricset-sample
 spec:
+  pods: [[SIZE]]
   logging:
     interactive: true
   metrics:
-    - name: sys-hwloc
-      
+    - name: sys-hwloc      
       # These are the default and do not need to be provided
       listOptions:
         commands:
@@ -298,6 +296,79 @@ def create_lammps_template(pods):
     return templated
 
 
+def create_hwloc_template(pods):
+    """
+    Generate the hwloc templated yaml, filling in size.
+    """
+    replaces = {"[[SIZE]]": str(pods)}
+    templated = hwloc_template
+    for k, v in replaces.items():
+        templated = templated.replace(k, v)
+    return templated
+
+
+def run_hwloc(pods, data_path, sleep=60):
+    """
+    Run hwloc
+    """
+    templated = create_hwloc_template(pods)
+    metrics_yaml = os.path.join(data_path, f"hwloc-{pods}.yaml")
+    write_file(templated, metrics_yaml)
+
+    # Get a handle to the metrics operator
+    kubeconfig = os.path.join(here, "kubeconfig-aws.yaml")
+    m = MetricsOperator(metrics_yaml, kubeconfig=kubeconfig)
+
+    # We don't have an hwloc parser, so we mostly need to wait for them to be running
+    parser = mutils.get_metric()(m.spec, container_name="app", kubeconfig=kubeconfig)
+
+    # Get nodes (to see unique). Let's compare what the kubelet sees to hwloc
+    unique_machines = {}
+    for node in parser.core_v1.list_node().items:
+        machine_type = node.metadata.labels["node.kubernetes.io/instance-type"]
+        if machine_type in unique_machines:
+            continue
+        unique_machines[machine_type] = {
+            "labels": node.metadata.labels,
+            "name": node.metadata.name,
+            "capacity": node.status.capacity,
+            "info": node.status.node_info.to_dict(),
+            "allocatable": node.status.allocatable,
+        }
+    print(f"🤡️ This cluster has {len(unique_machines)} unique node type(s).")
+
+    # These are the nodes we need to find assignments to
+    node_names = {x["name"]: mt for mt, x in unique_machines.items()}
+
+    # Wait for all pods to be running
+    print("🕰️ Waiting for hwloc pods to be running...")
+    parser.wait(pod_prefix=m.spec["metadata"]["name"], states=["Running"])
+    sleep(3)
+
+    # Now find one pod per node.
+    seen = set()
+    for pod in parser.get_pods().items:
+        node_assigned = pod.spec.to_dict()["node_name"]
+
+        # If we need hwloc images / metadata but haven't gotten it yet...
+        # Yeah os.system is janky.
+        if node_assigned in node_names and node_assigned not in seen:
+            machine_type = node_names[node_assigned]
+            machine_xml = os.path.join(data_path, f"machine-{machine_type}.xml")
+            machine_png = os.path.join(data_path, f"machine-{machine_type}.png")
+            os.system(
+                f"KUBECONFIG={here}/kubeconfig-aws.yaml kubectl cp {pod.metadata.name}:/machine.xml {machine_xml}"
+            )
+            os.system(
+                f"KUBECONFIG={here}/kubeconfig-aws.yaml kubectl cp {pod.metadata.name}:/architecture.png {machine_png}"
+            )
+            seen.add(node_assigned)
+
+    # When we are done, delete and return unique machines
+    m.delete(pod_prefix=m.spec["metadata"]["name"])
+    return unique_machines
+
+
 def run_lammps(pods, iters, data_path, sleep=60):
     """
     Run LAMMPS for some number of iterations
@@ -315,6 +386,8 @@ def run_lammps(pods, iters, data_path, sleep=60):
     # Cheat and update the kubeconfig-aws.yaml
     kubeconfig = os.path.join(here, "kubeconfig-aws.yaml")
     m = MetricsOperator(metrics_yaml, kubeconfig=kubeconfig)
+    m.create()
+    time.sleep(sleep)
 
     # Save listing of run results
     runs = []
@@ -330,8 +403,8 @@ def run_lammps(pods, iters, data_path, sleep=60):
         print(f"🪔️ Running iteration {i} of LAMMPS")
         m.create()
         if i == 0:
-            print(f"Sleeping {sleep} seconds so container can pull...")
             print(templated)
+            print(f"Sleeping {sleep} seconds so container can pull...")
             time.sleep(sleep)
         else:
             time.sleep(5)
@@ -400,6 +473,27 @@ def install_operators():
     os.system(
         f"KUBECONFIG={here}/kubeconfig-aws.yaml kubectl apply -f https://raw.githubusercontent.com/converged-computing/metrics-operator/main/examples/dist/metrics-operator.yaml"
     )
+
+
+def run_spot_experiments(args, count, data_dir):
+    """
+    Wrap experiment running separately in case we lose spot nodes and can recover
+    """
+    # Be lazy and use the kubeconfig that is local!
+    # I am a terrible person... should do this programatically...
+    install_operators()
+
+    # Generate the template for the size
+    lammps_results = run_lammps(args.nodes, args.iters, data_dir, sleep=args.sleep)
+    outfile = os.path.join(
+        data_dir, f"lammps-nodes-{args.nodes}-request-count-{count}.json"
+    )
+    write_json(lammps_results, outfile)
+
+    # Get hwloc files for unique node types
+    unique_machines = run_hwloc(args.nodes, data_dir, sleep=args.sleep)
+    outfile = os.path.join(data_dir, f"hwloc-unique-machines-nodes-{args.nodes}.json")
+    write_json(unique_machines, outfile)
 
 
 def main():
@@ -496,16 +590,14 @@ def main():
             )
             save_nodes(outfile)
 
-            # Be lazy and use the kubeconfig that is local!
-            # I am a terrible person... should do this programatically...
-            install_operators()
-
-            # Generate the template for the size
-            lammps_results = run_lammps(count, args.iters, data_dir, sleep=args.sleep)
-            outfile = os.path.join(
-                data_dir, f"lammps-nodes-{args.nodes}-request-count-{count}.json"
-            )
-            write_json(lammps_results, outfile)
+            # Wrap this entire thing in case we lose our spot instances
+            # Wrap the total time (this might reflect how long to lose spot)
+            try:
+                start_experiments = time.time()
+                run_spot_experiments(args, count, data_dir)
+            except:
+                print("😿️ Oh no, there was an error! Did we lose our spot?")
+            stop_experiments = time.time()
 
             # And now... delete it! We don't need it, lol
             cli.delete_nodegroup(cli.node_group_name)
@@ -513,11 +605,13 @@ def main():
             # Add cluster times to the new times
             times = copy.deepcopy(original_times)
             times.update(cli.times)
+            times["experiments_seconds"] = stop_experiments - start_experiments
 
             # Save metadata as we go - the times include for the cluster too
             # We might as well make mean price easy to see too
             new_result = {
                 "machine_types": machine_types,
+                "nodes": args.nodes,
                 "count": count,
                 "times": times,
                 "mean_price": subset.price.mean(),

@@ -52,6 +52,14 @@ export KUBECONFIG=./kubeconfig-aws.yaml
 python run-experiment.py --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 8 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 10
 ```
 
+Here is a testing setup I created anticipating testing adding hwloc. Note that the number of nodes doesn't need to be within the min and the max request - that just indicates the pool of instances we are selecting from for some N nodes.
+
+```bash
+# I did this out of caution, not sure if it's needed given I specify it
+export KUBECONFIG=./kubeconfig-aws.yaml
+python run-experiment.py --cluster-name cluster-4-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 7 --nodes 4 --plan ./plans/32vcpu.json --data-dir ./data --iters 10
+```
+
 In practice, we don't know how the spot algorithm works. It could be we ask for 8 but are given all of one type. We will find out.
 Here is a quick way to inspect node output and see which types were used:
 
@@ -61,7 +69,13 @@ $ cat nodes-8-request-count-6.json |grep node.kubernetes.io/instance-type | uniq
                     "node.kubernetes.io/instance-type": "c7i.8xlarge",
 ```
 
-Note that if we see huge differences in time (based on instance types) then we can add in hwloc. We will need to get the unique node types, and then run the metric on all nodes (but only save for a subset that are the unique types so we don't have too much data).
+Note that if we see huge differences in time (based on instance types) then we can add in hwloc. We will need to get the unique node types, and then run the metric on all nodes (but only save for a subset that are the unique types so we don't have too much data). Note that locally you can also watch what is going on by using the kubeconfig:
+
+```bash
+KUBECONFIG=./kubeconfig-aws.yaml kubectl get pods 
+```
+
+I will be running this through, once fully, to get a test result and then I think it's ready for more use.
 
 ### Plot Results
 
