@@ -40,6 +40,9 @@ spec:
 """
 
 # This is quasi manual, we need to add a volume to actually persist the data. We will copy for now.
+# Note that this is not added yet! TBA for when we finish with just spot.
+# The goal would be to get an idea of working / not working setups, and
+# see if we can tell why via the hwloc output.
 hwloc_template = """
 apiVersion: flux-framework.org/v1alpha2
 kind: MetricSet

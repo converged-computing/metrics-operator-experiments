@@ -1,4 +1,4 @@
-# Spot Instances with Equivalent Memory 
+# Spot Instances with Equivalent vCPU
 
 > The Potpourri approach! But seriously, don't eat it.
 
