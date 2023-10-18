@@ -1,0 +1,21 @@
+
+apiVersion: flux-framework.org/v1alpha2
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  pods: 8
+  metrics:
+   - name: app-lammps
+     options:
+       command: mpirun --hostfile ./hostlist.txt -np 96 -ppn 12 lmp -v x 16 -v y 8 -v z 8 -in in.reaxc.hns -nocite
+       soleTenancy: "true"
+     # 32 vCPU == 16 CPU so a limit of 12 is reasonable
+     resources:
+       limits:       
+         cpu: 12
+       requests:
+         cpu: 12

@@ -11,6 +11,7 @@ import time
 from metricsoperator import MetricsOperator
 import metricsoperator.metrics as mutils
 from kubescaler.scaler.aws import EKSCluster
+from kubescaler.decorators import timeout
 
 # import the script we have two levels up
 here = os.path.abspath(os.path.dirname(__file__))
@@ -26,6 +27,7 @@ if not os.path.exists(data_file):
 
 # This template will be populated with number of spot nodes
 # This is hard coded for 32vCPU, np will be pods * 12
+# Note for 8 nodes at this size (and problem size 16 8 8) it runs in about 45 seconds, why I chose it.
 lammps_template = """
 apiVersion: flux-framework.org/v1alpha2
 kind: MetricSet
@@ -126,6 +128,12 @@ def get_parser():
         help="number of nodes to request (defaults to 4 for testing)",
         type=int,
         default=4,
+    )
+    parser.add_argument(
+        "--timeout",
+        help="timeout in seconds to wait for nodegroup (defaults to 600)",
+        type=int,
+        default=600,
     )
     return parser
 
@@ -318,13 +326,14 @@ def run_hwloc(pods, data_path, sleep=60):
     # Get a handle to the metrics operator
     kubeconfig = os.path.join(here, "kubeconfig-aws.yaml")
     m = MetricsOperator(metrics_yaml, kubeconfig=kubeconfig)
+    m.create()
 
     # We don't have an hwloc parser, so we mostly need to wait for them to be running
-    parser = mutils.get_metric()(m.spec, container_name="app", kubeconfig=kubeconfig)
+    metric = mutils.get_metric()(m.spec, container_name="app", kubeconfig=kubeconfig)
 
     # Get nodes (to see unique). Let's compare what the kubelet sees to hwloc
     unique_machines = {}
-    for node in parser.core_v1.list_node().items:
+    for node in metric.core_v1.list_node().items:
         machine_type = node.metadata.labels["node.kubernetes.io/instance-type"]
         if machine_type in unique_machines:
             continue
@@ -342,17 +351,18 @@ def run_hwloc(pods, data_path, sleep=60):
 
     # Wait for all pods to be running
     print("🕰️ Waiting for hwloc pods to be running...")
-    parser.wait(pod_prefix=m.spec["metadata"]["name"], states=["Running"])
+    metric.wait(pod_prefix=m.spec["metadata"]["name"], states=["Running"])
     sleep(3)
 
     # Now find one pod per node.
     seen = set()
-    for pod in parser.get_pods().items:
+    for pod in metric.get_pods().items:
         node_assigned = pod.spec.to_dict()["node_name"]
 
         # If we need hwloc images / metadata but haven't gotten it yet...
         # Yeah os.system is janky.
         if node_assigned in node_names and node_assigned not in seen:
+            print(f"🏛️  Saving hwloc architecture for {node_assigned}")
             machine_type = node_names[node_assigned]
             machine_xml = os.path.join(data_path, f"machine-{machine_type}.xml")
             machine_png = os.path.join(data_path, f"machine-{machine_type}.png")
@@ -386,7 +396,6 @@ def run_lammps(pods, iters, data_path, sleep=60):
     # Cheat and update the kubeconfig-aws.yaml
     kubeconfig = os.path.join(here, "kubeconfig-aws.yaml")
     m = MetricsOperator(metrics_yaml, kubeconfig=kubeconfig)
-    m.create()
     time.sleep(sleep)
 
     # Save listing of run results
@@ -528,6 +537,7 @@ def main():
     print(f"   Output Data         : {args.data_dir}")
     print(f"   Experiments         : {len(experiments)}")
     print(f"   Nodes requested     : {args.nodes}")
+    print(f"   Timeout (minutes)   : {args.timeout/60}")
     print(f"   Max Instance Types  : {args.max_instance_types}")
     print(
         f"   Range Spot Requests : {count} ({args.min_spot_request} to {args.max_spot_request})"
@@ -583,8 +593,17 @@ def main():
             subset = exp.select_machine_types(count)
             machine_types = list(subset.instance.values)
 
-            # Now create the node groups!
-            cli.create_cluster_nodes(machine_types)
+            # Now create the node groups! This has a timeout for 5 minutes (600 seconds)
+            try:
+                with timeout(args.timeout):
+                    cli.create_cluster_nodes(machine_types)
+            except:
+                print(
+                    "😿️ Creation of node group timed out at {args.timeout} minutes, moving on."
+                )
+                cli.delete_nodegroup(cli.node_group_name)
+                continue
+
             outfile = os.path.join(
                 data_dir, f"nodes-{args.nodes}-request-count-{count}.json"
             )

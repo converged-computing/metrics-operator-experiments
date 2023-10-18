@@ -1,0 +1,253 @@
+{
+    "data": [
+        {
+            "processor_grids": [
+                [
+                    {
+                        "x": 6
+                    },
+                    {
+                        "y": 4
+                    },
+                    {
+                        "z": 4
+                    }
+                ],
+                [
+                    {
+                        "x": 8
+                    },
+                    {
+                        "y": 3
+                    },
+                    {
+                        "z": 4
+                    }
+                ]
+            ],
+            "atoms": 304,
+            "velocities": 304,
+            "read_data_cpu_seconds": 0.017,
+            "bounding_box_extra_memory_mb": 0.03,
+            "replicate_cpu_seconds": 0.007,
+            "unit_style": "real",
+            "time_step": 0.1,
+            "steps": {
+                "matrix": [
+                    [
+                        0.0,
+                        300.0,
+                        -113.27833,
+                        439.00865,
+                        -111.57687,
+                        -1.7014647,
+                        3509615.0
+                    ],
+                    [
+                        10.0,
+                        300.56043,
+                        -113.27983,
+                        743.17792,
+                        -111.57841,
+                        -1.701423,
+                        3509615.0
+                    ],
+                    [
+                        20.0,
+                        302.06618,
+                        -113.2842,
+                        1443.6628,
+                        -111.5829,
+                        -1.7013008,
+                        3509615.0
+                    ],
+                    [
+                        30.0,
+                        302.19431,
+                        -113.28443,
+                        4013.084,
+                        -111.58337,
+                        -1.7010619,
+                        3509615.0
+                    ],
+                    [
+                        40.0,
+                        300.48777,
+                        -113.27928,
+                        6181.4048,
+                        -111.57856,
+                        -1.700724,
+                        3509615.0
+                    ],
+                    [
+                        50.0,
+                        297.67364,
+                        -113.27085,
+                        6361.7583,
+                        -111.57051,
+                        -1.7003453,
+                        3509615.0
+                    ],
+                    [
+                        60.0,
+                        295.09228,
+                        -113.2631,
+                        6242.5042,
+                        -111.56314,
+                        -1.6999629,
+                        3509615.0
+                    ],
+                    [
+                        70.0,
+                        294.6878,
+                        -113.26185,
+                        6957.4321,
+                        -111.56227,
+                        -1.6995785,
+                        3509615.0
+                    ],
+                    [
+                        80.0,
+                        297.33599,
+                        -113.26972,
+                        8266.8246,
+                        -111.57052,
+                        -1.6991983,
+                        3509615.0
+                    ],
+                    [
+                        90.0,
+                        301.08421,
+                        -113.28089,
+                        9282.167,
+                        -111.58202,
+                        -1.698862,
+                        3509615.0
+                    ],
+                    [
+                        100.0,
+                        302.22735,
+                        -113.28423,
+                        10273.69,
+                        -111.58561,
+                        -1.6986184,
+                        3509615.0
+                    ]
+                ],
+                "columns": [
+                    "Step",
+                    "Temp",
+                    "PotEng",
+                    "Press",
+                    "E_vdwl",
+                    "E_coul",
+                    "Volume"
+                ]
+            },
+            "loop_time": 47.4334,
+            "loop_procs": 96,
+            "loop_atoms": 311296,
+            "performance_ns_per_day": 0.018,
+            "performance_hours_per_ns": 1317.594,
+            "timesteps_per_second": 2.108,
+            "ranks": 96,
+            "times": {
+                "matrix": [
+                    [
+                        "Pair",
+                        17.116,
+                        25.438,
+                        32.186,
+                        83.1,
+                        53.63
+                    ],
+                    [
+                        "Neigh",
+                        0.30435,
+                        0.38072,
+                        0.425,
+                        8.0,
+                        0.8
+                    ],
+                    [
+                        "Comm",
+                        0.15202,
+                        6.8408,
+                        15.262,
+                        160.4,
+                        14.42
+                    ],
+                    [
+                        "Output",
+                        0.016242,
+                        0.061973,
+                        0.19346,
+                        24.0,
+                        0.13
+                    ],
+                    [
+                        "Modify",
+                        14.594,
+                        14.708,
+                        14.907,
+                        2.2,
+                        31.01
+                    ],
+                    [
+                        "Other",
+                        0.003893,
+                        0.01
+                    ]
+                ],
+                "header": [
+                    "min time",
+                    "avg time",
+                    "max time",
+                    "%varavg",
+                    "%total"
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "pods": 8,
+        "metricName": "app-lammps",
+        "metricDescription": "LAMMPS molecular dynamic simulation",
+        "metricOptions": {
+            "command": "mpirun --hostfile ./hostlist.txt -np 96 -ppn 12 lmp -v x 16 -v y 8 -v z 8 -in in.reaxc.hns -nocite",
+            "soleTenancy": "true",
+            "workdir": "/opt/lammps/examples/reaxff/HNS"
+        }
+    },
+    "spec": {
+        "apiVersion": "flux-framework.org/v1alpha2",
+        "kind": "MetricSet",
+        "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "metricset",
+                "app.kubernetes.io/instance": "metricset-sample"
+            },
+            "name": "metricset-sample"
+        },
+        "spec": {
+            "pods": 8,
+            "metrics": [
+                {
+                    "name": "app-lammps",
+                    "options": {
+                        "command": "mpirun --hostfile ./hostlist.txt -np 96 -ppn 12 lmp -v x 16 -v y 8 -v z 8 -in in.reaxc.hns -nocite",
+                        "soleTenancy": "true"
+                    },
+                    "resources": {
+                        "limits": {
+                            "cpu": 12
+                        },
+                        "requests": {
+                            "cpu": 12
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

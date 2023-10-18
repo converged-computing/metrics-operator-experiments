@@ -44,23 +44,39 @@ So if we have 8 nodes at an hour each, that would be 1.72 * 8 == ~14.00 (rounded
 
 ## Experiment
 
-The command below says "Try to get 8 nodes using a request range of 6-8 spot instance types selecting from a group of 10" and for that, we will run LAMMPS 10 times. This (in practice) will be two clusters.
+### Planning
+
+What you should do to run an experiment:
+
+ - Make a basic "plan" in the [plans](plans) folder. It mostly just needs the vCPU.
+ - Look at the templates at the top of the [run-experiment.py](run-experiment.py) and ensure that the lammps  and hwloc template specs look okay.
+ - Decide your parameters and then proceed to the next section!
+
+For the last point, as an example you likely want to change the problem size depending on your parameters. We could put this as a variable somewhere.
+It's intended to be small for just testing (I tried to not use too much money).
+
+### Notes
+
+Some important notes:
+
+ - You likely want to change the size of the lammps run in the `lammps_template`
+ - The timeout for waiting is 10 minutes for a nodgroup, and you can customize that.
+ - If you want to record the timeout we currently don't do that (we just continue)
+ - Lammps by default waits 10 seconds (sleep) for the network. This might need to be upped for larger clusters / if the network isnt' great. Ping V if we need to [expose that as a variable](https://github.com/converged-computing/metrics-operator/blob/960fcc48248c3a9b26844194e5b11b5c1e16b76a/pkg/metrics/launcher.go#L181-L182)
+
+### Running 
+
+The command below says "Try to get 8 nodes using a request range of 6-10 spot instance types selecting from a group of 10" and for that, we will run LAMMPS 2 times. This (in practice) will be two clusters.
 
 ```bash
 # I did this out of caution, not sure if it's needed given I specify it
 export KUBECONFIG=./kubeconfig-aws.yaml
-python run-experiment.py --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 8 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 10
+python run-experiment.py --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 10 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 2
 ```
 
-Here is a testing setup I created anticipating testing adding hwloc. Note that the number of nodes doesn't need to be within the min and the max request - that just indicates the pool of instances we are selecting from for some N nodes.
+**Important** I've chosen a larger range anticipating we can get an allocation. If you lower the number (e.g., to 2 or 3) depending on the selection you might not get the allocation. The script currently does not do any kind of timeout so you will be waiting forever :) The assumption here is that we _want_ to test a large range of instances, so we don't want to ask for a small number.
 
-```bash
-# I did this out of caution, not sure if it's needed given I specify it
-export KUBECONFIG=./kubeconfig-aws.yaml
-python run-experiment.py --cluster-name cluster-4-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 7 --nodes 4 --plan ./plans/32vcpu.json --data-dir ./data --iters 10
-```
-
-In practice, we don't know how the spot algorithm works. It could be we ask for 8 but are given all of one type. We will find out.
+In practice, we don't know how the spot algorithm works. In testing I saw sometimes getting more than one machine type, and other times just one. I suspect AWS takes our list and tries to give us the first one, and up to the max they have. We can likely check this. It could be we ask for 8 but are given all of one type. We will find out.
 Here is a quick way to inspect node output and see which types were used:
 
 ```bash
