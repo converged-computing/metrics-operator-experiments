@@ -26,12 +26,13 @@ def get_parser():
     return parser
 
 
-def read_gcp_data(filename, environment):   
+def read_gcp_data(filename, environment):
     df = pandas.read_csv(os.path.join(here, filename), index_col=0)
     df = df.rename(columns={"pods": "nodes"})
     df = df.drop("iter", axis=1)
     df["environment"] = environment
     return df
+
 
 def main():
     """
@@ -56,23 +57,22 @@ def main():
     df_reduce_gcp = read_gcp_data("osu_allreduce-4-to-128-gcp.csv", "cloud")
 
     # Add label for cloud or hpc to size
-    nodes = list(df_reduce['nodes'])
+    nodes = list(df_reduce["nodes"])
     labels = []
     for size in nodes:
         labels.append(f"hpc-{size}")
-    df_reduce['label'] = labels
+    df_reduce["label"] = labels
 
-    nodes = list(df_reduce_gcp['nodes'])
+    nodes = list(df_reduce_gcp["nodes"])
     labels = []
     for size in nodes:
         labels.append(f"cloud-{size}")
-    df_reduce_gcp['label'] = labels
+    df_reduce_gcp["label"] = labels
 
-   
     # Combine them!
     df_reduce_comb = pandas.concat([df_reduce, df_reduce_gcp])
     df_reduce_comb.to_csv(os.path.join(here, "osu_allreduce-combined.csv"))
-      
+
     print(f"Plotting boxplot for allreduce")
     plot_pairs(
         df_reduce,
@@ -90,7 +90,7 @@ def main():
         y="Avg Latency(us)",
         slug="allreduce-cloud-c2d",
         outdir=outdir,
-        title="All Reduce Average Latency Cloud c2d (microseconds) across node sizes",
+        title="All Reduce Average Latency Cloud (microseconds) across node sizes",
     )
     plot_pairs(
         df_reduce_comb,
@@ -99,7 +99,19 @@ def main():
         y="Avg Latency(us)",
         slug="allreduce-cloud-vs-hpc",
         outdir=outdir,
-        title="All Reduce Average Latency Cloud c3 (microseconds) across node sizes",
+        title="All Reduce Average Latency Cloud vs HPC (microseconds) across node sizes",
+    )
+
+    # Try to compare just size 64 for allreduce - too much data
+    df_reduce_64 = df_reduce_comb[df_reduce_comb.nodes == 64]
+    plot_pairs(
+        df_reduce_64,
+        hue="environment",
+        x="Size",
+        y="Avg Latency(us)",
+        slug="allreduce-cloud-vs-hpc-size-64",
+        outdir=outdir,
+        title="All Reduce Average Latency Cloud vs HPC (microseconds) 64 Nodes",
     )
 
     # Compare latency
@@ -117,9 +129,9 @@ def main():
     # df_latency_gcp.Size = pandas.to_numeric(df_latency_gcp.Size, downcast='integer')
     df_latency_comb = pandas.concat([df_latency, df_latency_gcp])
     df_latency_comb.to_csv(os.path.join(here, "osu_latency-combined.csv"))
-    groups = df_latency_comb.groupby(['Size','environment']).mean()
+    groups = df_latency_comb.groupby(["Size", "environment"]).mean()
     groups.to_csv(os.path.join(here, "osu_latency-groups-combined.csv"))
-    
+
     # Finally, consolidate across the sizes (they don't really matter)
     plot_pairs(
         df_latency_comb,
@@ -134,25 +146,20 @@ def main():
     )
 
 
-def plot_single(df, x, y, slug, outdir, larger_size=True, logarithmic=True):
-    """
-    Plot two values, and and y, over time
-    """
-    print(slug)
-    print(df)
-    ax = sns.boxplot(data=df, x=x, y=y, hue="nodes", palette="muted")
-    outfile = os.path.join(outdir, f"{slug}-2-to-128.png")
-    make_plot(
-        ax,
-        slug=slug,
-        outfile=outfile,
-        xlabel=x,
-        larger_size=larger_size,
-        logarithmic=logarithmic,
-    )
-
-
-def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True, hue="nodes", dodge=True, width=None):
+def plot_pairs(
+    df,
+    slug,
+    x,
+    y,
+    title,
+    outdir,
+    logarithmic=True,
+    hue="nodes",
+    dodge=True,
+    width=None,
+    fig_width=28,
+    fig_height=10,
+):
     """
     Plot two values, and and y, over time.
 
@@ -172,7 +179,9 @@ def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True, hue="nodes", dod
     # Make x int, never actually a float
     df[x] = [int(x) for x in df[x]]
     if width is not None:
-        ax2 = sns.boxplot(data=df, x=x, y=y, hue=hue, palette="muted", dodge=dodge, width=width)
+        ax2 = sns.boxplot(
+            data=df, x=x, y=y, hue=hue, palette="muted", dodge=dodge, width=width
+        )
     else:
         ax2 = sns.boxplot(data=df, x=x, y=y, hue=hue, palette="muted", dodge=dodge)
     outfile = os.path.join(outdir, f"{slug}-box-2-to-128.png")
@@ -184,6 +193,8 @@ def plot_pairs(df, slug, x, y, title, outdir, logarithmic=True, hue="nodes", dod
         xlabel=xlabel,
         ylabel=ylabel,
         logarithmic=logarithmic,
+        fig_width=fig_width,
+        fig_height=fig_height,
     )
 
 
@@ -196,12 +207,14 @@ def make_plot(
     ylabel=None,
     larger_size=True,
     logarithmic=True,
+    fig_width=28,
+    fig_height=10,
 ):
     """
     Generic plot making function for some x and y
     """
     # for sty in plt.style.available:
-    sns.set(rc={"figure.figsize": (28, 10)})
+    sns.set(rc={"figure.figsize": (fig_width, fig_height)})
     plt.title(title)
 
     # For bandwith, higher is better

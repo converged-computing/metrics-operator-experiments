@@ -1,0 +1,4 @@
+cloudselect
+metricsoperator
+kubescaler
+pandas

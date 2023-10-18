@@ -82,7 +82,6 @@ python run-experiment.py --out ./data --input ./crd/metrics-8-ptp.yaml --iter 12
 python run-experiment.py --out ./data --input ./crd/metrics-8.yaml --iter 12 --sleep 5
 python run-experiment.py --out ./data --input ./crd/metrics-4-ptp.yaml --iter 12 --sleep 5
 python run-experiment.py --out ./data --input ./crd/metrics-4.yaml --iter 12 --sleep 5
-
 ```
 
 ```bash
