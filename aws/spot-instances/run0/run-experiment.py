@@ -24,6 +24,7 @@ if not os.path.exists(data_file):
     sys.exit(f"Cannot find {data_file}! Run spot_instances.py gen first.")
 
 # This template will be populated with number of spot nodes
+# This is hard coded for 32vCPU, np will be pods * 12
 lammps_template = """
 apiVersion: flux-framework.org/v1alpha2
 kind: MetricSet
@@ -33,10 +34,18 @@ metadata:
     app.kubernetes.io/instance: metricset-sample
   name: metricset-sample
 spec:
-  # Number of indexed jobs to run netmark on
   pods: [[SIZE]]
   metrics:
    - name: app-lammps
+     options:
+       command: mpirun --hostfile ./hostlist.txt -np [[NP]] -ppn 12 lmp -v x 32 -v y 16 -v z 16 -in in.reaxc.hns -nocite
+       soleTenancy: "true"
+     # 32 vCPU == 16 CPU so a limit of 12 is reasonable
+     resources:
+       limits:       
+         cpu: 12
+       requests:
+         cpu: 12
 """
 
 # This is quasi manual, we need to add a volume to actually persist the data. We will copy for now.
@@ -103,10 +112,6 @@ def get_parser():
         help="largest number of instances to test requesting for spot",
         type=int,
         default=4,
-    )
-    parser.add_argument(
-        "--outfile",
-        help="final output json file to save results to (as we go) defaults to cluster name",
     )
     parser.add_argument(
         "--plan",
@@ -282,11 +287,23 @@ def write_file(content, filename):
         fd.write(content)
 
 
+def create_lammps_template(pods):
+    """
+    Generate the lammps templated yaml, filling in size and number of processes
+    """
+    replaces = {"[[SIZE]]": str(pods), "[[NP]]": str(pods * 12)}
+    templated = lammps_template
+    for k, v in replaces.items():
+        templated = templated.replace(k, v)
+    return templated
+
+
 def run_lammps(pods, iters, data_path, sleep=60):
     """
     Run LAMMPS for some number of iterations
     """
-    templated = lammps_template.replace("[[SIZE]]", str(pods))
+    templated = create_lammps_template(pods)
+
     metrics_yaml = os.path.join(data_path, f"lammps-{pods}.yaml")
     write_file(templated, metrics_yaml)
 
@@ -299,11 +316,14 @@ def run_lammps(pods, iters, data_path, sleep=60):
     kubeconfig = os.path.join(here, "kubeconfig-aws.yaml")
     m = MetricsOperator(metrics_yaml, kubeconfig=kubeconfig)
 
-    # Save listing of results
-    results = []
+    # Save listing of run results
+    runs = []
     name = m.spec["metadata"]["name"]
     pod_prefix = f"{name}-l-0"
     worker_prefix = f"{name}-w-"
+
+    # Was it terminated?
+    terminated = False
 
     # Now run lammps some number of times.
     for i in range(0, iters):
@@ -311,27 +331,48 @@ def run_lammps(pods, iters, data_path, sleep=60):
         m.create()
         if i == 0:
             print(f"Sleeping {sleep} seconds so container can pull...")
+            print(templated)
             time.sleep(sleep)
         else:
             time.sleep(5)
-
-        for output in m.watch():
-            print(json.dumps(output, indent=4))
-
-            # Save single result file to cache to be conservative
-            cache_file = os.path.join(cache_dir, f"lammps-{i}.json")
-            write_json(output, cache_file)
-
-            # Append final results
-            results.append(output)
+        cache_file = os.path.join(cache_dir, f"lammps-{i}.json")
+        output, terminated = get_lammps_output(m, pod_prefix, cache_file)
+        runs.append(output)
+        if terminated:
+            print(f"😭️ Lammps run {i} was terminated, ending iterations early.")
+            break
 
         # Wait for leader to terminate
         m.delete(pod_prefix)
 
         # Wait for workers to terminate too
         m.wait_for_delete(worker_prefix)
+    return runs
 
-    return results
+
+def get_lammps_output(m, pod_prefix, cache_file):
+    """
+    Get lammps output, preparing for an error
+
+    In the case of an error, we cannot parse the logs and fall
+    back to raw output.
+    """
+    # Try for parsed output
+    try:
+        for output in m.watch():
+            print(json.dumps(output, indent=4))
+
+            # Save single result file to cache to be conservative
+            write_json(output, cache_file)
+            return output, False
+
+    # Fall back to raw logs
+    except:
+        for output in m.watch(
+            raw_logs=True, pod_prefix=pod_prefix, container_name="launcher"
+        ):
+            write_json(output, cache_file)
+            return output, True
 
 
 def save_nodes(outfile):
@@ -371,10 +412,6 @@ def main():
     # If an error occurs while parsing the arguments, the interpreter will exit with value 2
     args, _ = parser.parse_known_args()
 
-    # Result file
-    if not args.outfile:
-        args.outfile = f"{args.cluster_name}-results.json"
-
     if not args.plan or not os.path.exists(args.plan):
         sys.exit("A --plan is required to run for an experiment.")
 
@@ -394,7 +431,7 @@ def main():
 
     print("🪴️ Planning to run:")
     print(f"   Cluster name        : {args.cluster_name}")
-    print(f"   Output File         : {args.outfile}")
+    print(f"   Output Data         : {args.data_dir}")
     print(f"   Experiments         : {len(experiments)}")
     print(f"   Nodes requested     : {args.nodes}")
     print(f"   Max Instance Types  : {args.max_instance_types}")
@@ -434,6 +471,14 @@ def main():
         # Add specific experiment to results
         results["experiments"][name] = exp.export()
 
+        # Data directory for the experiment
+        data_dir = os.path.join(args.data_dir, exp.id)
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+
+        # Final output file therein
+        final_outfile = os.path.join(data_dir, f"{args.cluster_name}-results.json")
+
         # We will generate from args.min (2) up to the count
         for count in range(args.min_spot_request, args.max_spot_request):
             # Reset times between experiments
@@ -447,7 +492,7 @@ def main():
             # Now create the node groups!
             cli.create_cluster_nodes(machine_types)
             outfile = os.path.join(
-                args.data_dir, f"nodes-{args.nodes}-request-count-{count}.json"
+                data_dir, f"nodes-{args.nodes}-request-count-{count}.json"
             )
             save_nodes(outfile)
 
@@ -456,11 +501,11 @@ def main():
             install_operators()
 
             # Generate the template for the size
-            results = run_lammps(count, args.iters, args.data_dir, sleep=args.sleep)
+            lammps_results = run_lammps(count, args.iters, data_dir, sleep=args.sleep)
             outfile = os.path.join(
-                args.data_dir, f"lammps-nodes-{args.nodes}-request-count-{count}.json"
+                data_dir, f"lammps-nodes-{args.nodes}-request-count-{count}.json"
             )
-            write_json(results, outfile)
+            write_json(lammps_results, outfile)
 
             # And now... delete it! We don't need it, lol
             cli.delete_nodegroup(cli.node_group_name)
@@ -480,7 +525,7 @@ def main():
             }
             print(json.dumps(new_result))
             results["experiments"][name]["runs"].append(new_result)
-            write_json(results, args.outfile)
+            write_json(results, final_outfile)
 
     # When we are done, delete the cluster
     cli.times = {}
@@ -490,7 +535,7 @@ def main():
     times = copy.deepcopy(original_times)
     times.update(cli.times)
     results["times"] = times
-    write_json(results, args.outfile)
+    write_json(results, final_outfile)
 
 
 if __name__ == "__main__":

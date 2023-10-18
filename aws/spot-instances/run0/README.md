@@ -44,15 +44,24 @@ So if we have 8 nodes at an hour each, that would be 1.72 * 8 == ~14.00 (rounded
 
 ## Experiment
 
-The command below says "Try to get 8 nodes using a request range of 6-8 spot instance types selecting from a group of 10" and for that, we will run LAMMPS 10 times.
+The command below says "Try to get 8 nodes using a request range of 6-8 spot instance types selecting from a group of 10" and for that, we will run LAMMPS 10 times. This (in practice) will be two clusters.
 
 ```bash
 # I did this out of caution, not sure if it's needed given I specify it
 export KUBECONFIG=./kubeconfig-aws.yaml
-python run-experiment.py --outfile ./data/nodes-8-vcpu-32.json --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 8 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 10
+python run-experiment.py --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 8 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 10
 ```
 
 In practice, we don't know how the spot algorithm works. It could be we ask for 8 but are given all of one type. We will find out.
+Here is a quick way to inspect node output and see which types were used:
+
+```bash
+$ cat nodes-8-request-count-6.json |grep node.kubernetes.io/instance-type | uniq
+                    "node.kubernetes.io/instance-type": "r5a.8xlarge",
+                    "node.kubernetes.io/instance-type": "c7i.8xlarge",
+```
+
+Note that if we see huge differences in time (based on instance types) then we can add in hwloc. We will need to get the unique node types, and then run the metric on all nodes (but only save for a subset that are the unique types so we don't have too much data).
 
 ### Plot Results
 
