@@ -97,7 +97,7 @@ kubectl delete -f ./metrics/test/
 Now let's run the full experiments, which can be totally automated now with the ORAS oci registry.
 
 ```bash
-python run-experiments.py
+python run-experiment.py --iters 5 --sleep 5
 ```
 
 And then port forward again and pull. You'll need to be sure to put the different tags in separate result directories, etc.
@@ -110,7 +110,7 @@ mkdir -p results
 cd results
 ```
 
-```
+```console
 root=$(pwd)
 for repo in $(oras repo ls localhost:5000 --insecure); do
     echo "Pulling artifacts for repository ${repo}"
@@ -125,12 +125,15 @@ for repo in $(oras repo ls localhost:5000 --insecure); do
 done
 ```
 
-This should give a full directory of results (this was just for one iteration)
+This should give a full directory of results (this was just for one iteration, so a smaller view):
 
-```
+```console
 metric/
 ├── hwloc
 │   └── iter-0
+│       └── analysis
+│           ├── architecture.png
+│           └── machine.xml
 ├── hwloc-test
 │   └── iter-0
 │       └── analysis

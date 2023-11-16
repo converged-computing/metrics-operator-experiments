@@ -5,10 +5,10 @@ MPI Routine                        #calls     avg. bytes      time(sec)
 -----------------------------------------------------------------------
 MPI_Comm_rank                          10            0.0          0.000
 MPI_Comm_size                           4            0.0          0.000
-MPI_Send                            20560         9785.9          0.024
+MPI_Send                            20560         9785.9          0.022
 MPI_Irecv                           20560         9786.9          0.006
 MPI_Sendrecv                           36            8.0          0.000
-MPI_Wait                            20560            0.0          0.133
+MPI_Wait                            20560            0.0          0.070
 MPI_Bcast                             129         1044.8          0.001
 MPI_Barrier                             7            0.0          0.000
 MPI_Reduce                              4            7.0          0.000
@@ -17,11 +17,11 @@ MPI_Allgather                           1            4.0          0.000
 MPI_Allgatherv                          1         7488.0          0.001
 -----------------------------------------------------------------------
 MPI task 2 of 4 had the minimum communication time.
-total communication time = 0.176 seconds.
-total elapsed time       = 20.665 seconds.
-user cpu time            = 20.620 seconds.
-system time              = 0.032 seconds.
-max resident set size    = 125.008 MiB.
+total communication time = 0.109 seconds.
+total elapsed time       = 18.747 seconds.
+user cpu time            = 18.678 seconds.
+system time              = 0.041 seconds.
+max resident set size    = 126.516 MiB.
 
 -----------------------------------------------------------------
 Message size distributions:
@@ -31,9 +31,9 @@ MPI_Send                  #calls    avg. bytes      time(sec)
                                1         176.0          0.000
                                1         352.0          0.000
                                1         704.0          0.000
-                            9870        2529.1          0.005
+                            9870        2529.1          0.004
                              392        7585.4          0.000
-                            9870       15547.8          0.016
+                            9870       15547.8          0.015
                               12       17668.0          0.000
                              392       46656.8          0.002
                               12      108593.3          0.000

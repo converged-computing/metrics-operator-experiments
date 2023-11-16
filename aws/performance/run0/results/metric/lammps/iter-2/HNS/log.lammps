@@ -1,6 +1,23 @@
 LAMMPS (29 Sep 2021 - Update 2)
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
   using 1 OpenMP thread(s) per MPI task
+# Pure HNS crystal, ReaxFF tests for benchmarking LAMMPS
+# See README for more info
+
+variable x index 2
+variable y index 2
+variable z index 2
+variable t index 100
+
+
+units             real
+atom_style        charge
+atom_modify sort  100 0.0 # optional
+dimension         3
+boundary          p p p
+box               tilt large
+
+read_data         data.hns-equil
 Reading data file ...
   triclinic box = (0.0000000 0.0000000 0.0000000) to (22.326000 11.141200 13.778966) with tilt (0.0000000 -5.0260300 0.0000000)
   2 by 1 by 2 MPI processor grid
@@ -9,6 +26,10 @@ Reading data file ...
   reading velocities ...
   304 velocities
   read_data CPU = 0.001 seconds
+replicate         $x $y $z bbox
+replicate         2 $y $z bbox
+replicate         2 2 $z bbox
+replicate         2 2 2 bbox
 Replicating atoms ...
   triclinic box = (0.0000000 0.0000000 0.0000000) to (44.652000 22.282400 27.557932) with tilt (0.0000000 -10.052060 0.0000000)
   2 by 1 by 2 MPI processor grid
@@ -17,6 +38,28 @@ Replicating atoms ...
   average # of replicas added to proc = 5.00 out of 8 (62.50%)
   2432 atoms
   replicate CPU = 0.001 seconds
+
+
+pair_style        reax/c NULL
+pair_coeff        * * ffield.reax.hns C H O N
+
+compute           reax all pair reax/c
+
+neighbor          1.0 bin
+neigh_modify      every 20 delay 0 check no
+
+timestep          0.1
+
+thermo_style      custom step temp pe press evdwl ecoul vol
+thermo_modify     norm yes
+thermo            10
+
+velocity          all create 300.0 41279 loop geom
+
+fix               1 all nve
+fix               2 all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+run               100
 Neighbor list info ...
   update every 20 steps, delay 0 steps, check no
   max neighbors/atom: 2000, page size: 100000
@@ -34,10 +77,6 @@ Neighbor list info ...
       pair build: copy
       stencil: none
       bin: none
-Setting up Verlet run ...
-  Unit style    : real
-  Current step  : 0
-  Time step     : 0.1
 Per MPI rank memory allocation (min/avg/max) = 103.8 | 103.8 | 103.8 Mbytes
 Step Temp PotEng Press E_vdwl E_coul Volume 
        0          300   -113.27833    437.52121   -111.57687   -1.7014647    27418.867 
@@ -51,20 +90,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 19.7053 on 4 procs for 100 steps with 2432 atoms
+Loop time of 18.4734 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.044 ns/day, 547.370 hours/ns, 5.075 timesteps/s
-94.2% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.047 ns/day, 513.150 hours/ns, 5.413 timesteps/s
+93.8% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 8.0287     | 13.18      | 16.257     |  85.6 | 66.89
-Neigh   | 0.1926     | 0.2852     | 0.3197     |  10.0 |  1.45
-Comm    | 0.016408   | 3.0934     | 8.2451     | 176.6 | 15.70
-Output  | 0.00037153 | 0.00045962 | 0.0005998  |   0.0 |  0.00
-Modify  | 3.109      | 3.1446     | 3.2373     |   3.0 | 15.96
-Other   |            | 0.001522   |            |       |  0.01
+Pair    | 7.579      | 12.401     | 15.242     |  82.4 | 67.13
+Neigh   | 0.18184    | 0.25976    | 0.29116    |   8.9 |  1.41
+Comm    | 0.016412   | 2.8582     | 7.6801     | 171.7 | 15.47
+Output  | 0.00037484 | 0.00045241 | 0.00057882 |   0.0 |  0.00
+Modify  | 2.9218     | 2.9528     | 3.0309     |   2.6 | 15.98
+Other   |            | 0.001449   |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1
@@ -77,4 +116,4 @@ Total # of neighbors = 926155
 Ave neighs/atom = 380.82031
 Neighbor list builds = 5
 Dangerous builds not checked
-Total wall time: 0:00:19
+Total wall time: 0:00:18

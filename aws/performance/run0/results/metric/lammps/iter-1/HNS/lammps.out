@@ -1,23 +1,6 @@
 LAMMPS (29 Sep 2021 - Update 2)
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
   using 1 OpenMP thread(s) per MPI task
-# Pure HNS crystal, ReaxFF tests for benchmarking LAMMPS
-# See README for more info
-
-variable x index 2
-variable y index 2
-variable z index 2
-variable t index 100
-
-
-units             real
-atom_style        charge
-atom_modify sort  100 0.0 # optional
-dimension         3
-boundary          p p p
-box               tilt large
-
-read_data         data.hns-equil
 Reading data file ...
   triclinic box = (0.0000000 0.0000000 0.0000000) to (22.326000 11.141200 13.778966) with tilt (0.0000000 -5.0260300 0.0000000)
   2 by 1 by 2 MPI processor grid
@@ -26,10 +9,6 @@ Reading data file ...
   reading velocities ...
   304 velocities
   read_data CPU = 0.001 seconds
-replicate         $x $y $z bbox
-replicate         2 $y $z bbox
-replicate         2 2 $z bbox
-replicate         2 2 2 bbox
 Replicating atoms ...
   triclinic box = (0.0000000 0.0000000 0.0000000) to (44.652000 22.282400 27.557932) with tilt (0.0000000 -10.052060 0.0000000)
   2 by 1 by 2 MPI processor grid
@@ -37,29 +16,7 @@ Replicating atoms ...
   bounding box extra memory = 0.03 MB
   average # of replicas added to proc = 5.00 out of 8 (62.50%)
   2432 atoms
-  replicate CPU = 0.002 seconds
-
-
-pair_style        reax/c NULL
-pair_coeff        * * ffield.reax.hns C H O N
-
-compute           reax all pair reax/c
-
-neighbor          1.0 bin
-neigh_modify      every 20 delay 0 check no
-
-timestep          0.1
-
-thermo_style      custom step temp pe press evdwl ecoul vol
-thermo_modify     norm yes
-thermo            10
-
-velocity          all create 300.0 41279 loop geom
-
-fix               1 all nve
-fix               2 all qeq/reax 1 0.0 10.0 1e-6 reax/c
-
-run               100
+  replicate CPU = 0.036 seconds
 Neighbor list info ...
   update every 20 steps, delay 0 steps, check no
   max neighbors/atom: 2000, page size: 100000
@@ -77,6 +34,10 @@ Neighbor list info ...
       pair build: copy
       stencil: none
       bin: none
+Setting up Verlet run ...
+  Unit style    : real
+  Current step  : 0
+  Time step     : 0.1
 Per MPI rank memory allocation (min/avg/max) = 103.8 | 103.8 | 103.8 Mbytes
 Step Temp PotEng Press E_vdwl E_coul Volume 
        0          300   -113.27833    437.52121   -111.57687   -1.7014647    27418.867 
@@ -90,20 +51,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 20.3881 on 4 procs for 100 steps with 2432 atoms
+Loop time of 19.007 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.042 ns/day, 566.337 hours/ns, 4.905 timesteps/s
-93.8% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.045 ns/day, 527.971 hours/ns, 5.261 timesteps/s
+93.5% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 8.3438     | 13.623     | 16.782     |  86.4 | 66.82
-Neigh   | 0.21975    | 0.29765    | 0.32965    |   8.3 |  1.46
-Comm    | 0.017173   | 3.1763     | 8.4558     | 178.9 | 15.58
-Output  | 0.00038948 | 0.00048543 | 0.00062944 |   0.0 |  0.00
-Modify  | 3.2576     | 3.2892     | 3.3672     |   2.5 | 16.13
-Other   |            | 0.001566   |            |       |  0.01
+Pair    | 7.5091     | 12.646     | 15.655     |  86.9 | 66.54
+Neigh   | 0.2008     | 0.29318    | 0.34056    |  10.1 |  1.54
+Comm    | 0.015908   | 3.0249     | 8.1622     | 177.8 | 15.91
+Output  | 0.00036119 | 0.00045399 | 0.00059927 |   0.0 |  0.00
+Modify  | 2.9924     | 3.0407     | 3.1333     |   3.1 | 16.00
+Other   |            | 0.001469   |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1
@@ -116,4 +77,4 @@ Total # of neighbors = 926155
 Ave neighs/atom = 380.82031
 Neighbor list builds = 5
 Dangerous builds not checked
-Total wall time: 0:00:20
+Total wall time: 0:00:19

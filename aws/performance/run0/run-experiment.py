@@ -124,6 +124,7 @@ def run_hwloc(tag, data_path, sleep=60):
     # Get a handle to the metrics operator
     m = MetricsOperator(metrics_yaml)
     m.create()
+    time.sleep(sleep)
 
     # We don't have an hwloc parser, so we mostly need to wait for them to be running
     parser = m.get_parser(container_name="app")
@@ -159,9 +160,10 @@ def run_hwloc(tag, data_path, sleep=60):
     # Wait for all pods to be running
     # TODO this will save one artifact for one node, and given more than one type
     # we need to be able to support that. Probably OK for now.
-    print("🕰️ Waiting for hwloc pods to be finished...")
+    print("🕰️  Waiting for hwloc pods to be finished...")
     pod_prefix = m.spec["metadata"]["name"]
     parser.wait(pod_prefix=pod_prefix, states=["Succeeded"])
+    time.sleep(sleep)
     m.delete(pod_prefix=m.spec["metadata"]["name"])
     return unique_machines
 

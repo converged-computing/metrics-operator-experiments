@@ -1,0 +1,3 @@
+metricset-sample-l-0-0.oras.default.svc.cluster.local
+metricset-sample-w-0-0.oras.default.svc.cluster.local
+

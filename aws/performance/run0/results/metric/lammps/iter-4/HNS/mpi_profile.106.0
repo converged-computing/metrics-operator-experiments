@@ -5,23 +5,23 @@ MPI Routine                        #calls     avg. bytes      time(sec)
 -----------------------------------------------------------------------
 MPI_Comm_rank                          10            0.0          0.000
 MPI_Comm_size                           4            0.0          0.000
-MPI_Send                            20560         9780.7          0.012
-MPI_Irecv                           20560         9781.5          0.004
+MPI_Send                            20560         9780.7          0.008
+MPI_Irecv                           20560         9781.5          0.003
 MPI_Sendrecv                           36            8.0          0.001
-MPI_Wait                            20560            0.0         10.040
+MPI_Wait                            20560            0.0          8.354
 MPI_Bcast                             129         1044.8          0.001
 MPI_Barrier                             7            0.0          0.002
 MPI_Reduce                              4            7.0          0.000
-MPI_Allreduce                        5167            8.1          0.018
+MPI_Allreduce                        5167            8.1          0.014
 MPI_Allgather                           1            4.0          0.000
 MPI_Allgatherv                          1         7392.0          0.001
 -----------------------------------------------------------------------
 MPI task 0 of 4 had the maximum communication time.
-total communication time = 10.078 seconds.
-total elapsed time       = 20.665 seconds.
-user cpu time            = 17.326 seconds.
-system time              = 3.229 seconds.
-max resident set size    = 127.492 MiB.
+total communication time = 8.383 seconds.
+total elapsed time       = 16.379 seconds.
+user cpu time            = 13.908 seconds.
+system time              = 2.464 seconds.
+max resident set size    = 131.559 MiB.
 
 -----------------------------------------------------------------
 Message size distributions:
@@ -31,9 +31,9 @@ MPI_Send                  #calls    avg. bytes      time(sec)
                                3         176.0          0.000
                                1         352.0          0.000
                                1         528.0          0.000
-                            9870        2529.2          0.003
+                            9870        2529.2          0.002
                              392        7584.8          0.000
-                            9870       15538.2          0.007
+                            9870       15538.2          0.005
                               12       17714.7          0.000
                              392       46623.9          0.002
                               12      108532.7          0.000
@@ -45,9 +45,9 @@ MPI_Irecv                 #calls    avg. bytes      time(sec)
                                1         528.0          0.000
                             9870        2529.1          0.001
                              392        7585.4          0.000
-                            9870       15539.6          0.002
+                            9870       15539.6          0.001
                               12       17668.0          0.000
-                             392       46617.9          0.001
+                             392       46617.9          0.000
                               12      108990.0          0.000
 
 MPI_Sendrecv              #calls    avg. bytes      time(sec)
@@ -73,7 +73,7 @@ MPI_Reduce                #calls    avg. bytes      time(sec)
 
 MPI_Allreduce             #calls    avg. bytes      time(sec)
                               14           4.0          0.000
-                            5125           8.0          0.017
+                            5125           8.0          0.013
                               13          15.4          0.000
                               12          24.0          0.000
                                3          40.0          0.000
@@ -88,17 +88,17 @@ MPI_Allgatherv            #calls    avg. bytes      time(sec)
 
 Summary for all tasks:
 
-  Rank 3 reported the largest memory utilization : 128.15 MiB
-  Rank 1 reported the largest elapsed time : 20.66 sec
+  Rank 3 reported the largest memory utilization : 131.95 MiB
+  Rank 1 reported the largest elapsed time : 16.38 sec
 
-  minimum communication time = 0.176 sec for task 2
-  median  communication time = 2.431 sec for task 1
-  maximum communication time = 10.078 sec for task 0
+  minimum communication time = 0.091 sec for task 2
+  median  communication time = 1.824 sec for task 1
+  maximum communication time = 8.383 sec for task 0
 
 
 MPI timing summary for all ranks:
 taskid                     host    cpu    comm(s)  elapsed(s)     user(s)   system(s)   size(MiB)    switches
-     0   metricset-sample-l-0-0      0      10.08       20.66       17.33        3.23      127.49        1925
-     1   metricset-sample-l-0-0      5       2.43       20.66       20.01        0.65      124.62         145
-     2   metricset-sample-l-0-0      6       0.18       20.66       20.62        0.03      125.01         279
-     3   metricset-sample-l-0-0     10       3.92       20.66       19.55        1.11      128.15          79
+     0   metricset-sample-l-0-0      0       8.38       16.38       13.91        2.46      131.56         268
+     1   metricset-sample-l-0-0      4       1.82       16.38       15.79        0.56      129.33        1050
+     2   metricset-sample-l-0-0      6       0.09       16.38       16.34        0.04      128.02          79
+     3   metricset-sample-l-0-0      9       3.08       16.38       15.52        0.85      131.95          57

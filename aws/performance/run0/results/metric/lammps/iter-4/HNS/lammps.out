@@ -16,7 +16,7 @@ Replicating atoms ...
   bounding box extra memory = 0.03 MB
   average # of replicas added to proc = 5.00 out of 8 (62.50%)
   2432 atoms
-  replicate CPU = 0.002 seconds
+  replicate CPU = 0.001 seconds
 Neighbor list info ...
   update every 20 steps, delay 0 steps, check no
   max neighbors/atom: 2000, page size: 100000
@@ -51,20 +51,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 20.9747 on 4 procs for 100 steps with 2432 atoms
+Loop time of 16.1057 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.041 ns/day, 582.632 hours/ns, 4.768 timesteps/s
-94.0% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.054 ns/day, 447.382 hours/ns, 6.209 timesteps/s
+94.1% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 8.3107     | 13.944     | 17.314     |  91.0 | 66.48
-Neigh   | 0.18815    | 0.27646    | 0.32384    |  10.0 |  1.32
-Comm    | 0.017177   | 3.3875     | 9.0214     | 184.6 | 16.15
-Output  | 0.00039302 | 0.0004697  | 0.00060103 |   0.0 |  0.00
-Modify  | 3.3174     | 3.3644     | 3.4529     |   2.9 | 16.04
-Other   |            | 0.001568   |            |       |  0.01
+Pair    | 6.282      | 10.719     | 13.288     |  81.4 | 66.56
+Neigh   | 0.15348    | 0.22826    | 0.2619     |   9.1 |  1.42
+Comm    | 0.013467   | 2.5826     | 7.0202     | 165.9 | 16.03
+Output  | 0.00031958 | 0.00040227 | 0.00053509 |   0.0 |  0.00
+Modify  | 2.5394     | 2.5739     | 2.6488     |   2.7 | 15.98
+Other   |            | 0.00123    |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1
@@ -77,4 +77,4 @@ Total # of neighbors = 926155
 Ave neighs/atom = 380.82031
 Neighbor list builds = 5
 Dangerous builds not checked
-Total wall time: 0:00:21
+Total wall time: 0:00:16

@@ -51,20 +51,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 18.3111 on 4 procs for 100 steps with 2432 atoms
+Loop time of 15.1693 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.047 ns/day, 508.642 hours/ns, 5.461 timesteps/s
-94.3% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.057 ns/day, 421.370 hours/ns, 6.592 timesteps/s
+93.6% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 7.1815     | 12.204     | 15.126     |  86.4 | 66.65
-Neigh   | 0.17377    | 0.24655    | 0.27993    |   8.7 |  1.35
-Comm    | 0.014794   | 2.9364     | 7.9593     | 176.1 | 16.04
-Output  | 0.00037637 | 0.00044582 | 0.00056986 |   0.0 |  0.00
-Modify  | 2.8881     | 2.922      | 2.9952     |   2.5 | 15.96
-Other   |            | 0.001423   |            |       |  0.01
+Pair    | 5.9402     | 10.099     | 12.539     |  78.8 | 66.57
+Neigh   | 0.1358     | 0.20511    | 0.23154    |   8.9 |  1.35
+Comm    | 0.012665   | 2.4531     | 6.6119     | 159.8 | 16.17
+Output  | 0.00029028 | 0.00037515 | 0.00051189 |   0.0 |  0.00
+Modify  | 2.3844     | 2.4107     | 2.4801     |   2.6 | 15.89
+Other   |            | 0.001165   |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1
@@ -77,4 +77,4 @@ Total # of neighbors = 926155
 Ave neighs/atom = 380.82031
 Neighbor list builds = 5
 Dangerous builds not checked
-Total wall time: 0:00:18
+Total wall time: 0:00:15
