@@ -71,7 +71,12 @@ The command below says "Try to get 8 nodes using a request range of 6-10 spot in
 ```bash
 # I did this out of caution, not sure if it's needed given I specify it
 export KUBECONFIG=./kubeconfig-aws.yaml
-python run-experiment.py --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 10 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 2
+```
+
+And run!
+
+```bash
+time python run-experiment.py --cluster-name cluster-8-32vcpu --max-instance-types 10 --min-spot-request 6 --max-spot-request 10 --nodes 8 --plan ./plans/32vcpu.json --data-dir ./data --iters 2
 ```
 
 **Important** I've chosen a larger range anticipating we can get an allocation. If you lower the number (e.g., to 2 or 3) depending on the selection you might not get the allocation. The script currently does not do any kind of timeout so you will be waiting forever :) The assumption here is that we _want_ to test a large range of instances, so we don't want to ask for a small number.

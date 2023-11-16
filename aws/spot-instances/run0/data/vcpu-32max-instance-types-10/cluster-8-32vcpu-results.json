@@ -1,39 +1,30 @@
 {
     "experiments": {
         "vcpu-32max-instance-types-10": {
-            "runs": [],
-            "plan": {
-                "vcpu": 32,
-                "max-instance-types": 10
-            },
-            "instances": ",instance,bare_metal,arch,vcpu,threads_per_core,memory_mb,gpu,price\n333,r6in.8xlarge,False,x86_64,32,2,262144,False,1.472\n592,c7i.8xlarge,False,x86_64,32,2,65536,False,1.472\n483,c5ad.8xlarge,False,x86_64,32,2,65536,False,1.541\n159,m6a.8xlarge,False,x86_64,32,2,131072,False,1.64564\n727,c6id.8xlarge,False,x86_64,32,2,65536,False,1.6688\n636,c6a.8xlarge,False,x86_64,32,2,65536,False,1.7648\n351,m5ad.8xlarge,False,x86_64,32,2,131072,False,1.803\n513,h1.8xlarge,False,x86_64,32,2,131072,False,1.872\n90,inf2.8xlarge,False,x86_64,32,2,131072,False,1.96786\n416,r5a.8xlarge,False,x86_64,32,2,262144,False,1.972\n",
-            "max_instance_types": 10
-        },
-        "metricset-sample": {
             "runs": [
                 {
                     "machine_types": [
+                        "r6in.8xlarge",
                         "c7i.8xlarge",
+                        "c5ad.8xlarge",
                         "m6a.8xlarge",
-                        "c6a.8xlarge",
-                        "m5ad.8xlarge",
                         "h1.8xlarge",
                         "inf2.8xlarge"
                     ],
                     "nodes": 8,
                     "count": 6,
                     "times": {
-                        "create_vpc_stack-size-8": 182.615,
-                        "new_cluster-size-8": 393.72,
-                        "create_cluster": 582.266,
-                        "create_nodegroup-size-8": 123.801,
-                        "wait_for_nodes-size-8": 5.168,
-                        "create_cluster_nodes-size-8": 129.735,
-                        "delete_nodegroup-size-8": 333.429,
-                        "experiments_seconds": 2233.928638935089
+                        "create_vpc_stack-size-8": 182.567,
+                        "new_cluster-size-8": 454.862,
+                        "create_cluster": 638.401,
+                        "create_nodegroup-size-8": 122.498,
+                        "wait_for_nodes-size-8": 5.172,
+                        "create_cluster_nodes-size-8": 128.486,
+                        "delete_nodegroup-size-8": 273.421,
+                        "experiments_seconds": 318.20245122909546
                     },
-                    "mean_price": 1.7542166666666665,
-                    "std_price": 0.17518181842493435
+                    "mean_price": 1.6617499999999998,
+                    "std_price": 0.21201821346290042
                 }
             ],
             "plan": {
@@ -45,9 +36,9 @@
         }
     },
     "times": {
-        "create_vpc_stack-size-8": 182.615,
-        "new_cluster-size-8": 393.72,
-        "create_cluster": 582.266
+        "create_vpc_stack-size-8": 182.567,
+        "new_cluster-size-8": 454.862,
+        "create_cluster": 638.401
     },
     "nodes": 8,
     "cluster_name": "cluster-8-32vcpu"

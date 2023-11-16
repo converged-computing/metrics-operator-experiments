@@ -27,9 +27,9 @@
             ],
             "atoms": 304,
             "velocities": 304,
-            "read_data_cpu_seconds": 0.017,
+            "read_data_cpu_seconds": 0.015,
             "bounding_box_extra_memory_mb": 0.03,
-            "replicate_cpu_seconds": 0.007,
+            "replicate_cpu_seconds": 0.009,
             "unit_style": "real",
             "time_step": 0.1,
             "steps": {
@@ -144,58 +144,58 @@
                     "Volume"
                 ]
             },
-            "loop_time": 47.4334,
+            "loop_time": 36.0124,
             "loop_procs": 96,
             "loop_atoms": 311296,
-            "performance_ns_per_day": 0.018,
-            "performance_hours_per_ns": 1317.594,
-            "timesteps_per_second": 2.108,
+            "performance_ns_per_day": 0.024,
+            "performance_hours_per_ns": 1000.343,
+            "timesteps_per_second": 2.777,
             "ranks": 96,
             "times": {
                 "matrix": [
                     [
                         "Pair",
-                        17.116,
-                        25.438,
-                        32.186,
-                        83.1,
-                        53.63
+                        13.887,
+                        19.593,
+                        24.229,
+                        71.5,
+                        54.41
                     ],
                     [
                         "Neigh",
-                        0.30435,
-                        0.38072,
-                        0.425,
-                        8.0,
-                        0.8
+                        0.26435,
+                        0.34597,
+                        0.39848,
+                        8.3,
+                        0.96
                     ],
                     [
                         "Comm",
-                        0.15202,
-                        6.8408,
-                        15.262,
-                        160.4,
-                        14.42
+                        0.15231,
+                        4.856,
+                        10.605,
+                        143.7,
+                        13.48
                     ],
                     [
                         "Output",
-                        0.016242,
-                        0.061973,
-                        0.19346,
-                        24.0,
+                        0.020425,
+                        0.047824,
+                        0.063094,
+                        4.7,
                         0.13
                     ],
                     [
                         "Modify",
-                        14.594,
-                        14.708,
-                        14.907,
-                        2.2,
+                        11.055,
+                        11.166,
+                        11.313,
+                        2.3,
                         31.01
                     ],
                     [
                         "Other",
-                        0.003893,
+                        0.002851,
                         0.01
                     ]
                 ],
