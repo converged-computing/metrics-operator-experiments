@@ -17,6 +17,7 @@ templates = os.path.join(here, "metrics")
 
 lammps_template = utils.read_file(os.path.join(templates, "mpitrace-lammps.yaml"))
 hwloc_template = utils.read_file(os.path.join(templates, "hwloc.yaml"))
+hpctoolkit_template = utils.read_file(os.path.join(templates, "hpctoolkit.yaml"))
 
 # This is hard coded for a small kubectl cluster size (local with kind)
 # And assumes the cluster is running with the metrics and oras operators installed.
@@ -91,23 +92,12 @@ def write_file(content, filename):
         fd.write(content)
 
 
-def create_lammps_template(tag):
+def create_template(tag, template):
     """
     Generate the lammps templated yaml, filling in size and number of processes
     """
     replaces = {"[[TAG]]": tag}
-    templated = lammps_template
-    for k, v in replaces.items():
-        templated = templated.replace(k, v)
-    return templated
-
-
-def create_hwloc_template(tag):
-    """
-    Generate the hwloc templated yaml, filling in size.
-    """
-    replaces = {"[[TAG]]": tag}
-    templated = hwloc_template
+    templated = template
     for k, v in replaces.items():
         templated = templated.replace(k, v)
     return templated
@@ -117,7 +107,7 @@ def run_hwloc(tag, data_path, sleep=60):
     """
     Run hwloc
     """
-    templated = create_hwloc_template(tag)
+    templated = create_template(tag, hwloc_template)
     metrics_yaml = os.path.join(data_path, f"hwloc-{tag}.yaml")
     write_file(templated, metrics_yaml)
 
@@ -176,7 +166,7 @@ def run_lammps(iters, data_path, sleep=60):
     for i in range(0, iters):
         print(f"🪔️ Running iteration {i} of LAMMPS")
         tag = f"iter-{i}"
-        templated = create_lammps_template(tag)
+        templated = create_template(tag, lammps_template)
         metrics_yaml = os.path.join(data_path, f"lammps-{tag}.yaml")
         write_file(templated, metrics_yaml)
 
@@ -203,11 +193,43 @@ def run_lammps(iters, data_path, sleep=60):
         m.wait_for_delete(worker_prefix)
 
 
+def run_hpctoolkit(iters, data_path, sleep=60):
+    """
+    Run hpctoolkit
+    """
+    # Now run lammps some number of times.
+    for i in range(0, iters):
+        print(f"🪔️ Running iteration {i} of HPCToolkit")
+        tag = f"iter-{i}"
+        templated = create_template(tag, hpctoolkit_template)
+        metrics_yaml = os.path.join(data_path, f"hpctoolkit-{tag}.yaml")
+        write_file(templated, metrics_yaml)
+
+        # Cheat and update the kubeconfig-aws.yaml
+        m = MetricsOperator(metrics_yaml)
+        name = m.spec["metadata"]["name"]
+        pod_prefix = f"{name}-l-0"
+        m.create()
+        if i == 0:
+            print(templated)
+
+        # Wait for leader to finish - mpitrace uses an initContainer
+        time.sleep(sleep)
+        for output in m.watch(pod_prefix=pod_prefix, container_name="launcher"):
+            print(output)
+
+        # Wait until succeeded
+        parser = m.get_parser()
+        parser.wait(states=["Succeeded"], pod_prefix=pod_prefix)
+        m.delete(pod_prefix)
+
+
 def run_experiments(args, data_dir):
     """
     Wrap experiment running separately in case we lose spot nodes and can recover
     """
     # Run lammps - results are saved to the OCI registry
+    run_hpctoolkit(args.iters, data_dir, sleep=args.sleep)
     run_lammps(args.iters, data_dir, sleep=args.sleep)
 
     # Get hwloc files for one node type (TODO - need to be able to run for each node type)
@@ -215,7 +237,7 @@ def run_experiments(args, data_dir):
     unique_machines = run_hwloc("iter-0", data_dir, sleep=args.sleep)
     outfile = os.path.join(data_dir, f"hwloc-unique-machines-nodes.json")
     write_json(unique_machines, outfile)
-    print("Experiments are done! Next, port-forward to pull ORAS artifacts.")
+    print("Experiments are done! Next, use ingress.yaml to pull ORAS artifacts.")
 
 
 def main():

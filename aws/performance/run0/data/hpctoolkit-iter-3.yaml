@@ -4,31 +4,29 @@ metadata:
   labels:
     app.kubernetes.io/name: metricset
     app.kubernetes.io/instance: metricset-sample
-  name: metricset-sample
+  name: hpctoolkit-0
 spec:
-  pods: 2
+  pods: 1
   serviceName: oras
   pod:
     annotations:
      oras.converged-computing.github.io/oras-cache: oras
-     oras.converged-computing.github.io/output-uri: metric/lammps:iter-4
+     oras.converged-computing.github.io/output-uri: metric/hpctoolkit-test:iter-3
      oras.converged-computing.github.io/output-path: /opt/lammps/examples/reaxff/HNS
+     oras.converged-computing.github.io/unpack: "false"
      oras.converged-computing.github.io/debug: "true"
-
   metrics:
    - name: app-lammps
      image: ghcr.io/converged-computing/metric-lammps-intel-mpi:rocky
-
-     # We need to change the mount here, cannot be shared
      options:
-       command: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 4 --map-by socket lmp -v x 2 -v y 2 -v z 2 -in in.reaxc.hns -nocite  2>&1 | tee -a lammps.out
+       command: lmp -v x 2 -v y 2 -v z 2 -in in.reaxc.hns -nocite
        workdir: /opt/lammps/examples/reaxff/HNS
-
-     # Add on mpitrace to run
      addons:
-       - name: perf-mpitrace
+       - name: perf-hpctoolkit
          options:
            mount: /opt/mnt
-           image: ghcr.io/converged-computing/metric-mpitrace:rocky           
+           events:  "-e REALTIME@100"
+           image: ghcr.io/converged-computing/metric-hpctoolkit-view:rocky            
+           prefix: /opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 4 --map-by socket
            workdir: /opt/lammps/examples/reaxff/HNS
            containerTarget: launcher

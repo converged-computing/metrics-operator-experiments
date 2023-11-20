@@ -104,6 +104,8 @@ download from the registry. After creating the cluster, apply the hpctoolkit yam
 kubectl apply -f metrics/test/hpctoolkit-iter-0.yaml
 ```
 
+### Ingress
+
 We then want to create a service to access the registry (make sure to close the port forward):
 
 ```bash
@@ -155,12 +157,6 @@ Try pulling the chonker!
 oras pull localhost/metric/hpctoolkit-test:iter-2 --insecure -o ./metrics/test/hpctoolkit.tar.gz
 ```
 
-### TODO
-
-- we should be able to define multiple addons to the same lammps run (test with lammps and hpctoolkit)
-- add hpctoolkit to the set to run, when this is possible.
-- merge prs to metrics / oras operators when the above is done.
-
 ## Experiments
 
 Now let's run the full experiments, which can be totally automated now with the ORAS oci registry.
@@ -169,26 +165,32 @@ Now let's run the full experiments, which can be totally automated now with the 
 python run-experiment.py --iters 5 --sleep 5
 ```
 
-And then port forward again and pull. You'll need to be sure to put the different tags in separate result directories, etc.
+And then you can port forward again or (suggested) use the [ingress](#ingress) approach and pull. You'll need to be sure to put the different tags in separate result directories, etc.
 
-```
-kubectl port-forward oras-0 5000:5000
-```
 ```
 mkdir -p results
 cd results
 ```
 
+Note that for port-forward you need to target `localhost:5000`.
+
 ```console
 root=$(pwd)
-for repo in $(oras repo ls localhost:5000 --insecure); do
+for repo in $(oras repo ls localhost --insecure); do
     echo "Pulling artifacts for repository ${repo}"
-    for tag in $(oras repo tags localhost:5000/${repo} --insecure); do
+    for tag in $(oras repo tags localhost/${repo} --insecure); do
        uri=${repo}:${tag}       
        echo "Pulling URI ${uri}"
        mkdir -p ${repo}/${tag}
        cd ${repo}/${tag}
-       oras pull localhost:5000/${uri} --insecure
+       oras pull localhost/${uri} --insecure -o results.tar.gz
+       if [[ $repo == *"hpctoolkit"* ]]; then
+           echo "We will not extract hpctoolkit"
+       else
+           echo "Extracting result for ${uri}"
+           tar -xzvf results.tar.gz
+           rm results.tar.gz
+       fi
        cd $root
     done
 done
@@ -248,9 +250,24 @@ metric/
 17 directories, 36 files
 ```
 
-Neat! So we can run that for more iterations, and even different metrics, and we should be able to automate the entire thing
-and save results. I haven't tested for hpctoolkit yet (and it still uses a sidecar over view) but the same design should work.
-The yaml files you generated are in [data](data) and the results in [results](results) and templates in [metrics](metrics).
+Note that we have results for hpctoolkit that aren't extracted (or added to this repo):
+
+```
+metric/
+├── hpctoolkit-test
+│   ├── iter-0
+│   │   └── results.tar.gz
+│   ├── iter-1
+│   │   └── results.tar.gz
+│   ├── iter-2
+│   │   └── results.tar.gz
+│   ├── iter-3
+│   │   └── results.tar.gz
+│   └── iter-4
+│       └── results.tar.gz
+```
+
+Neat! So we can run that for more iterations, and even different metrics, and we should be able to automate the entire thing and save results. The yaml files you generated are in [data](data) and the results in [results](results) and templates in [metrics](metrics).
 
 ## Clean Up
 

@@ -16,7 +16,7 @@ Replicating atoms ...
   bounding box extra memory = 0.03 MB
   average # of replicas added to proc = 5.00 out of 8 (62.50%)
   2432 atoms
-  replicate CPU = 0.036 seconds
+  replicate CPU = 0.003 seconds
 Neighbor list info ...
   update every 20 steps, delay 0 steps, check no
   max neighbors/atom: 2000, page size: 100000
@@ -51,20 +51,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 19.007 on 4 procs for 100 steps with 2432 atoms
+Loop time of 18.733 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.045 ns/day, 527.971 hours/ns, 5.261 timesteps/s
-93.5% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.046 ns/day, 520.361 hours/ns, 5.338 timesteps/s
+94.4% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 7.5091     | 12.646     | 15.655     |  86.9 | 66.54
-Neigh   | 0.2008     | 0.29318    | 0.34056    |  10.1 |  1.54
-Comm    | 0.015908   | 3.0249     | 8.1622     | 177.8 | 15.91
-Output  | 0.00036119 | 0.00045399 | 0.00059927 |   0.0 |  0.00
-Modify  | 2.9924     | 3.0407     | 3.1333     |   3.1 | 16.00
-Other   |            | 0.001469   |            |       |  0.01
+Pair    | 7.4133     | 12.494     | 15.455     |  86.4 | 66.70
+Neigh   | 0.19377    | 0.27666    | 0.32174    |   9.3 |  1.48
+Comm    | 0.015918   | 2.9769     | 8.0578     | 177.1 | 15.89
+Output  | 0.00038139 | 0.00046927 | 0.00060368 |   0.0 |  0.00
+Modify  | 2.9388     | 2.9835     | 3.0666     |   2.8 | 15.93
+Other   |            | 0.001433   |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1

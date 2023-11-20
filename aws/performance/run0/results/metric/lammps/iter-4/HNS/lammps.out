@@ -8,7 +8,7 @@ Reading data file ...
   304 atoms
   reading velocities ...
   304 velocities
-  read_data CPU = 0.001 seconds
+  read_data CPU = 0.002 seconds
 Replicating atoms ...
   triclinic box = (0.0000000 0.0000000 0.0000000) to (44.652000 22.282400 27.557932) with tilt (0.0000000 -10.052060 0.0000000)
   2 by 1 by 2 MPI processor grid
@@ -51,20 +51,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 16.1057 on 4 procs for 100 steps with 2432 atoms
+Loop time of 16.0934 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.054 ns/day, 447.382 hours/ns, 6.209 timesteps/s
-94.1% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.054 ns/day, 447.040 hours/ns, 6.214 timesteps/s
+93.9% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 6.282      | 10.719     | 13.288     |  81.4 | 66.56
-Neigh   | 0.15348    | 0.22826    | 0.2619     |   9.1 |  1.42
-Comm    | 0.013467   | 2.5826     | 7.0202     | 165.9 | 16.03
-Output  | 0.00031958 | 0.00040227 | 0.00053509 |   0.0 |  0.00
-Modify  | 2.5394     | 2.5739     | 2.6488     |   2.7 | 15.98
-Other   |            | 0.00123    |            |       |  0.01
+Pair    | 6.2366     | 10.669     | 13.283     |  81.6 | 66.29
+Neigh   | 0.14582    | 0.22433    | 0.25511    |   9.6 |  1.39
+Comm    | 0.013391   | 2.628      | 7.0604     | 164.4 | 16.33
+Output  | 0.0003033  | 0.00039023 | 0.00052996 |   0.0 |  0.00
+Modify  | 2.5401     | 2.5707     | 2.6493     |   2.8 | 15.97
+Other   |            | 0.001217   |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1

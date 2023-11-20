@@ -15,7 +15,6 @@ spec:
      oras.converged-computing.github.io/output-path: /opt/lammps/examples/reaxff/HNS
      oras.converged-computing.github.io/unpack: "false"
      oras.converged-computing.github.io/debug: "true"
-     oras.converged-computing.github.io/oras-entrypoint: "https://gist.githubusercontent.com/vsoch/b9d540ed22ffc785c8155df0563010cc/raw/d23d4d38beeed29a36b905617d5f75fb79bd21e2/entrypoint.sh"
 
   metrics:
    - name: app-lammps

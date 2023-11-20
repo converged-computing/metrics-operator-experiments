@@ -25,7 +25,7 @@ Reading data file ...
   304 atoms
   reading velocities ...
   304 velocities
-  read_data CPU = 0.001 seconds
+  read_data CPU = 0.002 seconds
 replicate         $x $y $z bbox
 replicate         2 $y $z bbox
 replicate         2 2 $z bbox
@@ -90,20 +90,20 @@ Step Temp PotEng Press E_vdwl E_coul Volume
       80    293.58678   -113.25831    5993.3486   -111.55946   -1.6988534    27418.867 
       90    300.62637   -113.27925    7202.8296   -111.58069   -1.6985592    27418.867 
      100    305.38276   -113.29357    10085.732   -111.59518   -1.6983875    27418.867 
-Loop time of 18.4734 on 4 procs for 100 steps with 2432 atoms
+Loop time of 17.1899 on 4 procs for 100 steps with 2432 atoms
 
-Performance: 0.047 ns/day, 513.150 hours/ns, 5.413 timesteps/s
-93.8% CPU use with 4 MPI tasks x 1 OpenMP threads
+Performance: 0.050 ns/day, 477.497 hours/ns, 5.817 timesteps/s
+94.1% CPU use with 4 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 7.579      | 12.401     | 15.242     |  82.4 | 67.13
-Neigh   | 0.18184    | 0.25976    | 0.29116    |   8.9 |  1.41
-Comm    | 0.016412   | 2.8582     | 7.6801     | 171.7 | 15.47
-Output  | 0.00037484 | 0.00045241 | 0.00057882 |   0.0 |  0.00
-Modify  | 2.9218     | 2.9528     | 3.0309     |   2.6 | 15.98
-Other   |            | 0.001449   |            |       |  0.01
+Pair    | 6.7182     | 11.431     | 14.179     |  83.7 | 66.50
+Neigh   | 0.15886    | 0.24299    | 0.27946    |   9.9 |  1.41
+Comm    | 0.013885   | 2.7619     | 7.4752     | 170.3 | 16.07
+Output  | 0.00032708 | 0.00039976 | 0.00052153 |   0.0 |  0.00
+Modify  | 2.7148     | 2.7519     | 2.8364     |   3.0 | 16.01
+Other   |            | 0.001367   |            |       |  0.01
 
 Nlocal:        608.000 ave         612 max         604 min
 Histogram: 1 0 0 0 0 2 0 0 0 1
@@ -116,4 +116,4 @@ Total # of neighbors = 926155
 Ave neighs/atom = 380.82031
 Neighbor list builds = 5
 Dangerous builds not checked
-Total wall time: 0:00:18
+Total wall time: 0:00:17
