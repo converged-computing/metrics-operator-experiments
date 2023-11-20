@@ -16,9 +16,10 @@ and using the ORAS operator to push and save them to a local registry. We will b
 First, create a test cluster.
 
 ```bash
-kind create cluster
+kind create cluster --config ./kind-config.yaml
 ```
 
+Note that I struggled with creating ingress for a while because Kind needs additions for it to work (in that file).
 Install the metrics operator and oras operator:
 
 ```bash
@@ -54,7 +55,8 @@ This means we will have two output files from hwloc (png and xml), a lammps log 
 To test:
 
 ```bash
-kubectl apply -f ./metrics/test
+kubectl apply -f ./metrics/test/hwloc-iter-0.yaml  
+kubectl apply -f ./metrics/test/lammps-iter-0.yaml
 ```
 
 You should see the lammps run and the registry push in logs.
@@ -63,13 +65,14 @@ You should see the lammps run and the registry push in logs.
 kubectl logs lammps-0-l-0-0-7ppcg -c launcher
 kubectl logs lammps-0-l-0-0-7ppcg -c oras
 ```
+
 Same for hwloc
 
 ```bash
-kubectl logs hwloc-0-m-0-0-nh66b 
+kubectl logs hwloc-0-m-0-0-nh66b
 ```
 
-Try pulling the output for each
+Try pulling the output for each. Here is how to do a simple port-forward (works for small artifacts):
 
 ```bash
 # Do this in a different terminal
@@ -91,6 +94,72 @@ Now that we are sure the data is there, we can delete everything.
 cd ../../
 kubectl delete -f ./metrics/test/
 ```
+
+## HPCToolkit
+
+We can test running hpctoolkit to generate larger artifacts, and then use a proper ingress to
+download from the registry. After creating the cluster, apply the hpctoolkit yaml:
+
+```bash
+kubectl apply -f metrics/test/hpctoolkit-iter-0.yaml
+```
+
+We then want to create a service to access the registry (make sure to close the port forward):
+
+```bash
+kubectl apply -f metrics/ingress.yaml
+```
+```console
+$ kubectl describe ingress
+Name:             oras-ingress
+Labels:           <none>
+Namespace:        default
+Address:          
+Ingress Class:    <none>
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  localhost   
+              /   oras-service:5000 (10.244.0.12:5000)
+Annotations:  <none>
+Events:       <none>
+```
+
+We are then going to apply [ingress-nginx](https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx).
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
+```
+
+To then pull:
+
+```bash
+oras repo list localhost:5000
+```
+```console
+$ oras repo list localhost
+metric/hpctoolkit-test
+
+$ oras repo tags localhost/metric/hpctoolkit-test
+iter-2
+```
+
+Try pulling the chonker!
+
+```bash
+oras pull localhost/metric/hpctoolkit-test:iter-2 --insecure -o ./metrics/test/hpctoolkit.tar.gz
+```
+
+### TODO
+
+- we should be able to define multiple addons to the same lammps run (test with lammps and hpctoolkit)
+- add hpctoolkit to the set to run, when this is possible.
+- merge prs to metrics / oras operators when the above is done.
 
 ## Experiments
 
