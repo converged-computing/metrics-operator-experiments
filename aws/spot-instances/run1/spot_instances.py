@@ -13,14 +13,12 @@
 import argparse
 import os
 import sys
-import boto3
 import statistics
 
 import pandas
 
 from cloudselect.logger import setup_logger
 from cloudselect.main import Client
-import cloudselect.utils as utils
 
 here = os.path.dirname(os.path.abspath(__file__))
 
@@ -158,11 +156,15 @@ def select_instances(
     number=None,
     has_gpu=False,
     max_price=None,
+    max_spot_price=None,
     randomize=False,
     bare_metal=False,
+    hypervisor=None,
 ):
     """
     Given a csv of data, filter down / sort and show final set.
+
+    Arch defaults to x86_64 and gpu none
     """
     if not os.path.exists(datafile):
         sys.exit(f"Input data table {datafile} does not exist.")
@@ -186,6 +188,10 @@ def select_instances(
         subset = subset[subset.memory_mb <= max_mem]
     if max_price:
         subset = subset[subset.price <= max_price]
+    if max_spot_price:
+        subset = subset[subset.spot_price <= max_spot_price]
+    if hypervisor:
+        subset = subset[subset.hypervisor == hypervisor]
 
     if bare_metal:
         subset = subset[subset.bare_metal == True]
@@ -200,23 +206,25 @@ def select_instances(
 
     instance_names = list(sorted_df.instance.values)
 
+    # Show the user the maximum price in the current set
+    max_spot = sorted_df.spot_price.max()
+    min_spot = sorted_df.spot_price.min()
+    print(f"\n☝️  Max spot price: {max_spot}")
+    print(f"👇️ Min spot price: {min_spot}")
+
     # Honor a user threshold, if set
     if number and len(instance_names) > number:
         instance_names = instance_names[:number]
 
     sorted_df = sorted_df[sorted_df.instance.isin(instance_names)]
-    print("Selected subset table:")
+    print("\n😸️ Filtered selection of spot:")
     print(sorted_df)
 
-    print("\n😸️ Final selection of spot:")
-    for instance_name in instance_names:
-        print(instance_name)
-
     # Give mean cost and std
-    print("\n🤓️ Mean (std) of price")
+    print("\n🤓️ Mean (std) of spot price")
     mean = round(sorted_df.spot_price.mean(), 2)
     std = round(sorted_df.spot_price.std(), 2)
-    print(f"${mean} (${std})")
+    print(f"${mean} (${std})\n")
     return sorted_df
 
 
@@ -319,6 +327,7 @@ def instances_to_table(instances, lookup):
             "vcpu",
             "threads_per_core",
             "memory_mb",
+            "hypervisor",
             "gpu",
             "spot_price",
             "price",
@@ -340,6 +349,19 @@ def instances_to_table(instances, lookup):
             gpu = "GpuInfo" in i
             price = lookup.get(i["InstanceType"])["price"]
             spot_price = lookup.get(i["InstanceType"])["spot_price"]
+            hypervisor = i.get("Hypervisor")
+
+            # If 1 thread not possible, don't include
+            if cpus["DefaultThreadsPerCore"] != 1:
+                if (
+                    "ValidThreadsPerCore" not in cpus
+                    or 1 not in cpus["ValidThreadsPerCore"]
+                ):
+                    print(
+                        f'Skipping {i["InstanceType"]}, does not support 1 thread per core.'
+                    )
+                    continue
+
             df.loc[idx, :] = [
                 i["InstanceType"],
                 i["BareMetal"],
@@ -347,6 +369,7 @@ def instances_to_table(instances, lookup):
                 cpus["DefaultVCpus"],
                 cpus["DefaultThreadsPerCore"],
                 i["MemoryInfo"]["SizeInMiB"],
+                hypervisor,
                 gpu,
                 spot_price,
                 price,

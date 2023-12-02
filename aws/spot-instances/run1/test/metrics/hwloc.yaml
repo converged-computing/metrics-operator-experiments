@@ -1,0 +1,29 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MetricSet
+metadata:
+  labels:
+    app.kubernetes.io/name: metricset
+    app.kubernetes.io/instance: metricset-sample
+  name: metricset-sample
+spec:
+  pods: 1
+  serviceName: oras
+  pod:
+    nodeSelector:
+      node.kubernetes.io/instance-type: "[[MACHINE]]"
+  pod:
+    annotations:
+     oras.converged-computing.github.io/oras-cache: oras
+     oras.converged-computing.github.io/registry: ghcr.io
+     oras.converged-computing.github.io/output-uri: manbat/metrics-operator-results:hwloc-[[TAG]]
+     oras.converged-computing.github.io/oras-env: oras-env
+     oras.converged-computing.github.io/output-path: /tmp/analysis
+     oras.converged-computing.github.io/debug: "true"
+
+  metrics:
+    - name: sys-hwloc            
+      listOptions:
+        command:
+          - mkdir -p /tmp/analysis
+          - lstopo /tmp/analysis/architecture.png
+          - hwloc-ls /tmp/analysis/machine.xml

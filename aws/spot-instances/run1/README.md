@@ -35,7 +35,33 @@ For the steps below (and experiments) you should install requirements.txt.
 pip install -r requirements.txt
 ```
 
-Ideally from a virtual environment or similar.
+The [topology API](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/describe_instance_topology.html) for aws is newer, so ensure you have the latest boto3:
+
+```bash
+pip install --upgrade boto3
+```
+
+Ideally from a virtual environment or similar. You'll also need this kubectl plugin:
+
+```bash
+curl -LO https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell
+chmod +x ./kubectl-node_shell
+sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
+```
+
+### Custom Resource Definitions
+
+We will save hard copies of CRDs here for attempted reproducibility. Yes, the underlying containers might change (but we will do our best to be consistent)! Note that I tried to get versioned releases of each. Here is how this directory was generated:
+
+```console
+VERSION=v0.2.1
+wget -O jobset-operator.yaml https://github.com/kubernetes-sigs/jobset/releases/download/$VERSION/manifests.yaml
+wget https://github.com/converged-computing/metrics-operator/releases/download/0.1.13-1/metrics-operator.yaml
+wget https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml
+wget https://github.com/converged-computing/oras-operator/releases/download/0.0.11/oras-operator.yaml
+```
+
+These files can be used / shared between for the experiments here.
 
 ### Instance Selection
 

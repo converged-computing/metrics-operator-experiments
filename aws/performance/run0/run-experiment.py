@@ -22,7 +22,6 @@ hpctoolkit_template = utils.read_file(os.path.join(templates, "hpctoolkit.yaml")
 # This is hard coded for a small kubectl cluster size (local with kind)
 # And assumes the cluster is running with the metrics and oras operators installed.
 
-
 def get_parser():
     parser = argparse.ArgumentParser(
         description="Performance Experiment Running",

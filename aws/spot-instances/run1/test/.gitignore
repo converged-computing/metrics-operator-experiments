@@ -1,0 +1,4 @@
+*.pem
+aws-auth-config.yaml
+kubeconfig-aws.yaml
+.env

@@ -1,2 +1,5 @@
 kubescaler
 pandas
+metricsoperator
+cloudselect
+boto3
