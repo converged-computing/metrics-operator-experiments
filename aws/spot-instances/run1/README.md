@@ -24,6 +24,8 @@ With the above we can calculate cost as:
 total cost = 20 batches x 1 selection of nodes x 20 runs x [TIME TO RUN EXPERIMENT] seconds
 ```
 
+Also note that I've designed the experiments to have two managed node groups - one has just one node (small and inexpensive) to run the operators (and not go away) and the others are intended for spot. The CPU requirement for the spot is much higher than the operators so the jobs won't be scheduled on that node, but you could imagine putting other taints / etc. in place to more properly ensure that.
+
 We will likely need to do some tests to estimate time to run for different sizes to properly prepare for this.
 From Rajib we know that hpc7g (128 vCPU) were between 110-120 seconds, and hpc6a (192 vCPU) were 82-86 seconds. But I tested hpc7g earlier and it was much slower, so I think we probably need to do some new test runs.
 

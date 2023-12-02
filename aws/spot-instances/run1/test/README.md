@@ -14,6 +14,9 @@ We are going to test the following sizes:
  - 192 vCPU
  - 64 vCPU
 
+## Notes from V
+
+It would be ideal to not have to manually disable hyper-threading. I've [posted to AWS about this]() and am aware eksctl can run a step at boot (that might be useful for a future experiment setup). I also think we would be better off having one node that is explicitly for operators. E.g., if we lose our spot instance that has the operators installed, we have to re-install (and that's not great).  That will add additional complexity, but if/when we go that route we will need to:
 
 ## Experiment Plan
 
