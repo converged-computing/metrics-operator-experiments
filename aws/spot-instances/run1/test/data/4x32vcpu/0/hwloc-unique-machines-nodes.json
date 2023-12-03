@@ -1,0 +1,195 @@
+{
+    "c6in.8xlarge": {
+        "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "c6in.8xlarge",
+            "beta.kubernetes.io/os": "linux",
+            "eks.amazonaws.com/capacityType": "SPOT",
+            "eks.amazonaws.com/nodegroup": "spot-instance-testing-cluster-worker-group",
+            "eks.amazonaws.com/nodegroup-image": "ami-01b27980d69f7f2aa",
+            "failure-domain.beta.kubernetes.io/region": "us-east-2",
+            "failure-domain.beta.kubernetes.io/zone": "us-east-2a",
+            "k8s.io/cloud-provider-aws": "ec936b79015edfddbe945fec5d1302d6",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "ip-192-168-146-122.us-east-2.compute.internal",
+            "kubernetes.io/os": "linux",
+            "node.kubernetes.io/instance-type": "c6in.8xlarge",
+            "topology.kubernetes.io/region": "us-east-2",
+            "topology.kubernetes.io/zone": "us-east-2a"
+        },
+        "name": "ip-192-168-146-122.us-east-2.compute.internal",
+        "capacity": {
+            "cpu": "32",
+            "ephemeral-storage": "20959212Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "64788112Ki",
+            "pods": "234"
+        },
+        "info": {
+            "architecture": "amd64",
+            "boot_id": "50a12585-8879-49dc-adfd-50d3926c4073",
+            "container_runtime_version": "containerd://1.6.19",
+            "kernel_version": "5.10.198-187.748.amzn2.x86_64",
+            "kube_proxy_version": "v1.27.7-eks-e71965b",
+            "kubelet_version": "v1.27.7-eks-e71965b",
+            "machine_id": "ec2f1599dbee1d33acae4946756a00a9",
+            "operating_system": "linux",
+            "os_image": "Amazon Linux 2",
+            "system_uuid": "ec2f1599-dbee-1d33-acae-4946756a00a9"
+        },
+        "allocatable": {
+            "cpu": "31850m",
+            "ephemeral-storage": "18242267924",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "61788816Ki",
+            "pods": "234"
+        }
+    },
+    "c6i.8xlarge": {
+        "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "c6i.8xlarge",
+            "beta.kubernetes.io/os": "linux",
+            "eks.amazonaws.com/capacityType": "SPOT",
+            "eks.amazonaws.com/nodegroup": "spot-instance-testing-cluster-worker-group",
+            "eks.amazonaws.com/nodegroup-image": "ami-01b27980d69f7f2aa",
+            "failure-domain.beta.kubernetes.io/region": "us-east-2",
+            "failure-domain.beta.kubernetes.io/zone": "us-east-2b",
+            "k8s.io/cloud-provider-aws": "ec936b79015edfddbe945fec5d1302d6",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "ip-192-168-211-217.us-east-2.compute.internal",
+            "kubernetes.io/os": "linux",
+            "node.kubernetes.io/instance-type": "c6i.8xlarge",
+            "topology.kubernetes.io/region": "us-east-2",
+            "topology.kubernetes.io/zone": "us-east-2b"
+        },
+        "name": "ip-192-168-211-217.us-east-2.compute.internal",
+        "capacity": {
+            "cpu": "32",
+            "ephemeral-storage": "20959212Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "64788120Ki",
+            "pods": "234"
+        },
+        "info": {
+            "architecture": "amd64",
+            "boot_id": "88f21b49-30e7-4c21-8aeb-312688d090e9",
+            "container_runtime_version": "containerd://1.6.19",
+            "kernel_version": "5.10.198-187.748.amzn2.x86_64",
+            "kube_proxy_version": "v1.27.7-eks-e71965b",
+            "kubelet_version": "v1.27.7-eks-e71965b",
+            "machine_id": "ec24c6f75ababf3de9f56a18f74b2815",
+            "operating_system": "linux",
+            "os_image": "Amazon Linux 2",
+            "system_uuid": "ec24c6f7-5aba-bf3d-e9f5-6a18f74b2815"
+        },
+        "allocatable": {
+            "cpu": "31850m",
+            "ephemeral-storage": "18242267924",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "61788824Ki",
+            "pods": "234"
+        }
+    },
+    "r5dn.8xlarge": {
+        "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "r5dn.8xlarge",
+            "beta.kubernetes.io/os": "linux",
+            "eks.amazonaws.com/capacityType": "SPOT",
+            "eks.amazonaws.com/nodegroup": "spot-instance-testing-cluster-worker-group",
+            "eks.amazonaws.com/nodegroup-image": "ami-01b27980d69f7f2aa",
+            "failure-domain.beta.kubernetes.io/region": "us-east-2",
+            "failure-domain.beta.kubernetes.io/zone": "us-east-2b",
+            "k8s.io/cloud-provider-aws": "ec936b79015edfddbe945fec5d1302d6",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "ip-192-168-253-115.us-east-2.compute.internal",
+            "kubernetes.io/os": "linux",
+            "node.kubernetes.io/instance-type": "r5dn.8xlarge",
+            "topology.kubernetes.io/region": "us-east-2",
+            "topology.kubernetes.io/zone": "us-east-2b"
+        },
+        "name": "ip-192-168-253-115.us-east-2.compute.internal",
+        "capacity": {
+            "cpu": "32",
+            "ephemeral-storage": "20959212Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "261035580Ki",
+            "pods": "234"
+        },
+        "info": {
+            "architecture": "amd64",
+            "boot_id": "ca69e6dd-a410-4c41-baae-c1e57ff81ca3",
+            "container_runtime_version": "containerd://1.6.19",
+            "kernel_version": "5.10.198-187.748.amzn2.x86_64",
+            "kube_proxy_version": "v1.27.7-eks-e71965b",
+            "kubelet_version": "v1.27.7-eks-e71965b",
+            "machine_id": "ec2f4f4c20bc20669588fdee52ea7595",
+            "operating_system": "linux",
+            "os_image": "Amazon Linux 2",
+            "system_uuid": "ec2f4f4c-20bc-2066-9588-fdee52ea7595"
+        },
+        "allocatable": {
+            "cpu": "31850m",
+            "ephemeral-storage": "18242267924",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "258036284Ki",
+            "pods": "234"
+        }
+    },
+    "m5.8xlarge": {
+        "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "m5.8xlarge",
+            "beta.kubernetes.io/os": "linux",
+            "eks.amazonaws.com/capacityType": "ON_DEMAND",
+            "eks.amazonaws.com/nodegroup": "sticky-node",
+            "eks.amazonaws.com/nodegroup-image": "ami-01b27980d69f7f2aa",
+            "failure-domain.beta.kubernetes.io/region": "us-east-2",
+            "failure-domain.beta.kubernetes.io/zone": "us-east-2a",
+            "k8s.io/cloud-provider-aws": "ec936b79015edfddbe945fec5d1302d6",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "ip-192-168-53-156.us-east-2.compute.internal",
+            "kubernetes.io/os": "linux",
+            "node.kubernetes.io/instance-type": "m5.8xlarge",
+            "sticky": "yes",
+            "topology.kubernetes.io/region": "us-east-2",
+            "topology.kubernetes.io/zone": "us-east-2a"
+        },
+        "name": "ip-192-168-53-156.us-east-2.compute.internal",
+        "capacity": {
+            "cpu": "32",
+            "ephemeral-storage": "20959212Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "130389628Ki",
+            "pods": "234"
+        },
+        "info": {
+            "architecture": "amd64",
+            "boot_id": "129e1469-27a6-4891-93d7-dfc5591d0150",
+            "container_runtime_version": "containerd://1.6.19",
+            "kernel_version": "5.10.198-187.748.amzn2.x86_64",
+            "kube_proxy_version": "v1.27.7-eks-e71965b",
+            "kubelet_version": "v1.27.7-eks-e71965b",
+            "machine_id": "ec26aa8e495c2cdff1d9bf63f8a045f7",
+            "operating_system": "linux",
+            "os_image": "Amazon Linux 2",
+            "system_uuid": "ec26aa8e-495c-2cdf-f1d9-bf63f8a045f7"
+        },
+        "allocatable": {
+            "cpu": "31850m",
+            "ephemeral-storage": "18242267924",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "127390332Ki",
+            "pods": "234"
+        }
+    }
+}

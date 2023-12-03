@@ -1,0 +1,126 @@
+sh: apt-get: command not found
+sh: apk: command not found
+Rocky Linux 8 - AppS     [===                 ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - AppStream                        47 kB/s | 4.8 kB     00:00    
+Rocky Linux 8 - AppS     [===                 ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - AppS     [   ===              ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - AppS 12% [==-                 ] 3.5 MB/s | 1.1 MB     00:02 ETARocky Linux 8 - AppS 26% [=====               ] 3.6 MB/s | 2.5 MB     00:01 ETARocky Linux 8 - AppS 41% [========            ] 3.6 MB/s | 4.0 MB     00:01 ETARocky Linux 8 - AppS 53% [==========-         ] 3.6 MB/s | 5.1 MB     00:01 ETARocky Linux 8 - AppS 59% [===========-        ] 3.5 MB/s | 5.7 MB     00:01 ETARocky Linux 8 - AppS 67% [=============       ] 3.5 MB/s | 6.4 MB     00:00 ETARocky Linux 8 - AppS 75% [===============     ] 3.4 MB/s | 7.2 MB     00:00 ETARocky Linux 8 - AppS 86% [=================   ] 3.4 MB/s | 8.2 MB     00:00 ETARocky Linux 8 - AppS 98% [===================-] 3.4 MB/s | 9.4 MB     00:00 ETARocky Linux 8 - AppStream                       3.1 MB/s | 9.5 MB     00:03    
+Rocky Linux 8 - Base     [      ===           ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - BaseOS                           40 kB/s | 4.3 kB     00:00    
+Rocky Linux 8 - Base     [         ===        ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - BaseOS                           13 MB/s | 3.9 MB     00:00    
+Rocky Linux 8 - Extr     [            ===     ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - Extras                           25 kB/s | 3.1 kB     00:00    
+Rocky Linux 8 - Extr     [               ===  ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - Extras                           80 kB/s |  14 kB     00:00    
+Rocky Linux 8 - Powe     [===                 ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - PowerTools                       53 kB/s | 4.8 kB     00:00    
+Rocky Linux 8 - Powe     [===                 ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - Powe     [   ===              ] ---  B/s |   0  B     --:-- ETARocky Linux 8 - Powe 37% [=======             ] 3.0 MB/s | 962 kB     00:00 ETARocky Linux 8 - Powe 65% [=============       ] 3.0 MB/s | 1.7 MB     00:00 ETARocky Linux 8 - Powe 86% [=================   ] 2.9 MB/s | 2.2 MB     00:00 ETARocky Linux 8 - PowerTools                      1.7 MB/s | 2.5 MB     00:01    
+Extra Packages for E     [      ===           ] ---  B/s |   0  B     --:-- ETAExtra Packages for Enterprise Linux 8 - x86_64  108 kB/s |  15 kB     00:00    
+Extra Packages for E     [         ===        ] ---  B/s |   0  B     --:-- ETAExtra Packages for Enterprise Linux 8 - x86_64   45 MB/s |  16 MB     00:00    
+Package wget-1.19.5-11.el8.x86_64 is already installed.
+Package bash-4.4.20-4.el8_6.x86_64 is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+--2023-12-03 06:04:56--  https://raw.githubusercontent.com/converged-computing/oras-operator/main/hack/entrypoint.sh
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1547 (1.5K) [text/plain]
+Saving to: ‘oras-run-application.sh’
+oras-run-applicatio   0%[                    ]       0  --.-KB/s               oras-run-applicatio 100%[===================>]   1.51K  --.-KB/s    in 0s      
+2023-12-03 06:04:56 (43.7 MB/s) - ‘oras-run-application.sh’ saved [1547/1547]
+Expecting: <artifact-input> <artifact-output> <command>...
+Full provided set of arguments are NA NA /opt/lammps/examples/reaxff/HNS /bin/bash /metrics_operator/launcher.sh
+Command is /bin/bash /metrics_operator/launcher.sh
+Pipe to is NA
+Artifact input is NA
+Artifact output is /opt/lammps/examples/reaxff/HNS
+🟧️  wait-fs: 2023/12/03 06:04:56 wait-fs.go:40: /mnt/oras/oras-operator-init.txt
+🟧️  wait-fs: 2023/12/03 06:04:56 wait-fs.go:49: Found existing path /mnt/oras/oras-operator-init.txt
+inputs	oras-operator-init.txt	oras-run-cache.sh  outputs
+cp: cannot stat '/mnt/oras/inputs/*': No such file or directory
+METADATA START {"pods":4,"metricName":"app-lammps","metricDescription":"LAMMPS molecular dynamic simulation","metricOptions":{"command":"/opt/intel/mpi/2021.8.0/bin/mpirun --hostfile ./hostlist.txt -np 16 --map-by socket lmp -v x 2 -v y 2 -v z 2 -in in.reaxc.hns -nocite  2\u003e\u00261 | tee -a lammps.out","soleTenancy":"false","workdir":"/opt/lammps/examples/reaxff/HNS"}}
+METADATA END
+Sleeping for 10 seconds waiting for network...
+METRICS OPERATOR COLLECTION START
+METRICS OPERATOR TIMEPOINT
+ADDON METADATA START {"pods":0,"metricName":"perf-mpitrace","metricOptions":{"command":"","entrypoint":"/metrics_operator/-entrypoint.sh","image":"ghcr.io/converged-computing/metric-mpitrace:rocky","mount":"/opt/mnt","privileged":"false","workdir":"/opt/lammps/examples/reaxff/HNS"}}
+ADDON METADATA END
+🟧️  wait-fs: 2023/12/03 06:05:06 wait-fs.go:40: /opt/mnt/software
+🟧️  wait-fs: 2023/12/03 06:05:06 wait-fs.go:49: Found existing path /opt/mnt/software
+🟧️  wait-fs: 2023/12/03 06:05:16 wait-fs.go:40: /opt/mnt/metrics-operator-done.txt
+🟧️  wait-fs: 2023/12/03 06:05:16 wait-fs.go:49: Found existing path /opt/mnt/metrics-operator-done.txt
+METRICS OPERATOR COLLECTION START
+METRICS OPERATOR TIMEPOINT
+Changing directory to /opt/lammps/examples/reaxff/HNS
+LAMMPS (29 Sep 2021 - Update 2)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+Reading data file ...
+  triclinic box = (0.0000000 0.0000000 0.0000000) to (22.326000 11.141200 13.778966) with tilt (0.0000000 -5.0260300 0.0000000)
+  4 by 2 by 2 MPI processor grid
+  reading atoms ...
+  304 atoms
+  reading velocities ...
+  304 velocities
+  read_data CPU = 0.002 seconds
+Replicating atoms ...
+  triclinic box = (0.0000000 0.0000000 0.0000000) to (44.652000 22.282400 27.557932) with tilt (0.0000000 -10.052060 0.0000000)
+  4 by 2 by 2 MPI processor grid
+  bounding box image = (0 -1 -1) to (0 1 1)
+  bounding box extra memory = 0.03 MB
+  average # of replicas added to proc = 4.50 out of 8 (56.25%)
+  2432 atoms
+  replicate CPU = 0.002 seconds
+Neighbor list info ...
+  update every 20 steps, delay 0 steps, check no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 11
+  ghost atom cutoff = 11
+  binsize = 5.5, bins = 10 5 6
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: full/ghost/bin/3d
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Setting up Verlet run ...
+  Unit style    : real
+  Current step  : 0
+  Time step     : 0.1
+Per MPI rank memory allocation (min/avg/max) = 58.81 | 59.37 | 59.93 Mbytes
+Step Temp PotEng Press E_vdwl E_coul Volume 
+       0          300   -113.27833    437.52549   -111.57687   -1.7014647    27418.867 
+      10    299.38517   -113.27631    1439.2553   -111.57492   -1.7013814    27418.867 
+      20    300.27108   -113.27884     3764.369   -111.57762   -1.7012246    27418.867 
+      30    302.21064   -113.28428    7007.6658   -111.58335   -1.7009363    27418.867 
+      40    303.52264   -113.28799    9844.7932   -111.58747   -1.7005187    27418.867 
+      50    301.87059   -113.28324    9663.0548   -111.58318   -1.7000523    27418.867 
+      60    296.67808   -113.26777    7273.8377   -111.56815   -1.6996136    27418.867 
+      70    292.19999   -113.25435    5533.6072   -111.55514   -1.6992157    27418.867 
+      80    293.58677   -113.25831    5993.3768   -111.55946   -1.6988534    27418.867 
+      90    300.62635   -113.27925    7202.8866   -111.58069   -1.6985591    27418.867 
+     100    305.38276   -113.29357     10085.75   -111.59518   -1.6983875    27418.867 
+Loop time of 9.18052 on 16 procs for 100 steps with 2432 atoms
+Performance: 0.094 ns/day, 255.014 hours/ns, 10.893 timesteps/s
+58.6% CPU use with 16 MPI tasks x 1 OpenMP threads
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 5.3652     | 6.4026     | 7.6249     |  23.3 | 69.74
+Neigh   | 0.13189    | 0.14768    | 0.18087    |   4.8 |  1.61
+Comm    | 0.080649   | 1.3033     | 2.3408     |  51.6 | 14.20
+Output  | 0.00038972 | 0.00041966 | 0.00061486 |   0.0 |  0.00
+Modify  | 1.293      | 1.3261     | 1.3417     |   1.6 | 14.44
+Other   |            | 0.0004399  |            |       |  0.00
+Nlocal:        152.000 ave         155 max         148 min
+Histogram: 2 1 1 0 2 2 0 2 5 1
+Nghost:        3415.38 ave        3436 max        3392 min
+Histogram: 2 1 4 0 1 0 1 1 3 3
+Neighs:        65389.3 ave       66597 max       63714 min
+Histogram: 2 1 1 0 2 2 0 2 5 1
+Total # of neighbors = 1046229
+Ave neighs/atom = 430.19285
+Neighbor list builds = 5
+Dangerous builds not checked
+Total wall time: 0:00:09
+METRICS OPERATOR COLLECTION END

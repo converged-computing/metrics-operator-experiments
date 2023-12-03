@@ -16,7 +16,8 @@ We are going to test the following sizes:
 
 ## Notes from V
 
-It would be ideal to not have to manually disable hyper-threading. I've [posted to AWS about this]() and am aware eksctl can run a step at boot (that might be useful for a future experiment setup). I also think we would be better off having one node that is explicitly for operators. E.g., if we lose our spot instance that has the operators installed, we have to re-install (and that's not great).  That will add additional complexity, but if/when we go that route we will need to:
+- It would be ideal to not have to manually disable hyper-threading. I've [posted to AWS about this](https://github.com/aws/containers-roadmap/issues/2225) and am aware eksctl can run a step at boot (that might be useful for a future experiment setup). I also think we would be better off having one node that is explicitly for operators. E.g., if we lose our spot instance that has the operators installed, we have to re-install (and that's not great).  That will add additional complexity, but if/when we go that route we will need to:
+- I think as we increase the size of a spot job, there will be a higher chance of failure (since one job == failure). E.g., 4 spot nodes are more likely to be successful than 8.
 
 ## Experiment Plan
 
@@ -122,5 +123,38 @@ Note that most metal instances are filtered out per threading.
 Here was a testing run:
 
 ```bash
-python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem
+python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem --iters 10
 ```
+```console
+🥞️ Attempting delete of node group spot-instance-testing-cluster-worker-group...
+Node group spot-instance-testing-cluster-worker-group is deleted successfully
+Experiments are done! Next, use ORAS to pull artifacts.
+🥞️ Attempting delete of node group sticky-node...
+Node group sticky-node is deleted successfully
+🥞️ Attempting delete of node group spot-instance-testing-cluster-worker-group...
+✖️  Node Group spot-instance-testing-cluster-worker-group does not exist.
+⏳️ Cluster deletion started! Waiting...
+🥅️ Deleting VPC and associated assets...
+🥞️ Attempting delete of stack spot-instance-testing-cluster-vpc...
+⭐️ Done!
+total time to run is 2286.7317328453064 seconds
+```
+
+If you are lucky (?) I suspect this means not losing a node in the middle of the run, it will
+finish without issue. And then to download oras results (with your credentials):
+
+```
+mkdir -p ./data/4x32vcpu
+# Here is just an example
+for tag in $(oras repo tags -u $ORAS_USER -p $ORAS_PASS ghcr.io/manbat/metrics-operator-results); do
+   mkdir -p ${tag}
+   cd ${tag}
+   oras pull -u $ORAS_USER -p $ORAS_PASS ghcr.io/manbat/metrics-operator-results:${tag} ${tag}.tar.gz
+   tar -xzvf ${tag}
+   cd -
+done
+```
+
+Note that we will want to create a directory for each tag, and to extract there. The result has
+MPI trace and lammps log and hwloc! I just extracted one of each as an example.
+

@@ -1,0 +1,19 @@
+{
+    "ip-192-168-146-122.us-east-2.compute.internal": {
+        "noticed_appearance_time": 1701583159.1368368
+    },
+    "ip-192-168-161-214.us-east-2.compute.internal": {
+        "noticed_appearance_time": 1701583176.6028142
+    },
+    "ip-192-168-244-208.us-east-2.compute.internal": {
+        "noticed_appearance_time": 1701583194.3540423,
+        "noticed_disappeared_time": 1701583676.7511134,
+        "elapsed_time": 482.39707112312317
+    },
+    "ip-192-168-253-115.us-east-2.compute.internal": {
+        "noticed_appearance_time": 1701583212.0362012
+    },
+    "ip-192-168-211-217.us-east-2.compute.internal": {
+        "noticed_appearance_time": 1701583320.589982
+    }
+}

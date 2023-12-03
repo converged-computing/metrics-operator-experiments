@@ -1,0 +1,140 @@
+{
+    "name": "4x32vcpu",
+    "times": {
+        "create_vpc_stack-size-4": 152.272,
+        "new_cluster-size-4": 545.08,
+        "create_cluster": 698.362,
+        "persistent-node-group-create-size-1": 92.258,
+        "create_nodegroup-size-4": 92.465,
+        "wait_for_nodes-size-4": 5.166,
+        "create_cluster_nodes-size-4": 98.078
+    },
+    "nodes": 4,
+    "cluster_name": "spot-instance-testing-cluster",
+    "metadata": {
+        "runs": [],
+        "plan": {
+            "vcpu": 32,
+            "name": "4x32vcpu",
+            "max-instance-types": 4,
+            "filter-instance-types": 20,
+            "max-spot-price": 2,
+            "lammps": {
+                "[[CPU]]": 10,
+                "[[X]]": 2,
+                "[[Y]]": 2,
+                "[[Z]]": 2,
+                "[[NP]]": 16,
+                "[[NODES]]": 4
+            }
+        },
+        "filter_instance_types": 20,
+        "max_instance_types": 4,
+        "max_spot_price": 2,
+        "bare_metal": false,
+        "arch": "x86_64",
+        "has_gpu": false
+    },
+    "machine_types": [
+        "c6i.8xlarge",
+        "m5a.8xlarge",
+        "c6in.8xlarge",
+        "r5dn.8xlarge"
+    ],
+    "mean_price": 1.8056,
+    "std_price": 0.6147741916075095,
+    "selected_for_request": [
+        {
+            "instance": "c6i.8xlarge",
+            "bare_metal": false,
+            "arch": "x86_64",
+            "vcpu": 32,
+            "threads_per_core": 2,
+            "memory_mb": 65536,
+            "hypervisor": "nitro",
+            "gpu": false,
+            "spot_price": 0.67806,
+            "price": 1.36
+        },
+        {
+            "instance": "m5a.8xlarge",
+            "bare_metal": false,
+            "arch": "x86_64",
+            "vcpu": 32,
+            "threads_per_core": 2,
+            "memory_mb": 131072,
+            "hypervisor": "nitro",
+            "gpu": false,
+            "spot_price": 0.73026,
+            "price": 1.376
+        },
+        {
+            "instance": "c6in.8xlarge",
+            "bare_metal": false,
+            "arch": "x86_64",
+            "vcpu": 32,
+            "threads_per_core": 2,
+            "memory_mb": 65536,
+            "hypervisor": "nitro",
+            "gpu": false,
+            "spot_price": 0.94588,
+            "price": 1.8144
+        },
+        {
+            "instance": "r5dn.8xlarge",
+            "bare_metal": false,
+            "arch": "x86_64",
+            "vcpu": 32,
+            "threads_per_core": 2,
+            "memory_mb": 262144,
+            "hypervisor": "nitro",
+            "gpu": false,
+            "spot_price": 1.87166,
+            "price": 2.672
+        }
+    ],
+    "topology": [
+        {
+            "type": "c6in.8xlarge",
+            "zone": "us-east-2a",
+            "region": "us-east-2",
+            "name": "ip-192-168-146-122.us-east-2.compute.internal"
+        },
+        {
+            "type": "c6in.8xlarge",
+            "zone": "us-east-2a",
+            "region": "us-east-2",
+            "name": "ip-192-168-161-214.us-east-2.compute.internal"
+        },
+        {
+            "type": "m5a.8xlarge",
+            "zone": "us-east-2b",
+            "region": "us-east-2",
+            "name": "ip-192-168-244-208.us-east-2.compute.internal"
+        },
+        {
+            "type": "r5dn.8xlarge",
+            "zone": "us-east-2b",
+            "region": "us-east-2",
+            "name": "ip-192-168-253-115.us-east-2.compute.internal"
+        },
+        {
+            "type": "m5.8xlarge",
+            "zone": "us-east-2a",
+            "region": "us-east-2",
+            "name": "ip-192-168-53-156.us-east-2.compute.internal"
+        }
+    ],
+    "lammps": {
+        "wrapped_times": {
+            "iter-0-3": 89.95036602020264,
+            "iter-0-4": 62.86678218841553,
+            "iter-0-5": 62.9897780418396,
+            "iter-0-6": 74.26914310455322,
+            "iter-0-7": 70.8314483165741,
+            "iter-0-8": 62.419551849365234,
+            "iter-0-9": 69.02854204177856
+        },
+        "iters_killed": []
+    }
+}

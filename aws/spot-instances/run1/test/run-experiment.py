@@ -4,7 +4,6 @@ import argparse
 import copy
 import json
 import os
-import threading
 import random
 import time
 import sys
@@ -25,13 +24,11 @@ lammps_template = utils.read_file(os.path.join(templates, "mpitrace-lammps.yaml"
 hwloc_template = utils.read_file(os.path.join(templates, "hwloc.yaml"))
 
 # Hotplug script!
-hotplug = "https://gist.githubusercontent.com/vsoch/467467cacf32bdc2303af5e3534311b8/raw/edde238a35b9e9ba9a9736e6d80ffe3b0beb2345/hotplug.sh"
+hotplug = "https://gist.githubusercontent.com/vsoch/467467cacf32bdc2303af5e3534311b8/raw/9329d7014ec5c5dabf754d9186d49d602afc97c0/hotplug.sh"
 
-# Global variables (I know, bad practice) for the threading monitor
-# and shared client (so we don't need to pass around)
-experiment_running = True
-instances_ready = False
+# Keep a cache of current nodes we know about, and creation / removal times
 cli = None
+history = {}
 
 # This data file must exist, it has a full price table
 data_file = os.path.join(root, "instances-aws.csv")
@@ -84,7 +81,7 @@ experiment_plans = [
 experiment_plans = [
     {
         "vcpu": 32,
-        "name": "32vcpu",
+        "name": "4x32vcpu",
         "max-instance-types": 4,
         "filter-instance-types": 20,
         "max-spot-price": 2,
@@ -175,11 +172,13 @@ def get_parser():
     return parser
 
 
-# Here we want a thread running that will:
+# Here we want to check:
 # 1. monitor for new nodes
 # 2. update threading on new nodes
-# 3. check for nodes to be ready? Global variable?
+# 3. check for nodes to be ready, pause starts if not
 # 4. save data that estimates when they are there / gone
+
+# I originally used a thread but it worked very poorly.
 
 
 def monitor_nodes(count, outdir, instances):
@@ -193,86 +192,53 @@ def monitor_nodes(count, outdir, instances):
     instances: instance list that are multi threaded
     """
     global cli
-
-    # trigger from experiments when done
-    global experiment_running
-
-    # trigger TO experiments OK to run lammps
-    global instances_ready
+    global history
 
     # Output file to write results to
     outfile = os.path.join(outdir, "spot-instance-activity.json")
 
-    # Keep a cache of current nodes we know about, and creation / removal times
-    cache = set()
-
-    # Yes, this is a python protected variable. Bite me.
-    history = {}
-
-    # Helper function to determine if a node is ready
-    # We rely on the autoscaler to keep the number consistent (and do not count ourselves)
-    # In practice I see it brings another up when one is going away, so minimally we check for N nodes == True
-    def is_ready(node):
-        # Return None indicator not count this one
-        if "sticky" in node.metadata.labels:
-            return
-        return (
-            node.status.conditions[-1].type == "Ready"
-            and node.status.conditions[-1].status == "True"
-            and node.metadata.name in cache
-        )
-
     # Keep running, check every 15 seconds
-    while experiment_running:
-        time.sleep(15)
-        k8s = cli.get_k8s_client()
+    k8s = cli.get_k8s_client()
 
-        # Updated list of nodes seen
-        seen = set()
+    # Updated list of nodes seen
+    seen = set()
 
-        # Do a quick assessment if nodes aren't ready
-        # If not, we want to pause starting new experiments (to the degree that we can)
-        instances_ready = (
-            sum([is_ready(node) == True for node in k8s.list_node().items]) == count
-        )
+    # Make a count of nodes ready
+    for node in k8s.list_node().items:
+        name = node.metadata.name
 
-        # Make a count of nodes ready
-        for node in k8s.list_node().items:
-            name = node.metadata.name
+        # Ignore the sticky node
+        if "sticky" in node.metadata.labels:
+            continue
+        instance_type = node.metadata.labels["beta.kubernetes.io/instance-type"]
 
-            # Ignore the sticky node
-            if "sticky" in node.metadata.labels:
-                continue
-            instance_type = node.metadata.labels["beta.kubernetes.io/instance-type"]
+        # If the instance isn't in our current cache, it's new!
+        if name not in history:
+            # I don't see why we can't update hyperthreading before ready (but should check this)
+            history[name] = {"noticed_appearance_time": time.time()}
 
-            # If the instance isn't in our current cache, it's new!
-            if name not in cache:
-                # I don't see why we can't update hyperthreading before ready (but should check this)
-                history[name] = {"noticed_appearance_time": time.time()}
+            # Only disable hyperthreading if we need to :)
+            if instance_type in instances:
+                print(
+                    f"🥸️ New node added to cluster {name}, disabling hyper-threading."
+                )
+                disable_instance_hyperthreading(instance_type, name)
+            else:
+                print(f"🥸️ New node added to cluster {name}.")
+        seen.add(name)
 
-                # Only disable hyperthreading if we need to :)
-                if instance_type in instances:
-                    print(
-                        f"🥸️ New node added to cluster {name}, disabling hyper-threading."
-                    )
-                    disable_instance_hyperthreading(instance_type, name)
-                else:
-                    print(f"🥸️ New node added to cluster {name}.")
-            seen.add(name)
+    # Now go through cache, nodes that aren't in seen were removed
+    for name in history:
+        if name not in seen:
+            print(f"🥸️ Node {name} has dissappeared from cluster.")
+            now = time.time()
+            history[name]["noticed_disappeared_time"] = now
+            history[name]["elapsed_time"] = (
+                now - history[name]["noticed_appearance_time"]
+            )
 
-        # Now go through cache, nodes that aren't in seen were removed
-        for name in cache:
-            if name not in seen:
-                print(f"🥸️ Node {name} has dissappeared from cluster.")
-                history[name]["noticed_disappeared_time"] = time.time()
-
-        # One more ready check (sums to 1 when True, 0 otherwise)
-        instances_ready = (
-            sum([is_ready(node) == True for node in k8s.list_node().items]) == count
-        )
-
-        # Save data on each pass
-        utils.write_json(history, outfile)
+    # Save data on each pass
+    utils.write_json(history, outfile)
 
 
 class Experiment:
@@ -519,24 +485,33 @@ def run_hwloc(exp, args, batch, data_path):
         utils.write_file(templated, metrics_yaml)
 
         # This one self-cleans up, wait until it's completed
-        run_kubectl(f"apply -f {metrics_yaml}")
-        m = MetricsOperator(metrics_yaml)
-        name = m.spec["metadata"]["name"]
-        run_kubectl(f"wait --for=condition=complete job/{name}-m-0")
-        run_kubectl(f"delete -f {metrics_yaml} --wait=true")
+        try:
+            run_kubectl(f"apply -f {metrics_yaml}")
+            m = MetricsOperator(metrics_yaml)
+            name = m.spec["metadata"]["name"]
+            run_kubectl(f"wait --for=condition=complete job/{name}-m-0")
+            run_kubectl(f"delete -f {metrics_yaml} --wait=true")
+        except:
+            print("Issue with running hwloc! Interactively debug.")
+            import IPython
+
+            IPython.embed()
+            sys.exit()
 
     return unique_machines
 
 
-def run_lammps(exp, cli, args, batch, data_path):
+def run_lammps(exp, args, batch, data_path, multi_threaded):
     """
     Run LAMMPS for some number of iterations
     """
     global cli
-    global experiment_running
 
     replaces = exp.plan["lammps"]
     replaces["[[NODES]]"] = args.nodes
+
+    # Keep total wrapped times (not wall times)
+    wrapped_times = {}
 
     # Create a metrics yaml directory for the experiment
     metrics_dir = os.path.join(data_path, "metrics")
@@ -547,16 +522,9 @@ def run_lammps(exp, cli, args, batch, data_path):
     killed = []
 
     # Now run lammps some number of times.
-    for i in range(0, args.iters):
-        # This variable checks that it's OK to start a run.
-        # we can't control if we lose a node during run
-        while not experiment_running:
-            print(
-                "💨️ Experiment is not running, sleeping 15 seconds to wait for nodes."
-            )
-            time.sleep(15)
-
+    for i in range(3, args.iters):
         # Check for new spot instances each time
+        monitor_nodes(args.nodes, data_path, multi_threaded)
         run_kubectl("get nodes")
 
         print(f"🪔️ Running iteration {i} of LAMMPS")
@@ -574,52 +542,66 @@ def run_lammps(exp, cli, args, batch, data_path):
         # Cheat and update the kubeconfig-aws.yaml
         m = MetricsOperator(metrics_yaml)
         m.load_kube_config(cli.kube_config_file)
-        name = m.spec["metadata"]["name"]
-        pod_prefix = f"{name}-l-0"
-        m.create()
 
-        # If we are the first one, sleep and wait for the init and pull
-        if i == 0:
-            print(templated)
-            time.sleep(args.sleep)
+        # Ensure we catch any errors, wrap entire thing!
+        try:
+            start_time = time.time()
+            lammps_single_run(i, args, killed, data_path, metrics_yaml)
+            end_time = time.time()
+            total = end_time - start_time
+            print(f"Single run took {total} seconds.")
+            wrapped_times[tag] = total
+        except:
+            print(f"Issue running iteration {i}, interactively debug.")
+            import IPython
 
-        # Wait until succeeded
-        metric = m.get_parser()
+            IPython.embed()
 
-        # Need to better expose this
-        metric._core_v1 = cli.get_k8s_client()
-        metric.wait(pod_prefix=metric.name, states=["Running", "Succeeded"])
-        pods = metric.get_pods()
+    return {"wrapped_times": wrapped_times, "iters_killed": killed}
 
-        # First pod always the launcher
-        launcher = pods.items[0].metadata.name
-        metric._core_v1 = cli.get_k8s_client()
-        lines = metric.stream_output(
-            name=launcher, namespace=metric.namespace, container="launcher"
-        )
 
-        if "KILLED" in lines and "BAD TERMINATION" in lines:
-            print(f"Iteration {tag} was killed or not successful.")
-            killed.append({"iter": i, "lines": lines})
-        else:
-            metric.wait(states=["Succeeded"], pod_prefix=pod_prefix)
+def lammps_single_run(i, args, killed, data_path, metrics_yaml):
+    """
+    Wrap the entire lammps run to absolutely catch any issues.
+    """
+    global cli
 
-        # Keep a backup of the logfile
-        logfile = os.path.join(data_path, f"lammps-{i}.log")
-        utils.write_file(lines, logfile)
+    run_kubectl(f"apply -f {metrics_yaml}")
+    m = MetricsOperator(metrics_yaml)
+    name = m.spec["metadata"]["name"]
+    time.sleep(10)
+    run_kubectl(f"wait --for=condition=complete --timeout=600s job/{name}-l-0")
 
-        # Also save node metadata for this run
-        response = metric.core_v1.list_node(_preload_content=False)
-        nodes = json.loads(response.data)
-        nodefile = os.path.join(data_path, f"nodes-{i}.json")
-        utils.write_json(nodes, nodefile)
+    # Need to better expose this
+    metric = m.get_parser()
+    metric._core_v1 = cli.get_k8s_client()
+    pods = metric.get_pods()
 
-        # Wait for all pods to terminate
-        # I am being lazy, we have a function but... but... but... :)
-        # metric.wait_for_delete(pod_prefix=metric.name)
-        run_kubectl(f"delete -f {metrics_yaml} --wait=true", allow_fail=True)
+    # First pod always the launcher (l > w)
+    launcher = pods.items[0].metadata.name
+    metric._core_v1 = cli.get_k8s_client()
+    lines = metric.stream_output(
+        name=launcher, namespace=metric.namespace, container="launcher"
+    )
 
-    return killed
+    if "KILLED" in lines and "BAD TERMINATION" in lines:
+        print(f"Iteration {i} was killed or not successful.")
+        killed.append(i)
+
+    # Keep a backup of the logfile
+    logfile = os.path.join(data_path, f"lammps-{i}.log")
+    utils.write_file(lines, logfile)
+
+    # Also save node metadata for this run
+    response = metric.core_v1.list_node(_preload_content=False)
+    nodes = json.loads(response.data)
+    nodefile = os.path.join(data_path, f"nodes-{i}.json")
+    utils.write_json(nodes, nodefile)
+
+    # Wait for all pods to terminate
+    # I am being lazy, we have a function but... but... but... :)
+    # metric.wait_for_delete(pod_prefix=metric.name)
+    run_kubectl(f"delete -f {metrics_yaml} --wait=true", allow_fail=True)
 
 
 def describe_instances_topology():
@@ -699,7 +681,7 @@ def install_operators(allow_fail=False):
     filename = os.path.join(root, "crd", "oras.yaml")
     run_kubectl(f"apply -f {filename}", allow_fail=allow_fail)
     generate_secret()
-    run_kubectl("get pods --all-namespaces --wide")
+    run_kubectl("get pods --all-namespaces -o=wide")
 
 
 def generate_secret():
@@ -769,7 +751,6 @@ def run_experiments(experiments, args, data_dir):
     Wrap experiment running separately in case we lose spot nodes and can recover
     """
     global cli
-    global experiment_running
 
     # Use kubescaler ekscluster to create the cluster
     # We will request / delete nodegroups with spot from it
@@ -797,13 +778,6 @@ def run_experiments(experiments, args, data_dir):
         print(
             "If you need this for ssh: cli.delete_cluster() and select new name or existing name/file."
         )
-
-    # This is put explicitly because if there is an error, we want to interactively catch it
-    # and not exit (and lose handles to the cluster, etc.)
-    print("Interactive handle")
-    import IPython
-
-    IPython.embed()
 
     # At this point we have a control plane. We are going to be creating a managed node group of spot,
     # but we also need a persistent node group for the operator installs, ON_DEMAND.
@@ -851,12 +825,6 @@ def run_experiments(experiments, args, data_dir):
             # This is N nodes for some unique set of instances from the original filtered set
             cli.create_cluster_nodes(machine_types)
 
-            # Start a thread that updates hypervisors, tracks timing, and readiness
-            monitor_nodes_thread = threading.Thread(
-                target=monitor_nodes, args=(args.nodes, outdir, multi_threaded)
-            )
-            monitor_nodes_thread.start()
-
             # Add cluster times to the new times
             times = copy.deepcopy(original_times)
             times.update(cli.times)
@@ -880,12 +848,12 @@ def run_experiments(experiments, args, data_dir):
             # EXPERIMENTS: ---
             # Run LAMMPS 20x, collect MPI trace too, lstopo and the AWS topology API
             # Run lammps - results are saved to the OCI registry
-            killed = run_lammps(exp, args, batch, outdir)
-            result["lammps-killed"] = killed
+            result["lammps"] = run_lammps(exp, args, batch, outdir, multi_threaded)
 
             # Get hwloc files for unique nodes. I am aware there could be
             # overlap between experiments, but I think we should sanity check
-            # that the instance type nodes are actually equivalent.
+            # that the instance type nodes are actually equivalent. The cluster
+            # we have here might also not == the lammps runs, but we do our best
             unique_machines = run_hwloc(exp, args, batch, outdir)
             outfile = os.path.join(outdir, "hwloc-unique-machines-nodes.json")
             write_json(unique_machines, outfile)
@@ -894,10 +862,6 @@ def run_experiments(experiments, args, data_dir):
             print(json.dumps(result))
             outfile = os.path.join(outdir, "result.json")
             write_json(result, outfile)
-
-            # Signal to the thread that experiments are not running
-            experiment_running = False
-            monitor_nodes_thread.join()
 
             # And now... delete it! We don't need it, lol
             cli.delete_nodegroup(cli.node_group_name)
