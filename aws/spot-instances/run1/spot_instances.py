@@ -73,6 +73,7 @@ cloud-select -c rm:registry:/tmp/registry""",
         default=default_arch,
         help="architecture",
     )
+    select.add_argument("--hypervisor", help="hypervisor")
     select.add_argument(
         "--gpu", help="select instances with GPU", action="store_true", default=False
     )
@@ -88,14 +89,15 @@ cloud-select -c rm:registry:/tmp/registry""",
         action="store_true",
         default=False,
     )
-    select.add_argument("--min-vcpu", help="minimum vCPU", type=int, default=32)
-    select.add_argument("--max-vcpu", help="maximum vCPU", type=int, default=64)
+    select.add_argument("--min-cores", help="minimum physical cores", type=int)
+    select.add_argument("--max-cores", help="maximum physical cores", type=int)
+    select.add_argument("--min-vcpu", help="minimum vCPU", type=int)
+    select.add_argument("--max-vcpu", help="maximum vCPU", type=int)
     select.add_argument(
         "--max-threads-per-core",
         dest="threads_per_core",
         help="threads per core",
         type=int,
-        default=2,
     )
     select.add_argument("--min-mem", help="minimum memory MB", type=int)
     select.add_argument("--max-mem", help="maximum memory MB", type=int)
@@ -136,21 +138,26 @@ def run():
             has_gpu=args.gpu,
             min_mem=args.min_mem,
             max_mem=args.max_mem,
+            min_cores=args.min_cores,
+            max_cores=args.max_cores,
             min_vcpu=args.min_vcpu,
             max_vcpu=args.max_vcpu,
             max_price=args.max_price,
             randomize=args.randomize,
             max_threads_per_core=args.threads_per_core,
             bare_metal=args.bare_metal,
+            hypervisor=args.hypervisor,
         )
 
 
 def select_instances(
     datafile,
-    min_vcpu,
+    max_cores=None,
+    min_cores=None,
+    min_vcpu=None,
     max_vcpu=None,
     arch=default_arch,
-    max_threads_per_core=2,
+    max_threads_per_core=None,
     min_mem=None,
     max_mem=None,
     number=None,
@@ -172,14 +179,24 @@ def select_instances(
     # Read in data frame
     df = pandas.read_csv(datafile, index_col=0)
 
-    # Filter to arch and cpu (required)
+    # Filter to arch and cores
     subset = df[df.arch == arch]
-    subset = subset[subset.vcpu >= min_vcpu]
-    subset = subset[subset.vcpu <= max_vcpu]
-    subset = subset[subset.threads_per_core <= max_threads_per_core]
+
+    if min_cores:
+        subset = subset[subset.cores >= min_cores]
+    if max_cores:
+        subset = subset[subset.cores <= max_cores]
 
     # GPU
     subset = subset[subset.gpu == has_gpu]
+
+    # More detail about cpu / threads
+    if min_vcpu:
+        subset = subset[subset.vcpu >= min_vcpu]
+    if max_vcpu:
+        subset = subset[subset.vcpu <= max_vcpu]
+    if max_threads_per_core:
+        subset = subset[subset.threads_per_core <= max_threads_per_core]
 
     # Optional memory
     if min_mem:
@@ -325,6 +342,7 @@ def instances_to_table(instances, lookup):
             "bare_metal",
             "arch",
             "vcpu",
+            "cores",  # this is physical cores
             "threads_per_core",
             "memory_mb",
             "hypervisor",
@@ -367,6 +385,7 @@ def instances_to_table(instances, lookup):
                 i["BareMetal"],
                 arch,
                 cpus["DefaultVCpus"],
+                cpus["DefaultCores"],
                 cpus["DefaultThreadsPerCore"],
                 i["MemoryInfo"]["SizeInMiB"],
                 hypervisor,

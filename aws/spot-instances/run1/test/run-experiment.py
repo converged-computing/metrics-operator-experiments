@@ -51,33 +51,11 @@ if not os.path.exists(data_file):
 # - 128 vCPU
 # - 192 vCPU
 # - 64 vCPU
+# - 32 vCPU (this was just for testing, too small)
 
-experiment_plans = [
-    {
-        "vcpu": 64,
-        "name": "64vcpu",
-        "max-instance-types": 4,
-        "filter-instance-types": 20,
-        "max-spot-price": None,
-    },
-    {
-        "vcpu": 128,
-        "name": "128vcpu",
-        "max-instance-types": 4,
-        "filter-instance-types": 20,
-        "max-spot-price": None,
-    },
-    {
-        "vcpu": 192,
-        "name": "192vcpu",
-        "max-instance-types": 4,
-        "filter-instance-types": 20,
-        "max-spot-price": None,
-    },
-]
-
-# These are just for testing
 # TODO: should we select instances with memory within some range of one another?
+# Remember you can filter instances before running this:
+# python spot_instances.py select --min-vcpu 128 --max-vcpu 128 --number 20
 experiment_plans = [
     {
         "vcpu": 32,
@@ -95,6 +73,34 @@ experiment_plans = [
             "[[NP]]": 16,
         },
     },
+    {
+        "cores": 64,
+        "name": "8x64cores-64-16-16",
+        "max-instance-types": 4,
+        "filter-instance-types": 20,
+        "max-spot-price": 2,
+        "lammps": {
+            "[[CPU]]": 28,
+            "[[X]]": 64,
+            "[[Y]]": 16,
+            "[[Z]]": 16,
+            "[[NP]]": 32,
+        },
+    },
+    {
+        "cores": 64,
+        "name": "8x64vcpu-64-16-16",
+        "max-instance-types": 4,
+        "filter-instance-types": 20,
+        "max-spot-price": 2,
+        "lammps": {
+            "[[CPU]]": 28,
+            "[[X]]": 64,
+            "[[Y]]": 16,
+            "[[Z]]": 16,
+            "[[NP]]": 32,
+        },
+    },
 ]
 
 
@@ -107,6 +113,12 @@ def get_parser():
         "--data-dir",
         help="path to save data",
         default=os.path.join(here, "data"),
+    )
+    parser.add_argument(
+        "-n",
+        "--name",
+        help="select one or more experiments by name",
+        action="append",
     )
     parser.add_argument(
         "--iters",
@@ -282,8 +294,8 @@ class Experiment:
         # This generates the original filtered set to be used for batches
         self.df = spot_cli.select_instances(
             data_file,
-            min_vcpu=self.plan["vcpu"],
-            max_vcpu=self.plan["vcpu"],
+            min_cores=self.plan["cores"],
+            max_cores=self.plan["cores"],
             number=number,
             bare_metal=self.bare_metal,
             max_spot_price=self.max_spot_price,
@@ -393,6 +405,10 @@ def plan_experiments(args):
     # Were we given a plan in json?
 
     for plan in experiment_plans:
+        # The user can select an experiment by name
+        if args.name and plan["name"] not in args.name:
+            continue
+
         print(f"🧪️ Planning experiments for {plan}")
         exp = Experiment(
             plan,
@@ -412,6 +428,7 @@ def plan_experiments(args):
             continue
 
         experiments[exp.id] = exp
+    sys.exit()
     return experiments
 
 

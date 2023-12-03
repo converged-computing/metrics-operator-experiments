@@ -72,11 +72,10 @@ See [thinking process here](https://gist.github.com/vsoch/ad19f4270a0500a49c4700
 We want to (maybe) mimic the following instance types:
 
 |Instance |Physical Cores | Memory (GiB) | EFA Network Bandwidth (Gbps) | Network Bandwidth (Gbps)* |
-| hpc6a.48xlarge | 96 (192 vCPU) | 384 | 100 | 25 |
-| hpc7g.16xlarge | 64 (128 vCPU) | 128 | 200 | 25 |
+| hpc6a.48xlarge | 96vcpu  | 384 | 100 | 25 |
+| hpc7g.16xlarge | 64vcpu | 128 | 200 | 25 |
 
-Note that the website says "physical cores" so that means we need to search for 96x2 == 192 vCPU.
-Our starting problem size is `64 x 16 x 16`.
+Note that the main website says "physical cores" but other sites (e.g., [here](https://aws.amazon.com/ec2/pricing/on-demand/)) writes them as vCPU so I'm going to assume vCPU.  Our starting problem size is `64 x 16 x 16`.
 
 ## Estimating Cost
 
@@ -88,178 +87,92 @@ The spot_instances.py can be used (and shared) between experiments to generate c
 python spot_instances.py gen
 ```
 
-### 128 vCPU
+We need to find a cost that (divided by 3) is approximately 1k, which is our spending limit for these experiments, and assuming we do them for each of the cases described above. I first tried a range of cores (note updated from vCPU to be less confusing) we wanted to emulate:
 
-We need to find a cost that (divided by 3) is approximately 1k, which is our spending limit for these experiments, and assuming we do them for each of the cases described above. I first tried a range of vCPU we wanted to emulate:
+### 64 cores
 
 ```bash
-$ python spot_instances.py select --min-vcpu 128 --max-vcpu 128 --number 20
+$ python spot_instances.py select --min-cores 64 --max-cores 64 --hypervisor nitro
 ```
 
-Note that defaults to bare metal false. We aren't going to mix those.
+Note that defaults to bare metal false. We aren't going to mix those. We also want to set the max price allowed to be what we would pay for hpc7g (which I don't remember, I'm going to just guess here).
 
 <details>
 
-<summary>Price estimation for 128 vCPU</summary>
+<summary>Price estimation for 64 cores</summary>
 
-```bash
-$ python spot_instances.py select --min-vcpu 128 --max-vcpu 128 --number 20
-```
 ```console
-Selected subset table:
-           instance  bare_metal    arch  vcpu  threads_per_core  memory_mb    gpu  spot_price     price
-465    c6a.32xlarge       False  x86_64   128                 2     262144  False    2.201160   4.89600
-211    c7a.32xlarge       False  x86_64   128                 1     262144  False    2.323425   6.56896
-691    c6i.32xlarge       False  x86_64   128                 2     262144  False    2.478600   5.44000
-248    m6a.32xlarge       False  x86_64   128                 2     524288  False    2.628120   5.52960
-209    m6i.32xlarge       False  x86_64   128                 2     524288  False    2.676000   6.14400
-343   c6id.32xlarge       False  x86_64   128                 2     262144  False    2.687360   6.45120
-298    r6a.32xlarge       False  x86_64   128                 2    1048576  False    2.930780   7.25760
-1      m7a.32xlarge       False  x86_64   128                 1     524288  False    3.117800   7.41888
-273   c6in.32xlarge       False  x86_64   128                 2     262144  False    3.239400   7.25760
-193   m6id.32xlarge       False  x86_64   128                 2     524288  False    3.303780   7.59360
-359    r6i.32xlarge       False  x86_64   128                 2    1048576  False    3.371040   8.06400
-203   r6id.32xlarge       False  x86_64   128                 2    1048576  False    3.631980   9.67680
-718    i4i.32xlarge       False  x86_64   128                 2    1048576  False    3.704200  10.98240
-335    r7a.32xlarge       False  x86_64   128                 1    1048576  False    3.727750   9.73760
-685  m6idn.32xlarge       False  x86_64   128                 2     524288  False    3.984450  10.18368
-431   m6in.32xlarge       False  x86_64   128                 2     524288  False    4.009550   8.91072
-316     x1.32xlarge       False  x86_64   128                 2    1998848  False    4.393550  13.33800
-213   r7iz.32xlarge       False  x86_64   128                 2    1048576  False    4.446850  11.90400
-39   x2idn.32xlarge       False  x86_64   128                 2    2097152  False    4.623940  13.33800
-4     r6in.32xlarge       False  x86_64   128                 2    1048576  False    5.122650  11.15712
+☝️  Max spot price: 8.625
+👇️ Min spot price: 1.400025
 
-😸️ Final selection of spot:
-c6a.32xlarge
-c7a.32xlarge
-c6i.32xlarge
-m6a.32xlarge
-m6i.32xlarge
-c6id.32xlarge
-r6a.32xlarge
-m7a.32xlarge
-c6in.32xlarge
-m6id.32xlarge
-r6i.32xlarge
-r6id.32xlarge
-i4i.32xlarge
-r7a.32xlarge
-m6idn.32xlarge
-m6in.32xlarge
-x1.32xlarge
-r7iz.32xlarge
-x2idn.32xlarge
-r6in.32xlarge
+😸️ Filtered selection of spot:
+            instance  bare_metal    arch  vcpu  cores  threads_per_core  memory_mb hypervisor    gpu  spot_price     price
+588     m7a.16xlarge       False  x86_64    64     64                 1     262144      nitro  False    1.400025   3.70944
+624     c7a.16xlarge       False  x86_64    64     64                 1     131072      nitro  False    1.443750   3.28448
+394     r7a.16xlarge       False  x86_64    64     64                 1     524288      nitro  False    2.357200   4.86880
+208     c6a.32xlarge       False  x86_64   128     64                 2     262144      nitro  False    2.228020   4.89600
+22      c6i.32xlarge       False  x86_64   128     64                 2     262144      nitro  False    2.490780   5.44000
+206     m6a.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    2.572120   5.52960
+675    c6id.32xlarge       False  x86_64   128     64                 2     262144      nitro  False    2.625100   6.45120
+236     m6i.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    2.638740   6.14400
+93      r6a.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    2.983180   7.25760
+412    c6in.32xlarge       False  x86_64   128     64                 2     262144      nitro  False    3.168920   7.25760
+40     m6id.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    3.249800   7.59360
+309     r6i.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    3.367380   8.06400
+80     r6id.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    3.597560   9.67680
+307     i4i.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    3.784500  10.98240
+491    m6in.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    3.930100   8.91072
+519   m6idn.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    4.015150  10.18368
+369    r7iz.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    4.534225  11.90400
+698   x2idn.32xlarge       False  x86_64   128     64                 2    2097152      nitro  False    4.706380  13.33800
+605    r6in.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    5.135000  11.15712
+602   r6idn.32xlarge       False  x86_64   128     64                 2    1048576      nitro  False    6.623075  12.50496
+597    trn1.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    6.712150  21.50000
+552   trn1n.32xlarge       False  x86_64   128     64                 2     524288      nitro  False    7.939100  24.78000
+278  x2iedn.32xlarge       False  x86_64   128     64                 2    4194304      nitro  False    8.625000  26.67600
 
-🤓️ Mean (std) of price
-$3.43 ($0.82)
+🤓️ Mean (std) of spot price
+$3.92 ($1.94)
 ```
 
 </details>
 
-### 192 vCPU
+### 96 cores
 
-I think likely we can't do this size because there aren't a ton of instances to choose from.
-
-<details>
-
-<summary>Price estimation for 128 vCPU</summary>
+And then for 96. Note that these prices don't seem much better than the (on demand) hpc6a.
 
 ```bash
-$ python spot_instances.py select --min-vcpu 192 --max-vcpu 192 --number 20
-```
-```console
-Selected subset table:
-          instance  bare_metal    arch  vcpu  threads_per_core  memory_mb    gpu  spot_price     price
-581   c6a.48xlarge       False  x86_64   192                 2     393216  False    3.207520   7.34400
-381   c7a.48xlarge       False  x86_64   192                 1     393216  False    3.671550   9.85344
-152   m6a.48xlarge       False  x86_64   192                 2     786432  False    3.735820   8.29440
-689   c7i.48xlarge       False  x86_64   192                 2     393216  False    3.948450   8.56800
-698   m7i.48xlarge       False  x86_64   192                 2     786432  False    4.011800   9.67680
-150   r6a.48xlarge       False  x86_64   192                 2    1572864  False    4.505600  10.88640
-566   r7i.48xlarge       False  x86_64   192                 2    1572864  False    4.588400  12.70080
-449   m7a.48xlarge       False  x86_64   192                 1     786432  False    4.720575  11.12832
-238  inf2.48xlarge       False  x86_64   192                 2     786432  False    4.758775  12.98127
-712   r7a.48xlarge       False  x86_64   192                 1    1572864  False    6.843625  14.60640
-
-😸️ Final selection of spot:
-c6a.48xlarge
-c7a.48xlarge
-m6a.48xlarge
-c7i.48xlarge
-m7i.48xlarge
-r6a.48xlarge
-r7i.48xlarge
-m7a.48xlarge
-inf2.48xlarge
-r7a.48xlarge
-
-🤓️ Mean (std) of price
-$4.4 ($1.0)
-```
-
-### 64 vCPU
-
-What if we try closer to what we did on Google Cloud, closer to 50 vCPU. It looks like the closest we can get is 64 vCPU. A size 64 vCPU is fairly good, because we might have 32 actual CPU per node.
-
-```bash
-$ python spot_instances.py select --min-vcpu 64 --max-vcpu 64 --number 20
+$ python spot_instances.py select --min-cores 96 --max-cores 96  --hypervisor nitro
 ```
 
 <details>
 
-<summary>Price estimation for 128 vCPU</summary>
+<summary>Price estimation for 96 cores</summary>
 
 ```console
-Selected subset table:
-          instance  bare_metal    arch  vcpu  threads_per_core  memory_mb    gpu  spot_price    price
-679   c6a.16xlarge       False  x86_64    64                 2     131072  False    1.151780  2.44800
-212  c5ad.16xlarge       False  x86_64    64                 2     131072  False    1.163000  2.75200
-729   c5a.16xlarge       False  x86_64    64                 2     131072  False    1.210240  2.46400
-10    m5a.16xlarge       False  x86_64    64                 2     262144  False    1.314160  2.75200
-474   c6i.16xlarge       False  x86_64    64                 2     131072  False    1.325060  2.72000
-25    m6a.16xlarge       False  x86_64    64                 2     262144  False    1.364100  2.76480
-515    m5.16xlarge       False  x86_64    64                 2     262144  False    1.369840  3.07200
-234  c6id.16xlarge       False  x86_64    64                 2     131072  False    1.380580  3.22560
-671   c7i.16xlarge       False  x86_64    64                 2     131072  False    1.394750  2.85600
-402    m4.16xlarge       False  x86_64    64                 2     262144  False    1.398133  3.20000
-354   m7a.16xlarge       False  x86_64    64                 1     262144  False    1.403450  3.70944
-291   c7a.16xlarge       False  x86_64    64                 1     131072  False    1.411625  3.28448
-221   r5a.16xlarge       False  x86_64    64                 2     524288  False    1.511780  3.61600
-635   m6i.16xlarge       False  x86_64    64                 2     262144  False    1.515600  3.07200
-153   r6i.16xlarge       False  x86_64    64                 2     524288  False    1.515940  4.03200
-525   r6a.16xlarge       False  x86_64    64                 2     524288  False    1.544920  3.62880
-347   m7i.16xlarge       False  x86_64    64                 2     262144  False    1.587725  3.22560
-27    m5d.16xlarge       False  x86_64    64                 2     262144  False    1.603920  3.61600
-720  m5ad.16xlarge       False  x86_64    64                 2     262144  False    1.615520  3.29600
-721  m6id.16xlarge       False  x86_64    64                 2     262144  False    1.615700  3.79680
+☝️  Max spot price: 5.22555
+👇️ Min spot price: 1.8883
 
-😸️ Final selection of spot:
-c6a.16xlarge
-c5ad.16xlarge
-c5a.16xlarge
-m5a.16xlarge
-c6i.16xlarge
-m6a.16xlarge
-m5.16xlarge
-c6id.16xlarge
-c7i.16xlarge
-m4.16xlarge
-m7a.16xlarge
-c7a.16xlarge
-r5a.16xlarge
-m6i.16xlarge
-r6i.16xlarge
-r6a.16xlarge
-m7i.16xlarge
-m5d.16xlarge
-m5ad.16xlarge
-m6id.16xlarge
+😸️ Filtered selection of spot:
+          instance  bare_metal    arch  vcpu  cores  threads_per_core  memory_mb hypervisor    gpu  spot_price     price
+571   c7a.24xlarge       False  x86_64    96     96                 1     196608      nitro  False    1.888300   4.92672
+526   m7a.24xlarge       False  x86_64    96     96                 1     393216      nitro  False    2.418900   5.56416
+202   r7a.24xlarge       False  x86_64    96     96                 1     786432      nitro  False    3.238600   7.30320
+154   c6a.48xlarge       False  x86_64   192     96                 2     393216      nitro  False    3.246100   7.34400
+31    m6a.48xlarge       False  x86_64   192     96                 2     786432      nitro  False    3.778100   8.29440
+163   c7i.48xlarge       False  x86_64   192     96                 2     393216      nitro  False    3.967275   8.56800
+4     m7i.48xlarge       False  x86_64   192     96                 2     786432      nitro  False    4.050275   9.67680
+129   r6a.48xlarge       False  x86_64   192     96                 2    1572864      nitro  False    4.527040  10.88640
+209  inf2.48xlarge       False  x86_64   192     96                 2     786432      nitro  False    4.869125  12.98127
+461   r7i.48xlarge       False  x86_64   192     96                 2    1572864      nitro  False    5.225550  12.70080
 
-🤓️ Mean (std) of price
-$1.42 ($0.14)
+🤓️ Mean (std) of spot price
+$3.72 ($1.05)
 ```
 
 </details>
 
-That also gives us many choices under $2, so I am leaning toward this as our choice (but need to test timing and problem sizes).
+I'm going to stop here for now, because I don't actually see a benefit in price as compared to the hpc instance family on demand.
+
+ - hpc7g: 64 physical cores, $1.68 per hour
+ - hpc6a: 96 physical cores, $2.88 per hour

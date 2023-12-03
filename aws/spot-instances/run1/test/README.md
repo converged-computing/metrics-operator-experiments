@@ -120,11 +120,24 @@ options:
 ```
 
 Note that most metal instances are filtered out per threading.
-Here was a testing run:
+Here was a testing run. Note that we are selecting the experiment by `--name`
 
 ```bash
-python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem --iters 10
+python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem --iters 10 --name 4x32vcpu
 ```
+
+The above was too small to be something we actually wanted to run! Here are the experiment sizes we were interested in. I separated them out so each has its own results, but that isn't necessary (e.g,. you can provide `--name` more than once).
+
+
+```bash
+python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem --iters 10 --name 4x32vcpu
+```
+
+
+### Post Processing
+
+Here is what the experiment will look like finishing up.
+
 ```console
 🥞️ Attempting delete of node group spot-instance-testing-cluster-worker-group...
 Node group spot-instance-testing-cluster-worker-group is deleted successfully
