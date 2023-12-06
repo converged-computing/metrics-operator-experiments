@@ -24,33 +24,33 @@ The script here takes the following approach ("algorithm" if we can call it that
 
 ### Algorithm
 
-1. Start with a user selection to filter down instances (e.g., hypervisor, GPU, bare metal). This defaults to x86.
-2. Take a user selection of cores (required). This is the number we are striving to get across our instance potpurri.
-3. Setup. Calculate:
+- *1.* Start with a user selection to filter down instances (e.g., hypervisor, GPU, bare metal). This defaults to x86.
+- *2.* Take a user selection of cores (required). This is the number we are striving to get across our instance potpurri.
+- *3.* Setup. Calculate:
   - Mean price across all instances types for one cores size (e.g., 1,2 ... 128)
   - The number of instance types available for a size (fewer types typically means higher risk)
   - The minimum number of instances needed for each core size, if the entire job uses it (for spot scores)
-4. Use spot scores to estimate min and max bounds for each core size:
+- *4.* Use spot scores to estimate min and max bounds for each core size:
   - For each core size and min count needed:
     - If the count is > 50, set exactly to 50 (the spot score API does not accept greater than 50)
     - Do a query to the spot score API with the region, instance list we have for the size, and current count.
     - If the score is equal to or above the user set minimum (a risk tolerance) we accept it, and save the count.
     - If the score is less than the user set minimum, it's too high risk, we decrease count by 1/3 and try again
    - At the end of the procedure above, we prepare a list of bounds (min 0, max the count determined) that takes into account the risk tolerance for our ability to get instances.
-5. We want a a subset of instances s.t. `count(instances) < max_instances, and sum(cores) >= asked_cores`
-6. Define variables for `scipy.optimize.linalg_prog` (see script for these implementation details).
+- *5.* We want a a subset of instances s.t. `count(instances) < max_instances, and sum(cores) >= asked_cores`
+- *6*. Define variables for `scipy.optimize.linalg_prog` (see script for these implementation details).
   - row X: the row of costs, in the order of the instance sizes
   - matrix A: 2 rows, 1st: all 1s (counts the instances) 2nd: cores per instance (negative because inequality flipped)
   - b_ub has max number of instances (we set to number cores, assuming smallest 1 core/instance) and negative minimum number of cores (again inequality is flipped)
   - note that we could have a third row if we want to set an upper bound on cores 
   - we set `integrality` to say the answer must be integer. 
-6. Run `scipy.optimize.linprog` with this first set of parameters. It typically chooses based on the min cost per core.
+- *7.* Run `scipy.optimize.linprog` with this first set of parameters. It typically chooses based on the min cost per core.
   - The `result.x` is a vector of coeffients, where each represents the number of one of the sizes selected.
-7. Generate remainder of results requested by used (e.g., the next 19 if 20 was wanted)
+- *8.* Generate remainder of results requested by used (e.g., the next 19 if 20 was wanted)
   - Find the first case of where the previous result had an x coefficient != 0 (this indicated selecting an instance)
   - Reduce the bounds of that instance max by 1 (to force not selecting that count). 
   - If the bound is already 0, move on to the next coefficient.
-8. Print results to the terminal as they go, and save complete results to json (ordered index 0 as the first / best).
+- *9.* Print results to the terminal as they go, and save complete results to json (ordered index 0 as the first / best).
 
 In the above, we choose a next best result based on constraining the space a little bit (meaning, we don't allow the equation to select the same number of the instance type, maybe forcing it to select a slightly lesser solution). 
 
