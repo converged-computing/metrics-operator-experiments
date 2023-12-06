@@ -128,7 +128,7 @@ Maybe we didn't solve the spot instance problem, but this is some start. I'm pre
 
 ### Optimization Tests
 
- - [spot-instances-choices.json](spot-instances-choices.json): instead removes the most expensive (by core hour) first.
+ - [spot-instances-choices.json](spot-instances-choices.json): instead removes the most expensive (by core hour) first and then if reaches local solution, randomizes the original bounds to explore other spaces (this is cool)!
  - [spot-instance-choices-decrement-bound-by-one.json](spot-instance-choices-decrement-bound-by-one.json) Simply looped through the counts, and always found the first coefficient that was optimized and decreased by one.
  
 For the first, we fall back to an approach that removes the cheapest instead. We could also allow the algorithm to select removing one at random!

@@ -12,11 +12,10 @@
 
 import argparse
 import os
-import sys
 import statistics
+import sys
 
 import pandas
-
 from cloudselect.logger import setup_logger
 from cloudselect.main import Client
 

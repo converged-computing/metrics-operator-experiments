@@ -4,14 +4,15 @@
 # pip install scipy
 
 import argparse
-import os
 import copy
-import sys
 import math
-import scipy.optimize
+import os
 import random
-from cloudselect.main import Client
+import sys
+
 import cloudselect.utils as utils
+import scipy.optimize
+from cloudselect.main import Client
 
 here = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, here)
