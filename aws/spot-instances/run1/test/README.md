@@ -8,11 +8,11 @@ for different sizes, namely, the cost below should be approximately 1/3 of 1k.
 total cost = 20 batches x 1 selection of nodes x 20 runs x [TIME TO RUN EXPERIMENT] seconds
 ```
 
-We are going to test the following sizes:
+We were going to test the following sizes:
 
- - 128 vCPU
- - 192 vCPU
- - 64 vCPU
+ - 96 vCPU x 8
+ - 64 vCPU x 8
+ - 128 cores x 6 (to mimic 768 cores)
 
 ## Notes from V
 
@@ -128,11 +128,15 @@ python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file 
 
 The above was too small to be something we actually wanted to run! Here are the experiment sizes we were interested in. I separated them out so each has its own results, but that isn't necessary (e.g,. you can provide `--name` more than once).
 
-
 ```bash
 python run-experiment.py --nodes 4 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem --iters 10 --name 4x32vcpu
 ```
 
+And for the 128 by 6 setup:
+
+```bash
+python run-experiment.py --nodes 6 --keypair-name spot-node-test --keypair-file ./spot-node-test.pem --iters 5 --name 6x128cores
+```
 
 ### Post Processing
 

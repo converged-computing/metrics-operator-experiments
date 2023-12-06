@@ -47,12 +47,6 @@ import spot_instances as spot_cli  # noqa
 if not os.path.exists(data_file):
     sys.exit(f"Cannot find {data_file}! Run spot_instances.py gen first.")
 
-# Times we want to test
-# - 128 vCPU
-# - 192 vCPU
-# - 64 vCPU
-# - 32 vCPU (this was just for testing, too small)
-
 # TODO: should we select instances with memory within some range of one another?
 # Remember you can filter instances before running this:
 # python spot_instances.py select --min-vcpu 128 --max-vcpu 128 --number 20
@@ -74,31 +68,19 @@ experiment_plans = [
         },
     },
     {
-        "cores": 64,
-        "name": "8x64cores-64-16-16",
+        "cores": 128,
+        "name": "6x128cores",
         "max-instance-types": 4,
         "filter-instance-types": 20,
-        "max-spot-price": 2,
+        "max-spot-price": 10,
         "lammps": {
-            "[[CPU]]": 28,
+            # CPU is setting the resource limit/request
+            "[[CPU]]": 120,
             "[[X]]": 64,
             "[[Y]]": 16,
             "[[Z]]": 16,
-            "[[NP]]": 32,
-        },
-    },
-    {
-        "cores": 64,
-        "name": "8x64vcpu-64-16-16",
-        "max-instance-types": 4,
-        "filter-instance-types": 20,
-        "max-spot-price": 2,
-        "lammps": {
-            "[[CPU]]": 28,
-            "[[X]]": 64,
-            "[[Y]]": 16,
-            "[[Z]]": 16,
-            "[[NP]]": 32,
+            # This is going to lammps (lmp)
+            "[[NP]]": 128,
         },
     },
 ]
@@ -428,7 +410,6 @@ def plan_experiments(args):
             continue
 
         experiments[exp.id] = exp
-    sys.exit()
     return experiments
 
 
@@ -718,6 +699,38 @@ kubectl --kubeconfig={cli.kube_config_file} create secret generic oras-env \\
     os.remove("create_secret.sh")
 
 
+def check_nodes_ready(args):
+    """
+    check that nodes are ready.
+
+    We do this extra check because the kubescaler function assumes N nodes,
+    and this would include our sticky node (one more)
+    """
+    import IPython
+
+    IPython.embed()
+    return
+    start = time.time()
+    kubectl = cli.get_k8s_client()
+    while True:
+        print(f"⏱️  Waiting for {self.node_count} nodes to be Ready...")
+        time.sleep(5)
+        nodes = kubectl.list_node()
+        ready_count = 0
+        for node in nodes.items:
+            for condition in node.status.conditions:
+                if "sticky" in node.metadata.labels:
+                    continue
+
+                # Don't add to node ready count if not ready
+                if condition.type == "Ready" and condition.status == "True":
+                    ready_count += 1
+        if ready_count >= args.nodes:
+            break
+    print(f"Time for kubernetes to get nodes - {time.time()-start}")
+    return ready_count
+
+
 def create_persistent_node():
     """
     Create a 'sticky-node' that will run persistently to install operators to.
@@ -784,6 +797,7 @@ def run_experiments(experiments, args, data_dir):
 
     # Note we are NOT creating the node group here - just the cluster, so machine types aren't relevant
     # We will add machine types as node groups (to create and delete from the cluster) later
+
     cli.create_cluster(create_nodes=False)
     original_times = copy.deepcopy(cli.times)
 
@@ -799,11 +813,6 @@ def run_experiments(experiments, args, data_dir):
     # At this point we have a control plane. We are going to be creating a managed node group of spot,
     # but we also need a persistent node group for the operator installs, ON_DEMAND.
     persistent_node_group = create_persistent_node()
-
-    # Save the time for the sticky :)
-    original_times["persistent-node-group-create-size-1"] = cli.times[
-        f"create_nodegroup-size-{args.nodes}"
-    ]
 
     # Note that the experiment already has a table of values filtered down
     # Each experiment has some number of batches (we will typically just run one experiment)
@@ -841,6 +850,9 @@ def run_experiments(experiments, args, data_dir):
             # Now create the node groups!
             # This is N nodes for some unique set of instances from the original filtered set
             cli.create_cluster_nodes(machine_types)
+
+            # One more sanity check that nodes ready
+            check_nodes_ready(args)
 
             # Add cluster times to the new times
             times = copy.deepcopy(original_times)
