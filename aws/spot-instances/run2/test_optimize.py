@@ -9,6 +9,7 @@ import copy
 import sys
 import math
 import scipy.optimize
+import random
 from cloudselect.main import Client
 import cloudselect.utils as utils
 
@@ -64,6 +65,13 @@ def get_parser():
         type=int,
     )
     parser.add_argument(
+        "--randomize-by",
+        dest="randomize",
+        help="how many random bounds to change when cannot find solution",
+        default=20,
+        type=int,
+    )
+    parser.add_argument(
         "--bare-metal",
         help="select bare metal instances",
         default=False,
@@ -95,6 +103,7 @@ class PotpourriOptimizer:
         region="us-east-2",
         min_score=9,
         linprog_method="highs",
+        randomize_by=20,
     ):
         """
         The Potpourri optimizer holds a data frame of instances to
@@ -106,6 +115,7 @@ class PotpourriOptimizer:
         self.region = region
         self.min_score = min_score
         self.linprog_method = linprog_method
+        self.randomize_by = randomize_by
         self.df = spot_cli.select_instances(
             data_file,
             bare_metal=bare_metal,
@@ -124,12 +134,24 @@ class PotpourriOptimizer:
         # Initialize bounds
         self.set_params()
 
-    def run(self, reset_bounds=False):
+    def run(self, reset_bounds=False, random_decrement=False):
         """
         Run the algorithm!
         """
         if reset_bounds:
             self.bounds = copy.deepcopy(self.original_bounds)
+
+            # If we allow a random decrement, find one
+            if random_decrement:
+                how_many = random.choice(range(20))
+                count = 0
+                while count < how_many:
+                    # Select a random idx
+                    idx = random.choice(range(len(self.bounds)))
+                    if self.bounds[idx][1] <= 0:
+                        continue
+                    self.bounds[idx] = (0, self.bounds[idx][1] - 1)
+                    count += 1
 
         # Note that we can set a callback to print steps
         return scipy.optimize.linprog(
@@ -301,24 +323,12 @@ class PotpourriOptimizer:
         # We will use order of sizes to calculate bounds (from spot score api)
         self.sizes = list(self.mean_costs.keys())
 
-    def remove_cheapest(self, result):
-        """
-        If we get stuck in a loop with the cheapest, remove it
-        by setting the max bounds to 0.
-        """
-        idx = self.find_highest_cost_index(result, [], adjust_cheapest=True)
-        self.bounds[idx] = (0, 0)
-
-    def find_highest_cost_index(self, result, ignores, adjust_cheapest=False):
+    def find_highest_cost_index(self, result, ignores):
         """
         Given a result, we want to decrement the max bound for the most
         expensive option cost PER core. This will (hopefully) force the
         algorithm to choose an option with a better cost per core.
         """
-        # If we change the most expensive, we want to reverse
-        # If we adjust the cheapest (True) we don't want to reverse (cheapest at top)
-        reverse = adjust_cheapest is False
-
         # Determine the most expensive per core hour. First, these are indices of chosen
         # ignores takes into account indices that we need to ignore (e.g, bounds zeroed out)
         chosen_idx = [
@@ -331,7 +341,7 @@ class PotpourriOptimizer:
         subset_mppc = {
             k: v
             for k, v in sorted(
-                subset_mppc.items(), key=lambda item: item[1], reverse=reverse
+                subset_mppc.items(), key=lambda item: item[1], reverse=True
             )
         }
 
@@ -423,6 +433,7 @@ def main():
         region=args.region,
         min_score=args.min_score,
         linprog_method=args.linprog_method,
+        randomize_by=args.randomize,
     )
 
     # Run the initial algorithm! This gives us a first result to start from
@@ -448,24 +459,13 @@ def main():
     print(f"\nCalculating remainder of results (total {args.results})")
     args.results -= 1
 
-    # Always decrement the most expensive, unless we run out of options
-    adjust_cheapest = False
-
-    # If we are unsuccesful twice, remove the cheapest option entirely
-    unsuccess_count = 0
-
     # Find the first non-zero, and decrease by one in the bounds
     while args.results > 0:
         # Find the index into sizes (where a choice was made) with the highest cost per core
         # In case we cannot decrement a bound, we allow this to loop
         ignores = set()
         while True:
-            # Two unsuccessful means we weren't successful to remove cheapest, remove entirely
-            if unsuccess_count >= 2 and adjust_cheapest:
-                poo.remove_cheapest(result)
-                result = poo.run()
-
-            idx = poo.find_highest_cost_index(result, ignores, adjust_cheapest)
+            idx = poo.find_highest_cost_index(result, ignores)
             bound = poo.bounds[idx]
 
             # We can't go any lower, we've eliminated this
@@ -474,11 +474,6 @@ def main():
                 continue
 
             # If we get here, break out of while!
-            break
-
-        if unsuccess_count >= 5:
-            print("Likely hit local solution, exiting!")
-            args.results = 0
             break
 
         # If we get here, we have a valid index, and decrease the bound by 1
@@ -495,16 +490,10 @@ def main():
         # This will force other solutions that fill the space of the previous cheapest one
         # If we set it to 0, we could be more aggressive and get very different (more expensive) answers
         if not result.success:
-            print(
-                "Hit unsuccessful result, likely out of solutions. Allowing adjust of cheapest."
-            )
-            result = poo.run(reset_bounds=True)
-            unsuccess_count += 1
-            adjust_cheapest = True
-            continue
+            print("Randomizing...", end="\r")
+            result = poo.run(reset_bounds=True, random_decrement=True)
 
         # If we make it here (success) go back to decrement of max cost instance!
-        adjust_cheapest = False
         res = poo.show_result(result)
         if res and res["uid"] not in seen:
             seen.add(res["uid"])
