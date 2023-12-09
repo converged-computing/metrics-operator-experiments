@@ -215,7 +215,12 @@ class PotpourriOptimizer:
         """
         self.bounds = []
         for size in self.sizes:
-            self.bounds.append((0, self.max_instances[size]))
+            # This means we didn't get a score, which I think can happen if we ask for
+            # instances that don't exist for the zone (oops, I did this)...!
+            if size not in self.max_instances:
+                self.bounds.append((0, 0))
+            else:
+                self.bounds.append((0, self.max_instances[size]))
 
         # Save the original bounds for reset later
         self.original_bounds = copy.deepcopy(self.bounds)
@@ -270,10 +275,17 @@ class PotpourriOptimizer:
                     break
 
                 # If the score is == our risk tolerance, we are good!
-                score = score["SpotPlacementScores"][0]["Score"]
+                if not score["SpotPlacementScores"]:
+                    score = None
+                else:
+                    score = score["SpotPlacementScores"][0]["Score"]
 
                 # If we are in the risk tolerance, break from the while
-                if score >= self.min_score:
+                if score is None:
+                    print(f"Size {core} does not have a score.")
+                    break
+
+                elif score >= self.min_score:
                     print(
                         f"✅️ Spot score: size {core}     [satisfed]: {count} instances (score: {score})"
                     )

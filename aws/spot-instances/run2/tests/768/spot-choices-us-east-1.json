@@ -1,0 +1,2126 @@
+[
+    {
+        "instances": [
+            {
+                "count": 4,
+                "size": 192,
+                "total_cores": 768,
+                "cost_per_instance": 4.95,
+                "instances_cost": 19.8,
+                "available": 3
+            }
+        ],
+        "total_count": 4,
+        "total_cost": 19.8
+    },
+    {
+        "instances": [
+            {
+                "count": 10,
+                "size": 1,
+                "total_cores": 10,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.5,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 16,
+        "total_cost": 20.69
+    },
+    {
+        "instances": [
+            {
+                "count": 8,
+                "size": 1,
+                "total_cores": 8,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.4,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 2,
+                "total_cores": 2,
+                "cost_per_instance": 0.13,
+                "instances_cost": 0.13,
+                "available": 51
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 15,
+        "total_cost": 20.720000000000002
+    },
+    {
+        "instances": [
+            {
+                "count": 6,
+                "size": 1,
+                "total_cores": 6,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.30000000000000004,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 4,
+                "total_cores": 4,
+                "cost_per_instance": 0.29,
+                "instances_cost": 0.29,
+                "available": 52
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 13,
+        "total_cost": 20.78
+    },
+    {
+        "instances": [
+            {
+                "count": 4,
+                "size": 1,
+                "total_cores": 4,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.2,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 6,
+                "total_cores": 6,
+                "cost_per_instance": 0.48,
+                "instances_cost": 0.48,
+                "available": 4
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 11,
+        "total_cost": 20.87
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 1,
+                "total_cores": 2,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.1,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 8,
+                "total_cores": 8,
+                "cost_per_instance": 0.58,
+                "instances_cost": 0.58,
+                "available": 45
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 9,
+        "total_cost": 20.87
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 20.87
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 18,
+                "total_cores": 36,
+                "cost_per_instance": 0.78,
+                "instances_cost": 1.56,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 20.970000000000002
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 5,
+        "total_cost": 21.05
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 21.35
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 32,
+                "total_cores": 32,
+                "cost_per_instance": 1.86,
+                "instances_cost": 1.86,
+                "available": 39
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 21.75
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 16,
+                "total_cores": 16,
+                "cost_per_instance": 1.1,
+                "instances_cost": 1.1,
+                "available": 43
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 21.770000000000003
+    },
+    {
+        "instances": [
+            {
+                "count": 8,
+                "size": 1,
+                "total_cores": 8,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.4,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 24,
+                "total_cores": 24,
+                "cost_per_instance": 1.53,
+                "instances_cost": 1.53,
+                "available": 41
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 14,
+        "total_cost": 21.82
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 1,
+                "total_cores": 2,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.1,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 12,
+                "total_cores": 12,
+                "cost_per_instance": 1.07,
+                "instances_cost": 1.07,
+                "available": 7
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 9,
+        "total_cost": 21.840000000000003
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 48,
+                "total_cores": 48,
+                "cost_per_instance": 2.57,
+                "instances_cost": 2.57,
+                "available": 44
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 22.46
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 23.68
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 64,
+                "total_cores": 64,
+                "cost_per_instance": 3.93,
+                "instances_cost": 3.93,
+                "available": 23
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 2,
+                "size": 128,
+                "total_cores": 256,
+                "cost_per_instance": 3.1,
+                "instances_cost": 6.2,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 23.82
+    },
+    {
+        "instances": [
+            {
+                "count": 10,
+                "size": 1,
+                "total_cores": 10,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.5,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 17,
+        "total_cost": 23.32
+    },
+    {
+        "instances": [
+            {
+                "count": 8,
+                "size": 1,
+                "total_cores": 8,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.4,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 2,
+                "total_cores": 2,
+                "cost_per_instance": 0.13,
+                "instances_cost": 0.13,
+                "available": 51
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 16,
+        "total_cost": 23.35
+    },
+    {
+        "instances": [
+            {
+                "count": 6,
+                "size": 1,
+                "total_cores": 6,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.30000000000000004,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 4,
+                "total_cores": 4,
+                "cost_per_instance": 0.29,
+                "instances_cost": 0.29,
+                "available": 52
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 14,
+        "total_cost": 23.41
+    },
+    {
+        "instances": [
+            {
+                "count": 4,
+                "size": 1,
+                "total_cores": 4,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.2,
+                "available": 54
+            },
+            {
+                "count": 7,
+                "size": 36,
+                "total_cores": 252,
+                "cost_per_instance": 1.46,
+                "instances_cost": 10.219999999999999,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 14,
+        "total_cost": 23.419999999999998
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 4,
+                "size": 36,
+                "total_cores": 144,
+                "cost_per_instance": 1.46,
+                "instances_cost": 5.84,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 9,
+        "total_cost": 23.41
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 23.5
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 32,
+                "total_cores": 32,
+                "cost_per_instance": 1.86,
+                "instances_cost": 1.86,
+                "available": 39
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 23.9
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 6,
+                "total_cores": 6,
+                "cost_per_instance": 0.48,
+                "instances_cost": 0.48,
+                "available": 4
+            },
+            {
+                "count": 1,
+                "size": 24,
+                "total_cores": 24,
+                "cost_per_instance": 1.53,
+                "instances_cost": 1.53,
+                "available": 41
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 8,
+        "total_cost": 24.05
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 8,
+                "total_cores": 8,
+                "cost_per_instance": 0.58,
+                "instances_cost": 0.58,
+                "available": 45
+            },
+            {
+                "count": 1,
+                "size": 24,
+                "total_cores": 24,
+                "cost_per_instance": 1.53,
+                "instances_cost": 1.53,
+                "available": 41
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 8,
+        "total_cost": 24.15
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 16,
+                "total_cores": 16,
+                "cost_per_instance": 1.1,
+                "instances_cost": 1.1,
+                "available": 43
+            },
+            {
+                "count": 1,
+                "size": 12,
+                "total_cores": 12,
+                "cost_per_instance": 1.07,
+                "instances_cost": 1.07,
+                "available": 7
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 8,
+        "total_cost": 24.21
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 16,
+                "total_cores": 32,
+                "cost_per_instance": 1.1,
+                "instances_cost": 2.2,
+                "available": 43
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 8,
+        "total_cost": 24.240000000000002
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 16,
+                "total_cores": 16,
+                "cost_per_instance": 1.1,
+                "instances_cost": 1.1,
+                "available": 43
+            },
+            {
+                "count": 1,
+                "size": 48,
+                "total_cores": 48,
+                "cost_per_instance": 2.57,
+                "instances_cost": 2.57,
+                "available": 44
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 24.25
+    },
+    {
+        "instances": [
+            {
+                "count": 3,
+                "size": 96,
+                "total_cores": 288,
+                "cost_per_instance": 3.79,
+                "instances_cost": 11.370000000000001,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 24.37
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 64,
+                "total_cores": 64,
+                "cost_per_instance": 3.93,
+                "instances_cost": 3.93,
+                "available": 23
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 24.509999999999998
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 48,
+                "total_cores": 48,
+                "cost_per_instance": 2.57,
+                "instances_cost": 2.57,
+                "available": 44
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 24.61
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 24,
+                "total_cores": 48,
+                "cost_per_instance": 1.53,
+                "instances_cost": 3.06,
+                "available": 41
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 192,
+                "total_cores": 384,
+                "cost_per_instance": 4.95,
+                "instances_cost": 9.9,
+                "available": 3
+            }
+        ],
+        "total_count": 8,
+        "total_cost": 25.1
+    },
+    {
+        "instances": [
+            {
+                "count": 4,
+                "size": 1,
+                "total_cores": 4,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.2,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 24,
+                "total_cores": 24,
+                "cost_per_instance": 1.53,
+                "instances_cost": 1.53,
+                "available": 41
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 10,
+        "total_cost": 21.14
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 12,
+                "total_cores": 12,
+                "cost_per_instance": 1.07,
+                "instances_cost": 1.07,
+                "available": 7
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 21.26
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 32,
+                "total_cores": 32,
+                "cost_per_instance": 1.86,
+                "instances_cost": 1.86,
+                "available": 39
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 21.270000000000003
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 16,
+                "total_cores": 16,
+                "cost_per_instance": 1.1,
+                "instances_cost": 1.1,
+                "available": 43
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 36,
+                "total_cores": 36,
+                "cost_per_instance": 1.46,
+                "instances_cost": 1.46,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 21.29
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 48,
+                "total_cores": 48,
+                "cost_per_instance": 2.57,
+                "instances_cost": 2.57,
+                "available": 44
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 6,
+        "total_cost": 21.3
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 5,
+        "total_cost": 21.740000000000002
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 64,
+                "total_cores": 64,
+                "cost_per_instance": 3.93,
+                "instances_cost": 3.93,
+                "available": 23
+            },
+            {
+                "count": 1,
+                "size": 128,
+                "total_cores": 128,
+                "cost_per_instance": 3.1,
+                "instances_cost": 3.1,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 5,
+        "total_cost": 21.880000000000003
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 96,
+                "total_cores": 192,
+                "cost_per_instance": 3.79,
+                "instances_cost": 7.58,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 5,
+        "total_cost": 22.43
+    },
+    {
+        "instances": [
+            {
+                "count": 6,
+                "size": 1,
+                "total_cores": 6,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.30000000000000004,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 13,
+        "total_cost": 22.64
+    },
+    {
+        "instances": [
+            {
+                "count": 4,
+                "size": 1,
+                "total_cores": 4,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.2,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 2,
+                "total_cores": 2,
+                "cost_per_instance": 0.13,
+                "instances_cost": 0.13,
+                "available": 51
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 12,
+        "total_cost": 22.67
+    },
+    {
+        "instances": [
+            {
+                "count": 2,
+                "size": 1,
+                "total_cores": 2,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.1,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 4,
+                "total_cores": 4,
+                "cost_per_instance": 0.29,
+                "instances_cost": 0.29,
+                "available": 52
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 10,
+        "total_cost": 22.73
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 6,
+                "total_cores": 6,
+                "cost_per_instance": 0.48,
+                "instances_cost": 0.48,
+                "available": 4
+            },
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 8,
+        "total_cost": 22.82
+    },
+    {
+        "instances": [
+            {
+                "count": 4,
+                "size": 1,
+                "total_cores": 4,
+                "cost_per_instance": 0.05,
+                "instances_cost": 0.2,
+                "available": 54
+            },
+            {
+                "count": 1,
+                "size": 8,
+                "total_cores": 8,
+                "cost_per_instance": 0.58,
+                "instances_cost": 0.58,
+                "available": 45
+            },
+            {
+                "count": 5,
+                "size": 36,
+                "total_cores": 180,
+                "cost_per_instance": 1.46,
+                "instances_cost": 7.3,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 13,
+        "total_cost": 22.93
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 18,
+                "total_cores": 18,
+                "cost_per_instance": 0.78,
+                "instances_cost": 0.78,
+                "available": 3
+            },
+            {
+                "count": 5,
+                "size": 36,
+                "total_cores": 180,
+                "cost_per_instance": 1.46,
+                "instances_cost": 7.3,
+                "available": 3
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 9,
+        "total_cost": 22.93
+    },
+    {
+        "instances": [
+            {
+                "count": 3,
+                "size": 36,
+                "total_cores": 108,
+                "cost_per_instance": 1.46,
+                "instances_cost": 4.38,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 23.020000000000003
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 24,
+                "total_cores": 24,
+                "cost_per_instance": 1.53,
+                "instances_cost": 1.53,
+                "available": 41
+            },
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 23.090000000000003
+    },
+    {
+        "instances": [
+            {
+                "count": 1,
+                "size": 32,
+                "total_cores": 32,
+                "cost_per_instance": 1.86,
+                "instances_cost": 1.86,
+                "available": 39
+            },
+            {
+                "count": 2,
+                "size": 36,
+                "total_cores": 72,
+                "cost_per_instance": 1.46,
+                "instances_cost": 2.92,
+                "available": 3
+            },
+            {
+                "count": 1,
+                "size": 96,
+                "total_cores": 96,
+                "cost_per_instance": 3.79,
+                "instances_cost": 3.79,
+                "available": 10
+            },
+            {
+                "count": 3,
+                "size": 192,
+                "total_cores": 576,
+                "cost_per_instance": 4.95,
+                "instances_cost": 14.850000000000001,
+                "available": 3
+            }
+        ],
+        "total_count": 7,
+        "total_cost": 23.42
+    }
+]

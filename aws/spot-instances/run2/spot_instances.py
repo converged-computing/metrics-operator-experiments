@@ -11,6 +11,7 @@
 # However it needs a certain instance type and number
 
 import argparse
+import boto3
 import os
 import statistics
 import sys
@@ -49,6 +50,7 @@ def get_parser():
     gen.add_argument(
         "--no-cache", help="do not use cache", action="store_true", default=False
     )
+    gen.add_argument("--region", help="set region for cloud", default="us-east-1")
 
     # On the fly updates to config params
     gen.add_argument(
@@ -312,8 +314,20 @@ def generate_data(args):
         # Spot instances are aws for now
         if cloud.name != "aws":
             continue
-        instances = cli.instances()["aws"]
-        prices = cli.prices()["aws"]
+
+        # if we don't update the boto clients, we won't get instance results
+        cloud.regions = [args.region]
+        cloud.ec2_client = boto3.client("ec2", region_name=args.region)
+        cloud.pricing_cli = boto3.client("pricing", region_name=args.region)
+
+        # TODO need to check why instances doesn't work
+        if args.no_cache:
+            instances = cloud.instances()
+            prices = cloud.prices()
+
+        else:
+            instances = cli.instances()["aws"]
+            prices = cli.prices()["aws"]
 
         # Get spot prices
         spot_prices = cloud.spot_prices(instances)
