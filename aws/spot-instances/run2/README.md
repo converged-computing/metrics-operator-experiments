@@ -12,7 +12,15 @@ are in my research notes (private) but I'll show usage here. Note that you need 
 The [spot_instances.py](spot_instances.py) can be used to generate data:
 
 ```bash
-$ python spot_instances.py gen
+python spot_instances.py gen
+```
+
+Note that the prices API seems to have an issue with other regions, and I'll look at later.
+Here is what I was trying (but it wasn't successful to get prices).
+
+```bash
+mkdir -p ./prices
+python spot_instances.py gen --data ./prices/aws-instances-us-west-2.csv --region us-west-2 --no-cache
 ```
 
 That will generate the data file [instances-aws.csv](instances-aws.csv) that we derive current spot prices for.
@@ -125,3 +133,28 @@ Calculating remainder of results (total {args.results})
 ```
 
 Maybe we didn't solve the spot instance problem, but this is some start. I'm pretty proud of myself for doing linear programming! 😆️
+
+### Optimization Tests
+
+ - [spot-instances-choices.json](spot-instances-choices.json): instead removes the most expensive (by core hour) first and then if reaches local solution, randomizes the original bounds to explore other spaces (this is cool)!
+ - [spot-instance-choices-decrement-bound-by-one.json](spot-instance-choices-decrement-bound-by-one.json) Simply looped through the counts, and always found the first coefficient that was optimized and decreased by one.
+ 
+For the first, we fall back to an approach that removes the cheapest instead. We could also allow the algorithm to select removing one at random!
+
+
+### Test Runs
+
+I decided to do some test runs for different zones and sizes (again to mimic hpc6a and hpc7g).  This was done around 11:30am on a Wednesday. Note that the us-east-2 isn't perfect because prices (from the cache) are technically from us-east-1.
+
+```console
+mkdir -p tests/512
+mkdir -p tests/768
+python test_optimize.py 512 --results 50 --outfile ./tests/512/spot-choices-us-east-2.json --region us-east-2
+python test_optimize.py 512 --results 50 --outfile ./tests/512/spot-choices-us-east-1.json --region us-east-1
+python test_optimize.py 768 --results 30 --outfile ./tests/768/spot-choices-us-east-2.json --region us-east-2
+python test_optimize.py 768 --results 50 --outfile ./tests/768/spot-choices-us-east-1.json --region us-east-1
+
+# These didn't work because I couldn't get prices for the west zones, not sure why, but probably OK.
+python test_optimize.py 512 --results 30 --outfile ./tests/512/spot-choices-us-west-1.json --region us-west-1
+python test_optimize.py 512 --results 50 --outfile ./tests/512/spot-choices-us-west-2.json --region us-west-2
+```
