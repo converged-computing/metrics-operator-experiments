@@ -1,3 +1,2 @@
-lammps-0-l-0-0.oras.default.svc.cluster.local
-lammps-0-w-0-0.oras.default.svc.cluster.local
+hpctoolkit-0-l-0-0.oras.default.svc.cluster.local
 
