@@ -225,3 +225,5 @@ If we can pay $6.8/hour for 512 tasks, that would be a huge improvement. Of cour
  - [spot-instances-choices.json](spot-instances-choices.json): removes the most expensive (by core hour) first and then if reaches local solution, randomizes the original bounds to explore other spaces (this is cool)!
  
 For the first, we fall back to an approach that removes the cheapest instead. We could also allow the algorithm to select removing one at random!
+
+See the [test](test) directory for actually trying to run LAMMPS on Google cloud.

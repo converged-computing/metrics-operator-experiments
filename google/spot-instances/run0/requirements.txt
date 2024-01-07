@@ -1,0 +1,6 @@
+scipy
+Jinja2
+metricsoperator
+cloudselect
+pandas
+kubescaler

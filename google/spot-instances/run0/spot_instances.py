@@ -211,7 +211,10 @@ def select_instances(
     print("\n😸️ Filtered selection of spot:")
     print(sorted_df)
 
-    # Give mean cost and std
+    # Give mean cost and std, but return early (and don't show) if only one entry!
+    if sorted_df.shape[0] <= 1:
+        return sorted_df
+
     print("\n🤓️ Mean (std) of spot price")
     mean = round(sorted_df.spot_price.mean(), 2)
     std = round(sorted_df.spot_price.std(), 2)
