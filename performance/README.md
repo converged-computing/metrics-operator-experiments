@@ -8,3 +8,4 @@ We want to prototype a setup that will deploy VMs (with SLURM) on several clouds
 ## Prototypes
 
  - [prototypes/google-cloud-0](prototypes/google-cloud-0): just getting familiar with the tools and how to automate things!
+ - [prototypes/aws-0](aws-0): testing deploying parallel cluster on AWS

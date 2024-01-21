@@ -1,0 +1,23 @@
+Region: us-east-1
+Image:
+  # We want to use ubuntu2204, but this didn't allow rsa keys
+  Os: ubuntu2004
+HeadNode:
+  InstanceType: t2.micro
+  Networking:
+    SubnetId: subnet-0594da6fcd93e4760
+  Ssh:
+    KeyName: xxxxxx
+Scheduling:
+  Scheduler: slurm
+  SlurmQueues:
+  - Name: queue1
+    ComputeResources:
+    - Name: t2micro
+      Instances:
+      - InstanceType: t2.micro
+      MinCount: 0
+      MaxCount: 3
+    Networking:
+      SubnetIds:
+      - subnet-0594da6fcd93e4760
