@@ -211,8 +211,12 @@ def monitor_nodes(count, outdir):
             history[name]["noticed_disappeared_time"] = now
             history[name]["elapsed_time"] = now - history[name]["creation_time"]
 
-    # Save data on each pass
-    utils.write_json(history, outfile)
+    # Save data on each pass, need to ensure we have a string
+    history_saved = {}
+    for name in history:
+        history_saved[name] = copy.deepcopy(history[name])
+        history_saved[name]['creation_time'] = str(history_saved[name]['creation_time'])
+    utils.write_json(history_saved, outfile)
 
 
 class Experiment:
@@ -247,6 +251,10 @@ class Experiment:
             max_spot_price=self.max_spot_price,
             has_gpu=self.has_gpu,
         )
+        
+        # Remove the one known to not work. 
+        # Note this is hard coded for size 32, in the future we need to generalize
+        self.df = self.df[self.df.instance != "n2-highmem-32"]
 
     def __repr__(self):
         return str(self)
@@ -512,8 +520,21 @@ def lammps_single_run(i, args, killed, data_path, metrics_yaml):
 
     name = m.spec["metadata"]["name"]
     time.sleep(10)
-    run_kubectl(f"wait --for=condition=complete --timeout=600s job/{name}-l-0")
 
+    # Get the name of the launcher
+    pods = m._core_v1.list_namespaced_pod(namespace='default')
+    for pod in pods.items:
+        if pod.metadata.name.startswith(f"{name}-l-0"):
+            print(f'Found launcher pod {pod.metadata.name}')
+            break        
+
+
+    print('TODO HOW TO WAIT')
+    import IPython
+    IPython.embed()
+
+    run_kubectl(f"wait --for=status=complete --timeout=600s pod/{pod.metadata.name}")
+    
     # Need to better expose this
     metric = m.get_parser()
     metric._core_v1 = cli.get_k8s_client()
@@ -673,12 +694,6 @@ def run_experiments(experiments, args):
         labels={"sticky": "yes"},
     )
 
-    print("RUN EXPERIMENTS")
-    import IPython
-
-    IPython.embed()
-    sys.exit()
-
     # This creates a single node for the control plane
     # We will add machine types as node groups (to create and delete from the cluster) later
     cli.create_cluster()
@@ -695,6 +710,12 @@ def run_experiments(experiments, args):
     install_operators()
 
     original_times = copy.deepcopy(cli.times)
+
+    print("RUN EXPERIMENTS")
+    import IPython
+
+    IPython.embed()
+    sys.exit()
 
     # Note that the experiment already has a table of values filtered down
     # Each experiment has some number of batches (we will typically just run one experiment)
@@ -731,10 +752,9 @@ def run_experiments(experiments, args):
             # This is N nodes for some unique set of instances from the original filtered set
             node_pool_name = f"node-pool-{batch}"
 
-            # This will wait for the cluster to be ready again, nice :)
-            # And we also time it to get that total creation time!
-            # We also want spot instances. Note that we can ask for COMPACT or TIER_1
-            # but most instance types don't support it.
+            # This will wait for the cluster to be ready again. Also note I've seen it sometimes fail.
+            # We should add a try / catch for that. We can ask for COMPACT or TIER_1 but most
+            # instance types don't support it.
             cli.create_cluster_nodes(
                 node_pool_name,
                 node_count=args.nodes,
