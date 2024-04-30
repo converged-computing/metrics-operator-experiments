@@ -1,0 +1,25 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MiniCluster
+metadata:
+  name: flux-sample
+spec:
+  size: 1
+  interactive: true
+
+  # This disables installing flux via the view
+  flux:
+    container:
+      disable: true
+
+  # This is a list because a pod can support multiple containers
+  containers:
+  - image: ghcr.io/converged-computing/metric-pennant:flux-gpu
+    workingDir: /opt/pennant
+    commands:
+      pre: |
+        echo "Regenerated resources"
+        flux R encode --hosts=${hosts} --cores=0-5 --gpu=0 > ${viewroot}/etc/flux/system/R
+        cat ${viewroot}/etc/flux/system/R
+    resources:
+      limits:
+        nvidia.com/gpu: "1"
