@@ -31,6 +31,7 @@ For this next set, the container is built but needs another cluster creation for
 
 - **deepspeed**
 - **nek5000**
+- **lammps**
 - **hpc-benchmarks hpcg/hpl** with ubuntu bionic (was not able to build older versions of pmix/prrte)
 
 I'll continue testing containers with GPU and creating new ones - please send me other applications of interest. I haven't started lammps yet anticipating some extra configuration logic.
