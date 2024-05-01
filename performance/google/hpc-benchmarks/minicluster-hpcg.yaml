@@ -12,7 +12,7 @@ spec:
       disable: true
 
   containers:
-  - image: ghcr.io/converged-computing/metric-hpc-benchmarks:24.03
+  - image: ghcr.io/converged-computing/metric-benchmark-hpcg:20.10
     workingDir: /workspace
     commands:
       pre: |

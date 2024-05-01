@@ -191,4 +191,14 @@ ENV CUDA_VISIBLE_DEVICES=0,1,2,3
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
-WORKDIR /workspace
+RUN pip3 install deepspeed
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+WORKDIR /deepspeed
+RUN git clone https://github.com/microsoft/DeepSpeedExamples/
+
+WORKDIR /deepspeed/DeepSpeedExamples/
+RUN pip3 install -r requirements.txt
+
+# Set the default command to bash
+CMD ["/bin/bash"]

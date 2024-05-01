@@ -31,11 +31,11 @@ For the next hackathon, my goal is to get as far with each container and miniclu
 - **mixbench**: the cu file is not compatible, likely needs a tweak and rebuild.
 - **nek5000**: seems to work! But GPU utilization goes down - need to decide on what/how to run it.
 - **osu**: the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
+- **mt-gem**: runs successfully on 2 nodes, 8 GPU, about 28 seconds.
 
 For this next set, the container is built but needs another cluster creation for testing.
 
 - **deepspeed**
-- **mt-gem**
 - **hpc-benchmarks hpcg/hpl** with ubuntu bionic (was not able to build older versions of pmix/prrte)
 
 I'll continue testing containers with GPU and creating new ones - please send me other applications of interest. I haven't started lammps yet anticipating some extra configuration logic.

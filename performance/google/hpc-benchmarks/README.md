@@ -150,14 +150,27 @@ flux resource list
       down      0        0        0 
 ```
 
-Here are some runs:
+See transport options
+
+```
+# ucx_info -d | grep Transport
+#   Transport: posix
+#   Transport: sysv
+#   Transport: self
+#   Transport: tcp
+#   Transport: cuda_copy
+#   Transport: cuda_ipc
+#   Transport: cma
+```
+
+Choose some.
 
 ```bash
-# This fails because of an error that suggests we need infiniband
-flux run -N2 -n 8 -g 1 /bin/bash ./hpcg.sh --ucx-tls cuda_copy --dat /workspace/hpl-linux-x86_64/sample-dat/HPL-dgx-1N.dat
+export UCX_TLS=cuda_copy,cuda_ipc
+./xhpcg
 
-# This one segmentation faults and the error looks like a driver mismatch
-flux run -N2 -n 8 -g 1 /bin/bash ./hpcg.sh --dat /workspace/hpcg-linux-x86_64/sample-dat/hpcg.dat
+# This doesn't really work
+flux run -N1 -n 4 -g 1 ./xhpcg
 ```
 
 ### Clean Up
