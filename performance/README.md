@@ -35,7 +35,5 @@ For the next hackathon, my goal is to get as far with each container and miniclu
 
 For this next set, the container is built but needs another cluster creation for testing.
 
-- **deepspeed**
-- **hpc-benchmarks hpcg/hpl** with ubuntu bionic (was not able to build older versions of pmix/prrte)
-
-I'll continue testing containers with GPU and creating new ones - please send me other applications of interest. I haven't started lammps yet anticipating some extra configuration logic.
+- **deepspeed**: likely this won't work - Python libraries needed would be too old. Our best bet would be to use their container.
+- **hpc-benchmarks hpcg/hpl** prepared a new container with basic build + download [from here](https://icl.utk.edu/hpcg/software/view.html?id=280)
