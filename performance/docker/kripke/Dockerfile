@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu .
-#  docker push ghcr.io/converged-computing/metric-lammps-gpu 
+#  docker build -t ghcr.io/converged-computing/metric-kripke-gpu .
+#  docker push ghcr.io/converged-computing/metric-kripke-gpu
 
 # Utilities
 RUN apt-get update && \
@@ -189,20 +189,34 @@ ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 WORKDIR /opt
-RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
-    cd multi-gpu-programming-models/mpi && \
-    make
-
-WORKDIR /opt
-RUN git clone  https://github.com/lammps/lammps.git && \
-    cd lammps && \
+RUN git clone https://github.com/ekondis/mixbench && \
+    cd mixbench && \
     mkdir build && \
     cd build && \
-    cmake -D CMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs -DBIN2C=/usr/local/cuda/bin/bin2c -D LAMMPS_MACHINE=gpu -D PKG_MOLECULE=on -D PKG_ASPHERE=on -D PKG_BODY=on -D PKG_CLASS2=on -D PKG_COLLOID=on -D PKG_COMPRESS=on -D PKG_CORESHELL=on -D PKG_DIPOLE=on -D PKG_GRANULAR=on -D PKG_REAXFF=on -D PKG_KSPACE=on -D PKG_MANYBODY=on -D PKG_MC=on -D PKG_MISC=on -D PKG_PERI=on -D PKG_QEQ=on -D PKG_RIGID=on -D PKG_SHOCK=on -D PKG_SNAP=on -D PKG_ML-SNAP=yes -D PKG_SRD=on -D PKG_USER-REAXC=on -D PKG_USER-TALLY=on -D PKG_GPU=on -D GPU_API=cuda -D  GPU_ARCH=sm_70 ../cmake && \
-    make && \
-    make install 
+    cmake ../mixbench-cuda && \
+    cmake --build ./
 
-WORKDIR /code
-COPY ./common .
+# see https://asc.llnl.gov/sites/asc/files/2020-09/AMG_Summary_v1_7.pdf
+RUN apt-get update && \
+    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
+        openssh-client openssh-server \
+        dnsutils telnet strace cmake git g++ \
+        mpich unzip bzip2
 
-ENTRYPOINT ["lmp_gpu"]
+WORKDIR /opt
+RUN git clone https://github.com/LLNL/Kripke && \
+    cd Kripke && \
+    git submodule update --init --recursive && \
+    mkdir build 
+
+COPY ./CMakeLists.txt /opt/Kripke
+RUN cd /opt/Kripke/build && \
+    cmake -DENABLE_CUDA=true ../ && make && \
+    # Expose kripke.exe as kripke in bin
+    mv /opt/Kripke/build/kripke.exe /opt/Kripke/build/bin/kripke
+
+# Put those bad bois on the path!
+ENV PATH=/opt/Kripke:/opt/Kripke/build/bin:$PATH
+
+EXPOSE 22
+WORKDIR /opt/Kripke

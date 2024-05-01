@@ -198,4 +198,5 @@ RUN git clone https://github.com/Nek5000/nekRS nekrs && \
     CC=mpicc CXX=mpic++ FC=mpif77 ./nrsconfig -DCMAKE_INSTALL_PREFIX=/usr && \
     cmake --build ./build --target install     
 WORKDIR /opt/nekrs
+ENV NEKRS_HOME=/usr
 EXPOSE 22

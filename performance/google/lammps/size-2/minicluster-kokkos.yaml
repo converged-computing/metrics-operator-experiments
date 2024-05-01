@@ -1,0 +1,24 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MiniCluster
+metadata:
+  name: flux-sample
+spec:
+  size: 2
+  interactive: true
+
+  # This disables installing flux via the view
+  flux:
+    container:
+      disable: true
+
+  containers:
+  - image: ghcr.io/converged-computing/metric-lammps-gpu:kokkos
+    workingDir: /opt/amgx/build
+    commands:
+      pre: |
+        echo "Regenerated resources"
+        flux R encode --hosts=${hosts} --cores=0-15 --gpu=0-3 > ${viewroot}/etc/flux/system/R
+        cat ${viewroot}/etc/flux/system/R
+    resources:
+      limits:
+        nvidia.com/gpu: "4"

@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu .
-#  docker push ghcr.io/converged-computing/metric-lammps-gpu 
+#  docker build -t ghcr.io/converged-computing/metric-osu-gpu .
+#  docker push ghcr.io/converged-computing/metric-mixbench
 
 # Utilities
 RUN apt-get update && \
@@ -186,23 +186,35 @@ RUN mkdir -p /usr/local/pancakes && \
 
 ENV CUDA_VISIBLE_DEVICES=0,1,2,3
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib:/usr/local/cuda-12.4/targets/x86_64-linux/lib
 
-WORKDIR /opt
-RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
-    cd multi-gpu-programming-models/mpi && \
-    make
+# see https://asc.llnl.gov/sites/asc/files/2020-09/AMG_Summary_v1_7.pdf
+RUN apt-get update && \
+    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
+        openssh-client openssh-server \
+        dnsutils telnet strace cmake git g++ \
+        mpich unzip bzip2
 
-WORKDIR /opt
-RUN git clone  https://github.com/lammps/lammps.git && \
-    cd lammps && \
-    mkdir build && \
-    cd build && \
-    cmake -D CMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs -DBIN2C=/usr/local/cuda/bin/bin2c -D LAMMPS_MACHINE=gpu -D PKG_MOLECULE=on -D PKG_ASPHERE=on -D PKG_BODY=on -D PKG_CLASS2=on -D PKG_COLLOID=on -D PKG_COMPRESS=on -D PKG_CORESHELL=on -D PKG_DIPOLE=on -D PKG_GRANULAR=on -D PKG_REAXFF=on -D PKG_KSPACE=on -D PKG_MANYBODY=on -D PKG_MC=on -D PKG_MISC=on -D PKG_PERI=on -D PKG_QEQ=on -D PKG_RIGID=on -D PKG_SHOCK=on -D PKG_SNAP=on -D PKG_ML-SNAP=yes -D PKG_SRD=on -D PKG_USER-REAXC=on -D PKG_USER-TALLY=on -D PKG_GPU=on -D GPU_API=cuda -D  GPU_ARCH=sm_70 ../cmake && \
-    make && \
-    make install 
+RUN apt-get update && apt-get install -y git wget g++ gcc build-essential \
+    openssh-client openssh-server openmpi-bin openmpi-common libopenmpi-dev libgtk2.0-dev \
+    net-tools
 
-WORKDIR /code
-COPY ./common .
+# Prepare tutorial per
+# https://ulhpc-tutorials.readthedocs.io/en/latest/parallel/mpi/OSU_MicroBenchmarks/
 
-ENTRYPOINT ["lmp_gpu"]
+RUN git clone --depth 1 https://github.com/ULHPC/tutorials /opt/tutorials && \
+    mkdir -p /opt/osu-benchmark && \
+    cd /opt/osu-benchmark && \
+    ln -s /opt/tutorials/parallel/mpi/OSU_MicroBenchmarks ref.d && \
+    ln -s ref.d/Makefile . && \
+    ln -s ref.d/scripts  . && \
+    mkdir src && \
+    cd src && \
+    export OSU_VERSION=5.8 && \
+    wget --no-check-certificate http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-${OSU_VERSION}.tgz && \
+    tar xf osu-micro-benchmarks-${OSU_VERSION}.tgz && \
+    cd /opt/osu-benchmark && \
+    # Compile based on openmpi
+    mkdir -p build.openmpi && cd build.openmpi && \
+    ../src/osu-micro-benchmarks-${OSU_VERSION}/configure CC=mpicc CFLAGS=-I$(pwd)/../src/osu-micro-benchmarks-${OSU_VERSION}/util --prefix=$(pwd) && \
+    make && make install

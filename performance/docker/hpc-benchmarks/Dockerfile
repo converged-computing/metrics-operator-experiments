@@ -170,10 +170,5 @@ RUN wget https://github.com/flux-framework/flux-sched/releases/download/v0.33.1/
     sudo make install && \
     ldconfig
 
-RUN apt-get update && \
-    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
-        openssh-client openssh-server \
-        dnsutils telnet strace git g++ \
-        mpich unzip bzip2
 
 ENV CUDA_VISIBLE_DEVICES=0,1,2,3
