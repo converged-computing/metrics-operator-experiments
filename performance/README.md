@@ -26,16 +26,15 @@ For the next hackathon, my goal is to get as far with each container and miniclu
 - **amgx** need to decide on problem to run and size (config, etc)
 - **pennant** is only useful for one node, one GPU (if we want that)
 - **hpc-benchmarks** for linpack we need to figure out how to run without infiniband (`--uxc-tls` or on a single node with at least 8 GPU). For hpcg (and others) we need to figure out the driver compatibility with V100. The 20.10 containers [here](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/hpc-benchmarks/tags) ship with ubuntu 18.04, which is good for most but PMIX doesn't build.
-- **lammps** (two variants): I didn't have the snap input data, it was rebuilt added, but both of these need testing. I also added reacxx since we've run it before and can compare.
+- **lammps** (two variants): lammps runs but there is an error message (appears before) that needs looking into.
 - **kripke**: needs a new container built - the one that built and works doesn't work on the GPUs.
 - **mixbench**: the cu file is not compatible, likely needs a tweak and rebuild.
 - **nek5000**: seems to work! But GPU utilization goes down - need to decide on what/how to run it.
-
+- **osu**: the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
 
 For this next set, the container is built but needs another cluster creation for testing.
 
 - **deepspeed**
-- **osu**
 - **mt-gem**
 - **hpc-benchmarks hpcg/hpl** with ubuntu bionic (was not able to build older versions of pmix/prrte)
 

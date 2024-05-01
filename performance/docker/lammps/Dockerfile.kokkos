@@ -211,7 +211,7 @@ RUN python3 -m pip install clang-format && \
   -D PKG_REAXFF=on \
   -D PKG_KOKKOS=yes \
   -D Kokkos_ENABLE_CUDA=yes \
-  ../cmake
+  ../cmake && make && make install
   
 WORKDIR /code
 COPY ./common .

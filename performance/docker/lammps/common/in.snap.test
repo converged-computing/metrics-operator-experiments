@@ -27,7 +27,7 @@ mass            1 183.84
 
 # choose potential
 
-include         common/W_snap_wrapper.txt
+include         W_snap_wrapper.txt
 
 # output
 

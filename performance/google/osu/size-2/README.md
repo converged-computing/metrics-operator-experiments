@@ -1,10 +1,4 @@
-# LAMMPS on Kubernetes
-
-> V100 nodes
-
-We have two containers to test here, one with Kokkos, and one without.
-
- - Without Kokkos: pull time is approximately 2m 45seconds
+# OSU Benchmarks on Kubernetes
 
 ```bash
 GOOGLE_PROJECT=myproject
@@ -15,7 +9,7 @@ gcloud container clusters create test-cluster --threads-per-core=1 --accelerator
 We have to be sure the nodes have gpu. This is wrong:
 
 ```bash
-$  kubectl get nodes -o json | jq .items[].status.allocatable
+$ kubectl get nodes -o json | jq .items[].status.allocatable
 ```
 ```console
 {
@@ -109,43 +103,15 @@ flux resource list
       down      0        0        0 
 ```
 
-Single GPU example (in ./code)
+Single GPU example (in ./build)
 
 ```bash
-# Need to rebuild and test this for hackathon.
-lmp_gpu -in in.snap.test -var snapdir 2J8_W.SNAP -v x 2 -v y 2 -v z -var nsteps 1000
-
-# Two nodes with flux (utilization at about 22%)
-flux run -N2 -n 8 -g 1 lmp -k on g 4 -sf kk -pk kokkos newton on neigh half -in in.snap.test -var snapdir 2J8_W.SNAP -v x 64 -v y 64 -v z 64 -var nsteps 1000
+# This is a point to point that will use one GPU on the node (the path needs adjusing)
+flux run -N2 -n4 -g 1 /opt/osu-benchmark/src/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_bw -d cuda D D
 ```
 
-```
-The call to cuIpcGetMemHandle failed. This means the GPU RDMA protocol
-  cuIpcGetMemHandle return value:   1
-  cuIpcGetMemHandle return value:   1
-cannot be used.
-  address: 0x6024a8080
-  address: 0x6024a8080
-  cuIpcGetMemHandle return value:   1
-Check the cuda.h file for what the return value means. Perhaps a reboot
-Check the cuda.h file for what the return value means. Perhaps a reboot
-  address: 0x6024a8080
-of the node will clear the problem.
-of the node will clear the problem.
-Check the cuda.h file for what the return value means. Perhaps a reboot
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-of the node will clear the problem.
---------------------------------------------------------------------------
---------------------------------------------------------------------------
-The call to cuIpcGetMemHandle failed. This means the GPU RDMA protocol
-cannot be used.
-  cuIpcGetMemHandle return value:   1
-  address: 0x6024a8080
-Check the cuda.h file for what the return value means. Perhaps a reboot
-of the node will clear the problem.
-```
-       
+That will only use 1 GPU on each node, I couldn't find anything for collective (and got sleepy).
+
 ### Clean Up
 
 When you are done:

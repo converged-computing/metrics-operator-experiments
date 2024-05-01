@@ -216,5 +216,5 @@ RUN git clone --depth 1 https://github.com/ULHPC/tutorials /opt/tutorials && \
     cd /opt/osu-benchmark && \
     # Compile based on openmpi
     mkdir -p build.openmpi && cd build.openmpi && \
-    ../src/osu-micro-benchmarks-${OSU_VERSION}/configure CC=mpicc CFLAGS=-I$(pwd)/../src/osu-micro-benchmarks-${OSU_VERSION}/util --prefix=$(pwd) && \
+    ../src/osu-micro-benchmarks-${OSU_VERSION}/configure CC=mpicc CXX=mpicxx CFLAGS=-I$(pwd)/../src/osu-micro-benchmarks-${OSU_VERSION}/util --prefix=$(pwd) --enable-cuda --with-cuda=/usr/local/cuda && \
     make && make install

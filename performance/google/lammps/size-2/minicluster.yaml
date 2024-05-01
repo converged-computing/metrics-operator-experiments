@@ -13,7 +13,6 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/metric-lammps-gpu
-    workingDir: /opt/lammps/examples/reaxff/HNS
     commands:
       pre: |
         echo "Regenerated resources"
