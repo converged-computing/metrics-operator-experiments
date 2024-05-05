@@ -33,6 +33,8 @@ For the next hackathon, my goal is to get as far with each container and miniclu
 - **osu**: the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
 - **mt-gem**: runs successfully on 2 nodes, 8 GPU, about 28 seconds.
 
+For LAMMPS (and others) we likely want to try the [GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/23.9.2/google-gke.html)
+
 For this next set, the container is built but needs another cluster creation for testing.
 
 - **deepspeed**: likely this won't work - Python libraries needed would be too old. Our best bet would be to use their container.

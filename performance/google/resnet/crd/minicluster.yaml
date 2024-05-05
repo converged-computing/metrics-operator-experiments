@@ -11,9 +11,11 @@ spec:
     container:
       disable: true
 
+  # This is a list because a pod can support multiple containers
   containers:
-  - image: ghcr.io/converged-computing/metric-benchmark-hpcg:latest
-    workingDir: /workspace
+  - image: ghcr.io/converged-computing/pytorch-resnet-experiment:gpu
+    pullAlways: true
+    # command: flux submit --watch -N 2 --gpus-per-node 4 /bin/bash ./launch.sh flux-sample 2 4
     commands:
       pre: |
         echo "Regenerated resources"
