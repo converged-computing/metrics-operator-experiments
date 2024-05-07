@@ -14,13 +14,14 @@ gcloud beta container clusters create test-cluster \
       --project ${GOOGLE_PROJECT} \
       --zone us-central1-a \
       --threads-per-core=1 \
-      --release-channel "regular" \
       --machine-type "n1-standard-32" \
       --accelerator "type=nvidia-tesla-v100,count=4" \
       --image-type "UBUNTU_CONTAINERD" \
       --disk-type "pd-standard" \
       --disk-size "1000" \
       --metadata disable-legacy-endpoints=true \
+      --logging=SYSTEM,WORKLOAD \
+      --monitoring=SYSTEM \
       --max-pods-per-node "110" \
       --num-nodes "2" \
       --enable-ip-alias \
@@ -40,17 +41,21 @@ $ kubectl get nodes -o json | jq .items[].status.allocatable
 Create the GPU operator.
 
 ```bash
-kubectl apply -f gpu-operator.yaml
+kubectl apply -f gpu-operator-quota.yaml
 ```
 
 Install helm for it
 
-```
+```bash
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
     && helm repo update
 
+kubectl create namespace gpu-operator
+kubectl label --overwrite ns gpu-operator pod-security.kubernetes.io/enforce=privileged
+
 helm install --wait --generate-name \
     -n gpu-operator --create-namespace \
+    --set driver.rdma.enabled=true \
     nvidia/gpu-operator
 ```
 
@@ -93,8 +98,14 @@ Single GPU example (in ./code)
 lmp_gpu -in in.snap.test -var snapdir 2J8_W.SNAP -v x 2 -v y 2 -v z -var nsteps 1000
 
 # Two nodes with flux (utilization at about 22%)
+flux run -N1 -n 4 -g 1 lmp -k on g 4 -sf kk -pk kokkos newton on neigh half -in in.snap.test -var snapdir 2J8_W.SNAP -v x 64 -v y 64 -v z 64 -var nsteps 1000
 flux run -N2 -n 8 -g 1 lmp -k on g 4 -sf kk -pk kokkos newton on neigh half -in in.snap.test -var snapdir 2J8_W.SNAP -v x 64 -v y 64 -v z 64 -var nsteps 1000
+
+# 1 minute 1 second on 2 nodes
+flux run -N2  -n 8 -g 1 lmp -k on g 4 -sf kk -pk kokkos newton on neigh half -in in.snap.test -var snapdir 2J8_W.SNAP -v x 228 -v y 228 -v z 228 -var nsteps 20000
 ```
+
+We aren't sure why this error happens - possibly the network. Need to test on AWS/Azure. 
 
 ```
 The call to cuIpcGetMemHandle failed. This means the GPU RDMA protocol

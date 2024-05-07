@@ -110,21 +110,8 @@ flux resource list
 Single GPU example (in ./build)
 
 ```bash
-# Single GPU
-./examples/amgx_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# Multiple GPU (2,3) seem to work (still too fast, almost instant)
-mpirun --allow-run-as-root -n 2 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-mpirun --allow-run-as-root -n 3 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# 4 GPU does not converge
-mpirun --allow-run-as-root -n 4 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# Flux with one node (does not converge with 4)
-flux run -N1 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# Two nodes (same, doesn't converge if greater than 3)
-flux run -N2 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+# 1 minute 7 seconds
+time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,72,128 --gset 16 --groups 64 --niter 50 --legendre 8 --quad 8 --procs 2,2,2 
 ```
 
 ### Clean Up

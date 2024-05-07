@@ -13,7 +13,7 @@ gcloud container clusters create test-cluster --threads-per-core=1 --accelerator
 We have to be sure the nodes have gpu. This is wrong:
 
 ```bash
-$  kubectl get nodes -o json | jq .items[].status.allocatable
+$ kubectl get nodes -o json | jq .items[].status.allocatable
 ```
 ```console
 {
@@ -123,8 +123,8 @@ mpirun --allow-run-as-root -n 4 examples/amgx_mpi_capi -m ../examples/matrix.mtx
 # Flux with one node (does not converge with 4)
 flux run -N1 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
 
-# Two nodes (same, doesn't converge if greater than 3)
-flux run -N2 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+# Two nodes
+flux run -N2 -n 8 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
 ```
 
 ### Clean Up

@@ -209,10 +209,11 @@ RUN git clone https://github.com/LLNL/Kripke && \
     git submodule update --init --recursive && \
     mkdir build 
 
-COPY ./CMakeLists.txt /opt/Kripke
+COPY ./gke.cmake /opt/Kripke/host-configs/gke.cmake
+#COPY ./CMakeLists.txt /opt/Kripke
 RUN cd /opt/Kripke/build && \
-    cmake -DENABLE_CUDA=true -C../host-configs/gke.cmake ../ && make && make install && \
-    # Expose kripke.exe as kripke in bin
+    cmake -DENABLE_CUDA=true -C../host-configs/gke.cmake ../ && make && \
+#    # Expose kripke.exe as kripke in bin
     mv /opt/Kripke/build/kripke.exe /opt/Kripke/build/bin/kripke
 
 # Put those bad bois on the path!

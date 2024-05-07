@@ -12,7 +12,8 @@ spec:
       disable: true
 
   containers:
-  - image: ghcr.io/converged-computing/metric-lammps-gpu
+  - image: ghcr.io/converged-computing/metric-lammps-gpu:kokkos
+    pullAlways: true
     commands:
       pre: |
         echo "Regenerated resources"
