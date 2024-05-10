@@ -1,8 +1,6 @@
-# Amgx on Kubernetes
+# Amg2023 on Kubernetes
 
-> V100 nodes (note that this setup did not work and we fell back to [amg2023](../amg2023)
-
-Here we are trying to use v100 for [amgx](https://github.com/NVIDIA/AMGX). The [container is here](https://github.com/converged-computing/metrics-operator-experiments/pkgs/container/metric-amgx).
+> V100 nodes 
 
 ```bash
 GOOGLE_PROJECT=myproject
@@ -91,6 +89,7 @@ But this should be fine for now, we can test either, and in either we can re-gen
 
 ```bash
 kubectl exec -it flux-sample-0-qdckd bash
+. /etc/profile.d/z10_spack_environment.sh
 flux proxy local:///mnt/flux/view/run/flux/local bash
 ```
 
@@ -110,21 +109,15 @@ flux resource list
 Single GPU example (in ./build)
 
 ```bash
-# Single GPU
-./examples/amgx_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+# Local run 
+amg
 
-# Multiple GPU (2,3) seem to work (still too fast, almost instant)
-mpirun --allow-run-as-root -n 2 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-mpirun --allow-run-as-root -n 3 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+# Flux with one node
+flux run -N1 -n 4 -g 1 amg
+flux run -N2 -n 8 -g 1 amg
 
-# 4 GPU does not converge
-mpirun --allow-run-as-root -n 4 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# Flux with one node (does not converge with 4)
-flux run -N1 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# Two nodes
-flux run -N2 -n 8 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+# Two nodes and larger size
+flux run -N2 -n 8 -g 1 amg -P 4 2 1 -n 64 128 128
 ```
 
 ### Clean Up

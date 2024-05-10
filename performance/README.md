@@ -18,7 +18,11 @@ The following containers / setups are working (tested) on some size (and may nee
  - [google/lammps](google/lammps)
  - [google/kripke](google/kripke)
  - [google/resnet](google/resnet)
+ - [google/amg2023](google/amg2023)
 
+The [google/mixbench](google/mixbench) might only run on nodes / GPU a la carte, so not sure if of interest.
+
+Next step is testing on a larger cluster.
 
 ### Not interested
 
@@ -30,13 +34,15 @@ The following containers / setups are working (tested) on some size (and may nee
 
 - **multi-gpu-models** needs testing on largest size to get slowest time, then do ETA for experiments
 - **lammps**: choose kokkos - next step is to bring up on larger cluster to get time for larger size. 
-- **kripke**: needs a new container built - the one that built and works doesn't work on the GPUs.
+- **kripke**: needs testing on larger size cluster to get upper limit
+- **resnet**
+- **amg2023**
 
 ### Next Hackathon Tasks
 
 For the next hackathon, my goal is to get as far with each container and minicluster setup as possible. Ideally I will have a mostly working container that needs some debugging. Here are notes for each - for this first set, the container has been tested alongside 4 GPU x 2 nodes.
 
-- **mixbench**: the cu file is not compatible, likely needs a tweak and rebuild.
+- **mixbench**: working, but do we want to use it if only one GPU?
 - **nekrs5000**: seems to work! But GPU utilization goes down - need to decide on what/how to run it.
 - **osu**: the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
 - **mt-gem**: runs successfully on 2 nodes, 8 GPU, about 28 seconds.

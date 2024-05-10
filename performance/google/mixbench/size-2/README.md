@@ -1,19 +1,18 @@
 # Mixbench on Kubernetes
 
 > V100 nodes
-
 - https://github.com/ekondis/mixbench/tree/master
 
 ```bash
 GOOGLE_PROJECT=myproject
-gcloud container clusters create test-cluster --threads-per-core=1 --accelerator type=nvidia-tesla-v100,count=4 --num-nodes=2 --machine-type=n1-standard-32 --region=us-central1-a --project=${GOOGLE_PROJECT} 
+gcloud container clusters create test-cluster --threads-per-core=1 --accelerator type=nvidia-tesla-v100,count=4 --num-nodes=2 --machine-type=n1-standard-32 --region=us-central1-a --project=${GOOGLE_PROJECT}
 ```
 - pull to running time: 18 seconds (included layers from multi-gpu-benchmarks
 
 We have to be sure the nodes have gpu. This is wrong:
 
 ```bash
-$  kubectl get nodes -o json | jq .items[].status.allocatable
+$ kubectl get nodes -o json | jq .items[].status.allocatable
 ```
 ```console
 {
@@ -111,20 +110,18 @@ Single GPU example (in ./build)
 
 ```bash
 # Single GPU
-./examples/amgx_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+mixbench-cuda
 
-# Multiple GPU (2,3) seem to work (still too fast, almost instant)
-mpirun --allow-run-as-root -n 2 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-mpirun --allow-run-as-root -n 3 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+# In practice, this only seems to run on 1 GPU
+flux run -N1 -n 4 -g 1 mixbench-cuda
+flux run -N2 -n 8 -g 1 mixbench-cuda
+```
 
-# 4 GPU does not converge
-mpirun --allow-run-as-root -n 4 examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+Note that it looks like this is intended to run on one node, so the correct means to run is probably just:
 
-# Flux with one node (does not converge with 4)
-flux run -N1 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
-
-# Two nodes (same, doesn't converge if greater than 3)
-flux run -N2 -n 3 -g 1 ./examples/amgx_mpi_capi -m ../examples/matrix.mtx -c ../src/configs/FGMRES_AGGREGATION.json
+```
+mixbench-cuda
+mixbench-cpu
 ```
 
 ### Clean Up
