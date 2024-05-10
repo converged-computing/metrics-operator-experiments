@@ -112,9 +112,11 @@ Single GPU example (in ./build)
 # Single GPU
 mixbench-cuda
 
-# In practice, this only seems to run on 1 GPU
-flux run -N1 -n 4 -g 1 mixbench-cuda
-flux run -N2 -n 8 -g 1 mixbench-cuda
+# 21.9 seconds on 2 node, 8 gpu
+flux run -N2 -n 8 -g 1 ./wrapper 64
+
+# 25.8 seconds
+flux run -N2 -n 8 -g 1 ./wrapper 64
 ```
 
 Note that it looks like this is intended to run on one node, so the correct means to run is probably just:

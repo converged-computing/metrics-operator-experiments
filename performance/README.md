@@ -42,7 +42,7 @@ Next step is testing on a larger cluster.
 
 For the next hackathon, my goal is to get as far with each container and minicluster setup as possible. Ideally I will have a mostly working container that needs some debugging. Here are notes for each - for this first set, the container has been tested alongside 4 GPU x 2 nodes.
 
-- **mixbench**: working, but do we want to use it if only one GPU?
+- **mixbench**: needs more work on iterations (A)
 - **nekrs5000**: seems to work! But GPU utilization goes down - need to decide on what/how to run it.
 - **osu**: the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
 - **mt-gem**: runs successfully on 2 nodes, 8 GPU, about 28 seconds.
