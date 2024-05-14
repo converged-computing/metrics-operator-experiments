@@ -190,7 +190,7 @@ ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia
 
 WORKDIR /opt
 RUN git clone https://github.com/ekondis/mixbench
-COPY ./CMakeLists.txt ./Makefile ./wrapper.c /opt/mixbench/mixbench-cuda
+COPY ./CMakeLists.txt ./mix_kernels_cuda.cu ./Makefile ./wrapper.c /opt/mixbench/mixbench-cuda
 COPY ./main-cuda.cpp /opt/mixbench/main-cuda.cpp
 RUN cd /opt/mixbench/mixbench-cuda && \
     mkdir build && \

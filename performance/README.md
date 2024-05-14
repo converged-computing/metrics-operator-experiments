@@ -38,6 +38,15 @@ Next step is testing on a larger cluster.
 - **resnet**
 - **amg2023**
 
+## TODO
+
+- quicksilver
+- STREAM
+- MAGMA
+- miniFE (scripts from ani)
+- laghos https://github.com/CEED/Laghos/blob/multi-gpu/cuda/README.md
+- cyclecloud model
+
 ### Next Hackathon Tasks
 
 For the next hackathon, my goal is to get as far with each container and minicluster setup as possible. Ideally I will have a mostly working container that needs some debugging. Here are notes for each - for this first set, the container has been tested alongside 4 GPU x 2 nodes.
