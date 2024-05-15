@@ -22,6 +22,7 @@ The following containers / setups are working (tested) on some size (and may nee
  - [google/quicksilver](google/quicksilver)
  - [google/laghos](google/laghos)
  - [google/minife](google/minife)
+ - [google/stream](google/stream)
 
 This one only has the sparse example working and needs more attention (likely a different example):
 
