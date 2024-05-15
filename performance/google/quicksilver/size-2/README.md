@@ -108,26 +108,13 @@ Single GPU example (in ./build)
 
 ```bash
 # Local test
-cd /opt/nekrs/examples/turbPipePeriodic
-
-# this uses about 80% of each of 2
-mpirun --allow-run-as-root -np 2 nekrs --setup turbPipe.par
-
-# this uses about 68-74% of each of 4
-mpirun --allow-run-as-root -np 4 nekrs --setup turbPipe.par
-
-# 4 GPU does not converge
-mpirun --allow-run-as-root -n 4 nekrs --setup turbPipe.par
+qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
 
 # Flux with one node and two nodes
-flux run -N1 -n 4 -g 1 nekrs --setup turbPipe.par
-flux run -N2 -n 8 -g 1 nekrs --setup turbPipe.par
+flux run -N2 -n 8 -g 1 qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
 
-
-
-
-# Example command
-# qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+# Coral 2 example
+flux run -N2 -n 8 -g 1 qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2.inp
 
 # All examples:
 # /opt/quicksilver/Examples/AllScattering/scatteringOnly.inp
