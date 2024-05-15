@@ -2,8 +2,11 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-magma .
-#  docker push ghcr.io/converged-computing/metric-magma
+#  docker build -t ghcr.io/converged-computing/metric-stream .
+#  docker push ghcr.io/converged-computing/metric-stream
+
+# Docs
+# https://github.com/Nek5000/nekRS
 
 # Utilities
 RUN apt-get update && \
@@ -188,12 +191,8 @@ ENV CUDA_VISIBLE_DEVICES=0,1,2,3
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda-12.4/compat
 
-WORKDIR /opt/magma
-RUN apt-get install -y libblas-dev liblapack-dev && \
-    wget https://icl.utk.edu/projectsfiles/magma/downloads/magma-2.8.0.tar.gz && \
-    tar -xzvf magma-2.8.0.tar.gz && cd magma-2.8.0 && \
-    mkdir build && cd build && cmake ../ && make && make install
-
-# Note need to add magma executable to path
+WORKDIR /opt/stream
+RUN git clone https://github.com/bcumming/cuda-stream && \
+    cd cuda-stream && make ARCH=sm_70 && cp stream /usr/local/bin/
 
 EXPOSE 22

@@ -24,13 +24,13 @@ The [google/mixbench](google/mixbench) might only run on nodes / GPU a la carte,
 
 Next step is testing on a larger cluster.
 
-
 ### Ready for Basic Tests
 
 - **quicksilver**
 - **laghos** https://github.com/CEED/Laghos/blob/multi-gpu/cuda/README.md
 - **minife** 
 - **magma**
+- **stream**
 
 ### Next Hackathon Tasks
 
@@ -40,7 +40,6 @@ For the next hackathon, my goal is to get as far with each container and miniclu
 - **nekrs5000**: seems to work! But GPU utilization goes down - need to decide on what/how to run it.
 - **osu**: the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
 - **mt-gem**: runs successfully on 2 nodes, 8 GPU, about 28 seconds.
-
 
 ### Not interested
 
