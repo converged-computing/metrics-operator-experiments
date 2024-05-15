@@ -194,6 +194,10 @@ RUN apt-get install -y libblas-dev liblapack-dev && \
     tar -xzvf magma-2.8.0.tar.gz && cd magma-2.8.0 && \
     mkdir build && cd build && cmake ../ && make && make install
 
-# Note need to add magma executable to path
-
+# We need to make examples!
+COPY Makefile /opt/magma/magma-2.8.0/example/Makefile
+RUN cd /opt/magma/magma-2.8.0/example && make all
+WORKDIR /opt/magma/magma-2.8.0/example
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/magma/lib
 EXPOSE 22
+

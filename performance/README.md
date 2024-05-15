@@ -19,18 +19,17 @@ The following containers / setups are working (tested) on some size (and may nee
  - [google/kripke](google/kripke)
  - [google/resnet](google/resnet)
  - [google/amg2023](google/amg2023)
+ - [google/quicksilver](google/quicksilver)
+ - [google/laghos](google/laghos)
+ - [google/minife](google/minife)
+
+This one only has the sparse example working and needs more attention (likely a different example):
+
+ - [google/magma](google/magma)
 
 The [google/mixbench](google/mixbench) might only run on nodes / GPU a la carte, so not sure if of interest.
 
 Next step is testing on a larger cluster.
-
-### Ready for Basic Tests
-
-- **quicksilver**
-- **laghos** https://github.com/CEED/Laghos/blob/multi-gpu/cuda/README.md
-- **minife** 
-- **magma**
-- **stream**
 
 ### Next Hackathon Tasks
 
