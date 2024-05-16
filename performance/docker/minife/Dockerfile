@@ -191,6 +191,9 @@ ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia
 WORKDIR /opt
 RUN git clone https://github.com/Mantevo/minife
 COPY ./Makefile minife/cuda/src/Makefile
+
+# We are adding this to be able to customize parameters moreso
+COPY ./Parameters.hpp ./utils.hpp /opt/minife/cuda/utils/
 RUN cd /opt/minife/cuda/src && make && cp miniFE.x /usr/local/bin/miniFE.x
 EXPOSE 22
 WORKDIR /opt/minife

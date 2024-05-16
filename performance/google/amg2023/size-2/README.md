@@ -108,6 +108,12 @@ flux resource list
 
 Single GPU example (in ./build)
 
+NOTE: we need to test this with the new added params to expose iters:
+
+```
+srun -N 2 -n 8 ./miniFE.x nx=600 ny=600 nz=600 num_devices=4 elem_group_size=2 use_elem_mat_fields=1 verify_solution=0 max_iters=500
+```
+
 ```bash
 # Local run 
 amg
