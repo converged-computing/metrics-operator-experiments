@@ -107,7 +107,11 @@ Single GPU example (in ./build)
 
 ```bash
 # This is a point to point that will use one GPU on the node (the path needs adjusing)
-flux run -N2 -n4 -g 1 /opt/osu-benchmark/src/osu-micro-benchmarks-5.8/mpi/pt2pt/osu_bw -d cuda D D
+flux run -N2 -n2 -g 1 /opt/osu-benchmark/build.openmpi/mpi/pt2pt/osu_bw -d cuda D D
+
+flux run -N2 -n8 -g 1 -o gpu-affinity=per-task /opt/osu-benchmark/build.openmpi/mpi/collective/osu_allreduce -d cuda D D
+
+flux run -N2 -n2 -g 1 -o gpu-affinity=per-task /opt/osu-benchmark/build.openmpi/mpi/pt2pt/osu_latency -d cuda D D
 ```
 
 That will only use 1 GPU on each node, I couldn't find anything for collective (and got sleepy).
@@ -118,4 +122,4 @@ When you are done:
 
 ```bash
 gcloud container clusters delete test-cluster --region=us-central1-a
-```
+```wh

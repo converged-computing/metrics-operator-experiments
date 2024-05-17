@@ -108,13 +108,13 @@ Single GPU example (in ./build)
 
 ```bash
 # Local test
-qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+qs --inputFile /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
 
 # Flux with one node and two nodes
-flux run -N2 -n 8 -g 1 qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+flux run -N2 -n 8 -g 1 qs --inputFile /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
 
 # Coral 2 example
-flux run -N2 -n 8 -g 1 qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2.inp
+flux run -N2 -n 8 -g 1 qs --inputFile /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2.inp
 
 # All examples:
 # /opt/quicksilver/Examples/AllScattering/scatteringOnly.inp
@@ -139,7 +139,6 @@ flux run -N2 -n 8 -g 1 qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Co
 # /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v3.inp
 # /opt/quicksilver/Examples/AllEscape/allEscape.inp
 # /opt/quicksilver/Examples/NoFission/noFission.inp
-
 ```
 
 ### Clean Up

@@ -117,7 +117,7 @@ Single GPU example (in ./build)
 /opt/laghos/cuda/laghos -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08
 
 # The only way to get on two nodes working is with this flag:
-time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task /opt/laghos/cuda/laghos  -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08
+time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task /opt/laghos/cuda/laghos -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08
 ```
 
 ### Clean Up

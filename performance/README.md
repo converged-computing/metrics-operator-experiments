@@ -23,10 +23,10 @@ The following containers / setups are working (tested) on some size (and may nee
  - [google/laghos](google/laghos)
  - [google/minife](google/minife)
  - [google/stream](google/stream)
- - [google/mixbench](google/mixbench): needs more work on iterations (A). Might only run on nodes / GPU a la carte, so not sure if of interest.
- - [google/nekrs5000](google/nekrs5000): seems to work! But GPU utilization goes down - need to decide on what/how to run it.
- - [google/osu](google/osu): the point to point seems to work OK, not sure if all_reduce (or any collective) is a thing. I think we are supposed to use NCCL?
- - [google/mt-gem](google/mt-gem): runs successfully on 2 nodes, 8 GPU, about 28 seconds.
+ - [google/mixbench](google/mixbench)
+ - [google/nekrs5000](google/nekrs5000)
+ - [google/osu](google/osu)
+ - [google/mt-gem](google/mt-gem)
 
 This one only has the sparse example working and needs more attention (likely a different example):
 

@@ -107,7 +107,12 @@ flux resource list
 The sparse example works ok, but others output an error message. I'm not even sure if these are good/right examples to use, so going to stop for now.
 
 ```bash
-time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task ./example_v2
+time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task /opt/magma/magma-2.8.0/build/testing/testing_dgemm
+time flux run -N1 -n 4 -g 1 -o gpu-affinity=per-task /opt/magma/magma-2.8.0/build/testing/testing_dgemm --ngpu 1
+
+# Note this seemed to allow running across gpu (the --gpus 4 worked) but in practice we didn't see them running.
+# export MAGMA_NUM_GPUS=4
+time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task /opt/magma/magma-2.8.0/build/testing/testing_dgemm_vbatched --ngpu 1
 ```
 ```console
 using MAGMA GPU interface
