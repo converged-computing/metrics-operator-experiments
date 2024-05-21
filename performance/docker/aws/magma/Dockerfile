@@ -23,7 +23,6 @@ RUN apt-get update && \
         lcov \
         ccache \
         lua5.2 \
-        mpich \
         python3-dev \
         python3-pip \
         valgrind \
@@ -67,7 +66,6 @@ RUN apt-get update && \
         libsqlite3-dev \
         uuid-dev \
         libhwloc-dev \
-        libmpich-dev \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
@@ -173,13 +171,14 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 # Needed for libfabric
 RUN apt-get install -y \
         libibverbs-dev \
         librdmacm-dev \
-        rdma-core
+        rdma-core \
+        gfortran
         
 # openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
 # libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
@@ -227,3 +226,6 @@ COPY t10k-images.idx3-ubyte.zip /data/
 COPY t10k-labels.idx1-ubyte /data/
 COPY train-images.idx3-ubyte.zip /data/
 COPY train-labels.idx1-ubyte /data/
+
+# Ensure we add path where libfabric is!
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib

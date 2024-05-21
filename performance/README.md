@@ -33,11 +33,15 @@ Since we need to vary builds across clouds, let's keep track of that here. These
 | ghcr.io/converged-computing/metric-magma:libfabric        | AWS | yes |[Dockerfile](docker/aws/magma)   |  |
 | ghcr.io/converged-computing/metric-minife:libfabric       | AWS | yes |[Dockerfile](docker/aws/minife)  | | 
 | ghcr.io/converged-computing/metric-mixbench:libfabric     | AWS | yes |[Dockerfile](docker/aws/mixbench)| |
+| ghcr.io/converged-computing/mt-gemm:libfabric             | AWS | yes |[Dockerfile](docker/aws/mt-gemm-base)| |
+| ghcr.io/converged-computing/multi-gpu-models:libfabric    | AWS | yes |[Dockerfile](docker/aws/multi-gpu-models)| |
+| ghcr.io/converged-computing/metric-nek5000:libfabric      | AWS | yes |[Dockerfile](docker/aws/nek5000) | |
+| ghcr.io/converged-computing/metric-osu-gpu:libfabric      | AWS | yes |[Dockerfile](docker/aws/osu) | |
+| ghcr.io/converged-computing/metric-quicksilver-gpu:libfabric| AWS | yes |[Dockerfile](docker/aws/quicksilver) | |
+| ghcr.io/converged-computing/pytorch-resnet-experiment:libfabric-gpu | AWS   | yes |[Dockerfile](docker/aws/resnet) | |
+| ghcr.io/converged-computing/metric-stream:libfabric       | AWS  | yes | [Dockerfile](docker/aws/stream) | |
 
-
-**TODO** The AWS images are based off of the original Google cloud, but have oras added. It would be ideal if we can use the AWS
-images for both clouds.
-
+The AWS images are based off of the original Google cloud, but have oras added. 
 
 ## Plan
 

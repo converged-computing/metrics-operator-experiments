@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu:libfabric .
-#  docker push ghcr.io/converged-computing/metric-lammps-gpu:libfabric
+#  docker build -t ghcr.io/converged-computing/metric-quicksilver-gpu:libfabric .
+#  docker push ghcr.io/converged-computing/metric-quicksilver-gpu:libfabric
 
 # Utilities
 RUN apt-get update && \
@@ -69,10 +69,7 @@ RUN apt-get update && \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
-        libpam-dev \
-        libibverbs-dev \
-        librdmacm-dev \
-        rdma-core && \
+        libpam-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Testing utils and libs
@@ -176,8 +173,12 @@ RUN apt-get update && \
         dnsutils telnet strace git g++ \
         unzip bzip2
 
-# install libfabric with "all the fabrics"
-# This is what we want to emulate
+# Needed for libfabric
+RUN apt-get install -y \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core
+        
 # openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
 # libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
 RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
@@ -199,32 +200,48 @@ ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 WORKDIR /opt
-RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
-    cd multi-gpu-programming-models/mpi && \
-    make
+
+# Example command
+# qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+
+# All examples:
+# /opt/quicksilver/Examples/AllScattering/scatteringOnly.inp
+# /opt/quicksilver/Examples/NoCollisions/no.collisions.inp
+# /opt/quicksilver/Examples/NonFlatXC/NonFlatXC.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2_4096.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2_1.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1_1.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1_4096.inp
+# /opt/quicksilver/Examples/CTS2_Benchmark/CTS2.inp
+# /opt/quicksilver/Examples/CTS2_Benchmark/CTS2_36.inp
+# /opt/quicksilver/Examples/CTS2_Benchmark/CTS2_1.inp
+# /opt/quicksilver/Examples/AllAbsorb/allAbsorb.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v4_ts.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v5_ts.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v3_wq.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v7_ts.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v4_tm.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v3.inp
+# /opt/quicksilver/Examples/AllEscape/allEscape.inp
+# /opt/quicksilver/Examples/NoFission/noFission.inp
+
+RUN apt-get update && \
+    apt-get install -y fftw3-dev fftw3 pdsh \
+        openssh-client openssh-server \
+        dnsutils telnet strace cmake git g++ \
+        unzip bzip2
 
 WORKDIR /opt
-RUN python3 -m pip install clang-format && \
-   git clone --depth 1 https://github.com/lammps/lammps.git && \
-    cd lammps && \
-    mkdir build && \
-    cd build && \
-    cmake \
-  -D CMAKE_INSTALL_PREFIX=/usr \
-  -D CMAKE_BUILD_TYPE=Release \
-  -D Kokkos_ARCH_VOLTA70=ON \
-  -D MPI_CXX_COMPILER=mpicxx \
-  -D BUILD_MPI=yes \
-  -D CMAKE_CXX_COMPILER=$PWD/../lib/kokkos/bin/nvcc_wrapper \
-  -D PKG_ML-SNAP=yes \
-  -D PKG_GPU=no \
-  -D PKG_REAXFF=on \
-  -D PKG_KOKKOS=yes \
-  -D Kokkos_ENABLE_CUDA=yes \
-  ../cmake && make && make install
-  
-WORKDIR /code
-COPY ./common .
+RUN git clone https://github.com/LLNL/Quicksilver quicksilver
+COPY ./Makefile /opt/quicksilver/src/Makefile
+WORKDIR /opt/quicksilver/src
+RUN make || nvcc -DHAVE_CUDA -std=c++11 -O2 -Xptxas -v -gencode=arch=compute_70,code=\"sm_70,compute_70\" --compiler-bindir=/usr/local/pancakes/bin/mpicxx -L/usr/local/cuda/lib64/ -lcuda -lcudart -lm -o qs CollisionEvent.o CoralBenchmark.o CycleTracking.o DecompositionObject.o DirectionCosine.o EnergySpectrum.o GlobalFccGrid.o GridAssignmentObject.o InputBlock.o MCT.o MC_Adjacent_Facet.o MC_Base_Particle.o MC_Domain.o MC_Facet_Crossing_Event.o MC_Fast_Timer.o MC_Load_Particle.o MC_Location.o MC_Particle_Buffer.o MC_RNG_State.o MC_Segment_Outcome.o MC_SourceNow.o MacroscopicCrossSection.o MeshPartition.o MonteCarlo.o MpiCommObject.o NuclearData.o Parameters.o ParticleVault.o ParticleVaultContainer.o PopulationControl.o SendQueue.o SharedMemoryCommObject.o Tallies.o cmdLineParser.o cudaFunctions.o initMC.o main.o parseUtils.o utils.o utilsMpi.o && cp qs /usr/bin/qs
+
+EXPOSE 22
+WORKDIR /opt/quicksilver/Examples
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
@@ -233,6 +250,6 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
-    
+
 # ENsure we add path where libfabric is!
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib

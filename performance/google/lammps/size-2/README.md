@@ -2,61 +2,74 @@
 
 > V100 nodes
 
-We have two containers to test here, one with Kokkos, and one without.
-
- - Without Kokkos: pull time is approximately 2m 45seconds
-
-Let's also try adding the [GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/23.9.2/google-gke.html)
-
 ```bash
 GOOGLE_PROJECT=myproject
-gcloud beta container clusters create test-cluster \
-      --project ${GOOGLE_PROJECT} \
-      --zone us-central1-a \
-      --threads-per-core=1 \
-      --machine-type "n1-standard-32" \
-      --accelerator "type=nvidia-tesla-v100,count=4" \
-      --image-type "UBUNTU_CONTAINERD" \
-      --disk-type "pd-standard" \
-      --disk-size "1000" \
-      --metadata disable-legacy-endpoints=true \
-      --logging=SYSTEM,WORKLOAD \
-      --monitoring=SYSTEM \
-      --max-pods-per-node "110" \
-      --num-nodes "2" \
-      --enable-ip-alias \
-      --no-enable-intra-node-visibility \
-      --default-max-pods-per-node "110" \
-      --no-enable-master-authorized-networks \
-      --tags=nvidia-ingress-all
+gcloud container clusters create test-cluster --threads-per-core=1 --accelerator type=nvidia-tesla-v100,count=4 --num-nodes=2 --machine-type=n1-standard-32 --region=us-central1-a --project=${GOOGLE_PROJECT} 
 ```
-- pull to running time: 18 seconds (included layers from multi-gpu-benchmarks
 
 We have to be sure the nodes have gpu. This is wrong:
 
 ```bash
+kubectl get nodes -o json | jq .items[].status.allocatable
+```
+```console
+{
+  "cpu": "15890m",
+  "ephemeral-storage": "47060071478",
+  "hugepages-1Gi": "0",
+  "hugepages-2Mi": "0",
+  "memory": "114327136Ki",
+  "pods": "110"
+}
+{
+  "cpu": "15890m",
+  "ephemeral-storage": "47060071478",
+  "hugepages-1Gi": "0",
+  "hugepages-2Mi": "0",
+  "memory": "114327136Ki",
+  "pods": "110"
+}
+```
+
+What I had to do is install a custom daemonset that would install the driver:
+
+```bash
+kubectl apply -f daemonset.yaml
+```
+
+Check the log to see it installed:
+
+```bash
+kubectl logs -n kube-system nvidia-driver-installer-94v2h 
+```
+```console
+I0427 01:52:44.079644    8897 modules.go:50] Updating host's ld cache
+```
+
+This is now correct!
+
+```bash
 $ kubectl get nodes -o json | jq .items[].status.allocatable
 ```
-
-Create the GPU operator.
-
-```bash
-kubectl apply -f gpu-operator-quota.yaml
-```
-
-Install helm for it
-
-```bash
-helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
-    && helm repo update
-
-kubectl create namespace gpu-operator
-kubectl label --overwrite ns gpu-operator pod-security.kubernetes.io/enforce=privileged
-
-helm install --wait --generate-name \
-    -n gpu-operator --create-namespace \
-    --set driver.rdma.enabled=true \
-    nvidia/gpu-operator
+```console
+{
+  "cpu": "15890m",
+  "ephemeral-storage": "47060071478",
+  "hugepages-1Gi": "0",
+  "hugepages-2Mi": "0",
+  "memory": "114327136Ki",
+  "nvidia.com/gpu": "4",
+  "pods": "110"
+}
+{
+  "cpu": "15890m",
+  "ephemeral-storage": "47060071478",
+  "hugepages-1Gi": "0",
+  "hugepages-2Mi": "0",
+  "memory": "114327136Ki",
+  "nvidia.com/gpu": "4",
+  "pods": "110"
+}
 ```
 
 Install the flux operator:
@@ -94,9 +107,6 @@ flux resource list
 Single GPU example (in ./code)
 
 ```bash
-# Need to rebuild and test this for hackathon.
-lmp_gpu -in in.snap.test -var snapdir 2J8_W.SNAP -v x 2 -v y 2 -v z -var nsteps 1000
-
 # Two nodes with flux (utilization at about 22%)
 flux run -N1 -n 4 -g 1 lmp -k on g 4 -sf kk -pk kokkos newton on neigh half -in in.snap.test -var snapdir 2J8_W.SNAP -v x 64 -v y 64 -v z 64 -var nsteps 1000
 flux run -N2 -n 8 -g 1 lmp -k on g 4 -sf kk -pk kokkos newton on neigh half -in in.snap.test -var snapdir 2J8_W.SNAP -v x 64 -v y 64 -v z 64 -var nsteps 1000

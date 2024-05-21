@@ -1,9 +1,9 @@
-FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
-ENV DEBIAN_FRONTEND=noninteractive
+FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
 
-# Build command
-#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu:libfabric .
-#  docker push ghcr.io/converged-computing/metric-lammps-gpu:libfabric
+# docker build -t ghcr.io/converged-computing/pytorch-resnet-experiment:libfabric-gpu .
+# docker push ghcr.io/converged-computing/pytorch-resnet-experiment:libfabric-gpu
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Utilities
 RUN apt-get update && \
@@ -42,16 +42,20 @@ RUN apt-get update && \
         make \
         clang \
         clang-tidy \
+        python3-jsonschema \
+        python3-cffi \
+        python3-sphinx \
+        python3-six \
+        python3-ply \
         gcc \
         g++ && \
     rm -rf /var/lib/apt/lists/*
 
 # Python - instead of a system python we install anaconda
 # https://docs.conda.io/en/latest/miniconda.html#linux-installers
-RUN pip install --upgrade --ignore-installed \
+RUN python3 -m pip install --upgrade --ignore-installed \
         "markupsafe==2.0.0" \
-        coverage cffi ply six pyyaml "jsonschema>=2.6,<4.0" \
-        sphinx sphinx-rtd-theme sphinxcontrib-spelling 
+        coverage sphinx-rtd-theme pyyaml ply sphinxcontrib-spelling 
         
 RUN apt-get update && \
     apt-get -qq install -y --no-install-recommends \
@@ -69,10 +73,7 @@ RUN apt-get update && \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
-        libpam-dev \
-        libibverbs-dev \
-        librdmacm-dev \
-        rdma-core && \
+        libpam-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Testing utils and libs
@@ -176,8 +177,12 @@ RUN apt-get update && \
         dnsutils telnet strace git g++ \
         unzip bzip2
 
-# install libfabric with "all the fabrics"
-# This is what we want to emulate
+# Needed for libfabric
+RUN apt-get install -y \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core
+        
 # openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
 # libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
 RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
@@ -196,35 +201,12 @@ RUN mkdir -p /usr/local/pancakes && \
 
 ENV CUDA_VISIBLE_DEVICES=0,1,2,3
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda-12.4/compat
 
-WORKDIR /opt
-RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
-    cd multi-gpu-programming-models/mpi && \
-    make
-
-WORKDIR /opt
-RUN python3 -m pip install clang-format && \
-   git clone --depth 1 https://github.com/lammps/lammps.git && \
-    cd lammps && \
-    mkdir build && \
-    cd build && \
-    cmake \
-  -D CMAKE_INSTALL_PREFIX=/usr \
-  -D CMAKE_BUILD_TYPE=Release \
-  -D Kokkos_ARCH_VOLTA70=ON \
-  -D MPI_CXX_COMPILER=mpicxx \
-  -D BUILD_MPI=yes \
-  -D CMAKE_CXX_COMPILER=$PWD/../lib/kokkos/bin/nvcc_wrapper \
-  -D PKG_ML-SNAP=yes \
-  -D PKG_GPU=no \
-  -D PKG_REAXFF=on \
-  -D PKG_KOKKOS=yes \
-  -D Kokkos_ENABLE_CUDA=yes \
-  ../cmake && make && make install
-  
-WORKDIR /code
-COPY ./common .
+RUN pip install tqdm && \
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+COPY main.py launch.sh .
+CMD printenv
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
@@ -233,6 +215,6 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
-    
+
 # ENsure we add path where libfabric is!
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib

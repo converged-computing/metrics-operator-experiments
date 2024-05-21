@@ -2,8 +2,13 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu:libfabric .
-#  docker push ghcr.io/converged-computing/metric-lammps-gpu:libfabric
+#  docker build -t ghcr.io/converged-computing/multi-gpu-models:libfabric .
+#  docker push ghcr.io/converged-computing/multi-gpu-models:libfabric
+
+# flux submit --watch -N1 --gpus-per-node 4 /opt/multi-gpu-programming-models/multi_threaded_copy/jacobi -niter 5000
+# mpirun -np 4 --allow-run-as-root /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
+# flux run -N1 -n 4 -g 1 /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
+# flux run -N2 -n 8 -g 1 /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
 
 # Utilities
 RUN apt-get update && \
@@ -69,10 +74,7 @@ RUN apt-get update && \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
-        libpam-dev \
-        libibverbs-dev \
-        librdmacm-dev \
-        rdma-core && \
+        libpam-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Testing utils and libs
@@ -176,8 +178,12 @@ RUN apt-get update && \
         dnsutils telnet strace git g++ \
         unzip bzip2
 
-# install libfabric with "all the fabrics"
-# This is what we want to emulate
+# Needed for libfabric
+RUN apt-get install -y \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core
+        
 # openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
 # libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
 RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
@@ -203,28 +209,8 @@ RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
     cd multi-gpu-programming-models/mpi && \
     make
 
-WORKDIR /opt
-RUN python3 -m pip install clang-format && \
-   git clone --depth 1 https://github.com/lammps/lammps.git && \
-    cd lammps && \
-    mkdir build && \
-    cd build && \
-    cmake \
-  -D CMAKE_INSTALL_PREFIX=/usr \
-  -D CMAKE_BUILD_TYPE=Release \
-  -D Kokkos_ARCH_VOLTA70=ON \
-  -D MPI_CXX_COMPILER=mpicxx \
-  -D BUILD_MPI=yes \
-  -D CMAKE_CXX_COMPILER=$PWD/../lib/kokkos/bin/nvcc_wrapper \
-  -D PKG_ML-SNAP=yes \
-  -D PKG_GPU=no \
-  -D PKG_REAXFF=on \
-  -D PKG_KOKKOS=yes \
-  -D Kokkos_ENABLE_CUDA=yes \
-  ../cmake && make && make install
-  
-WORKDIR /code
-COPY ./common .
+EXPOSE 22
+WORKDIR /opt/multi-gpu-programming-models/mpi
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
@@ -234,5 +220,5 @@ RUN export VERSION="1.1.0" && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
     
-# ENsure we add path where libfabric is!
+# Ensure we add path where libfabric is!
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
