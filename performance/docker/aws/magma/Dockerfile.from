@@ -1,0 +1,10 @@
+FROM ghcr.io/converged-computing/metric-magma:latest@sha256:d965f1853c503f128ed24fce90553efd72dfe9ada3db7ccc741b9c1cc44810e4
+
+# We need to make examples!
+COPY Makefile /opt/magma/magma-2.8.0/example/Makefile
+RUN cd /opt/magma/magma-2.8.0/example && make all
+WORKDIR /opt/magma/magma-2.8.0/example 
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/magma/lib
+
+EXPOSE 22
+

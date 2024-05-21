@@ -5,7 +5,40 @@ This tree contains experiment setup and runs for testing across clouds.
  - [testing](testing): includes previous testing that isn't used for final experiments.
  - [docker](docker): docker builds that can be used across clouds. We are not using multi-stage builds, choosing redundancy in favor of being able to quickly rebuild or see the full picture, etc.
  - [google](google): Google Kubernetes Engine (minicluster setups)
- 
+
+## Containers
+
+Since we need to vary builds across clouds, let's keep track of that here. These only include the ones we are intending to run.
+
+| Container                                                      | Cloud     | GPU | Dockerfile                          | Notes             |
+|----------------------------------------------------------------|-----------|-----|------------------------------------|--------------------|
+| ghcr.io/converged-computing/metric-amg2023:spack-slim          | Google    | yes |[Dockerfile](docker/google/amg2023) | Using slim variant |
+| ghcr.io/converged-computing/metric-kripke-gpu:latest           | Google    | yes |[Dockerfile](docker/google/kripke)  | |
+| ghcr.io/converged-computing/metric-laghos:gpu                  | Google    | yes |[Dockerfile](docker/google/laghos)  | Needs to be built on large machine  |
+| ghcr.io/converged-computing/metric-lammps-gpu:kokkos           | Google    | yes |[Dockerfile](docker/google/lammps)  | using Kokkos build |
+| ghcr.io/converged-computing/metric-magma                       | Google    | yes |[Dockerfile](docker/google/magma)   |  |
+| ghcr.io/converged-computing/metric-minife:latest               | Google    | yes |[Dockerfile](docker/google/minife)  | | 
+| ghcr.io/converged-computing/metric-mixbench:latest             | Google    | yes |[Dockerfile](docker/google/mixbench)| |
+| ghcr.io/converged-computing/mt-gemm:latest                     | Google    | yes |[Dockerfile](docker/google/mt-gemm-base)| |
+| ghcr.io/converged-computing/multi-gpu-models:flux-gpu          | Google    | yes |[Dockerfile](docker/google/multi-gpu-models)| |
+| ghcr.io/converged-computing/metric-nek5000:latest              | Google    | yes |[Dockerfile](docker/google/nek5000) | |
+| ghcr.io/converged-computing/metric-osu-gpu:latest              | Google    | yes |[Dockerfile](docker/google/osu) | |
+| ghcr.io/converged-computing/metric-quicksilver-gpu:latest      | Google    | yes |[Dockerfile](docker/google/quicksilver) | |
+| ghcr.io/converged-computing/pytorch-resnet-experiment:gpu      | Google    | yes |[Dockerfile](docker/google/resnet) | |
+| ghcr.io/converged-computing/metric-stream:latest               | Google    | yes |[Dockerfile](docker/google/stream) | | 
+| ghcr.io/converged-computing/metric-amg2023:spack-slim     | AWS    | yes |[Dockerfile](docker/google/amg2023) | Same as Google, already has libfabric |
+| ghcr.io/converged-computing/metric-lammps-gpu:libfabric   | AWS | yes |[Dockerfile](docker/aws/lammps) | |
+| ghcr.io/converged-computing/metric-kripke-gpu:libfabric   | AWS | yes |[Dockerfile](docker/aws/kripke)  | |
+| ghcr.io/converged-computing/metric-laghos:libfabric-gpu   | AWS | yes |[Dockerfile](docker/aws/laghos)  | Needs to be built on large machine |
+| ghcr.io/converged-computing/metric-magma:libfabric        | AWS | yes |[Dockerfile](docker/aws/magma)   |  |
+| ghcr.io/converged-computing/metric-minife:libfabric       | AWS | yes |[Dockerfile](docker/aws/minife)  | | 
+| ghcr.io/converged-computing/metric-mixbench:libfabric     | AWS | yes |[Dockerfile](docker/aws/mixbench)| |
+
+
+**TODO** The AWS images are based off of the original Google cloud, but have oras added. It would be ideal if we can use the AWS
+images for both clouds.
+
+
 ## Plan
 
 We will first need to know the maximize size of v100 we can get on GKE. We will then time and plan for a set of applicaitons (below) oriented to that. Then we will do the same for EKS and AKS. Currently, each minicluster setup is in a separate folder, but the final experiment will have one experiment run (with full instructions and configs for each application) in the same setup.
