@@ -23,7 +23,6 @@ RUN apt-get update && \
         lcov \
         ccache \
         lua5.2 \
-        mpich \
         python3-dev \
         python3-pip \
         valgrind \
@@ -67,7 +66,6 @@ RUN apt-get update && \
         libsqlite3-dev \
         uuid-dev \
         libhwloc-dev \
-        libmpich-dev \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
@@ -173,7 +171,7 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 # install openmpi with cuda
 WORKDIR /opt
@@ -187,13 +185,6 @@ RUN mkdir -p /usr/local/pancakes && \
 ENV CUDA_VISIBLE_DEVICES=0,1,2,3
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib:/usr/local/cuda-12.4/targets/x86_64-linux/lib
-
-# see https://asc.llnl.gov/sites/asc/files/2020-09/AMG_Summary_v1_7.pdf
-RUN apt-get update && \
-    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
-        openssh-client openssh-server \
-        dnsutils telnet strace cmake git g++ \
-        mpich unzip bzip2
 
 RUN apt-get update && apt-get install -y git wget g++ gcc build-essential \
     openssh-client openssh-server openmpi-bin openmpi-common libopenmpi-dev libgtk2.0-dev \
@@ -218,3 +209,11 @@ RUN git clone --depth 1 https://github.com/ULHPC/tutorials /opt/tutorials && \
     mkdir -p build.openmpi && cd build.openmpi && \
     ../src/osu-micro-benchmarks-${OSU_VERSION}/configure CC=mpicc CXX=mpicxx CFLAGS=-I$(pwd)/../src/osu-micro-benchmarks-${OSU_VERSION}/util --prefix=$(pwd) --enable-cuda --with-cuda=/usr/local/cuda && \
     make && make install
+    
+# Finally, install oras for saving artifacts
+RUN export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/

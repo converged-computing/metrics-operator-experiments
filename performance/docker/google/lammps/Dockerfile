@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu .
-#  docker push ghcr.io/converged-computing/metric-lammps-gpu 
+#  docker build -t ghcr.io/converged-computing/metric-lammps-gpu:kokkos .
+#  docker push ghcr.io/converged-computing/metric-lammps-gpu:kokkos
 
 # Utilities
 RUN apt-get update && \
@@ -23,7 +23,6 @@ RUN apt-get update && \
         lcov \
         ccache \
         lua5.2 \
-        mpich \
         python3-dev \
         python3-pip \
         valgrind \
@@ -67,7 +66,6 @@ RUN apt-get update && \
         libsqlite3-dev \
         uuid-dev \
         libhwloc-dev \
-        libmpich-dev \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
@@ -173,7 +171,7 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 # install openmpi with cuda
 WORKDIR /opt
@@ -189,20 +187,32 @@ ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 WORKDIR /opt
-RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
-    cd multi-gpu-programming-models/mpi && \
-    make
-
-WORKDIR /opt
-RUN git clone  https://github.com/lammps/lammps.git && \
+RUN python3 -m pip install clang-format && \
+   git clone --depth 1 https://github.com/lammps/lammps.git && \
     cd lammps && \
     mkdir build && \
     cd build && \
-    cmake -D CMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs -DBIN2C=/usr/local/cuda/bin/bin2c -D LAMMPS_MACHINE=gpu -D PKG_MOLECULE=on -D PKG_ASPHERE=on -D PKG_BODY=on -D PKG_CLASS2=on -D PKG_COLLOID=on -D PKG_COMPRESS=on -D PKG_CORESHELL=on -D PKG_DIPOLE=on -D PKG_GRANULAR=on -D PKG_REAXFF=on -D PKG_KSPACE=on -D PKG_MANYBODY=on -D PKG_MC=on -D PKG_MISC=on -D PKG_PERI=on -D PKG_QEQ=on -D PKG_RIGID=on -D PKG_SHOCK=on -D PKG_SNAP=on -D PKG_ML-SNAP=yes -D PKG_SRD=on -D PKG_USER-REAXC=on -D PKG_USER-TALLY=on -D PKG_GPU=on -D GPU_API=cuda -D  GPU_ARCH=sm_70 ../cmake && \
-    make && \
-    make install 
-
+    cmake \
+  -D CMAKE_INSTALL_PREFIX=/usr \
+  -D CMAKE_BUILD_TYPE=Release \
+  -D Kokkos_ARCH_VOLTA70=ON \
+  -D MPI_CXX_COMPILER=mpicxx \
+  -D BUILD_MPI=yes \
+  -D CMAKE_CXX_COMPILER=$PWD/../lib/kokkos/bin/nvcc_wrapper \
+  -D PKG_ML-SNAP=yes \
+  -D PKG_GPU=no \
+  -D PKG_REAXFF=on \
+  -D PKG_KOKKOS=yes \
+  -D Kokkos_ENABLE_CUDA=yes \
+  ../cmake && make && make install
+  
 WORKDIR /code
 COPY ./common .
 
-ENTRYPOINT ["lmp_gpu"]
+# Finally, install oras for saving artifacts
+RUN export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/

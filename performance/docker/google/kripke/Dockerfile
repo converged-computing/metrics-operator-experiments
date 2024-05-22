@@ -23,7 +23,6 @@ RUN apt-get update && \
         lcov \
         ccache \
         lua5.2 \
-        mpich \
         python3-dev \
         python3-pip \
         valgrind \
@@ -67,7 +66,6 @@ RUN apt-get update && \
         libsqlite3-dev \
         uuid-dev \
         libhwloc-dev \
-        libmpich-dev \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
@@ -173,7 +171,7 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 # install openmpi with cuda
 WORKDIR /opt
@@ -201,7 +199,7 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
         openssh-client openssh-server \
         dnsutils telnet strace cmake git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 WORKDIR /opt
 RUN git clone https://github.com/LLNL/Kripke && \
@@ -209,10 +207,11 @@ RUN git clone https://github.com/LLNL/Kripke && \
     git submodule update --init --recursive && \
     mkdir build 
 
-COPY ./CMakeLists.txt /opt/Kripke
+COPY ./gke.cmake /opt/Kripke/host-configs/gke.cmake
+#COPY ./CMakeLists.txt /opt/Kripke
 RUN cd /opt/Kripke/build && \
-    cmake -DENABLE_CUDA=true -C../host-configs/gke.cmake ../ && make && make install && \
-    # Expose kripke.exe as kripke in bin
+    cmake -DENABLE_CUDA=true -C../host-configs/gke.cmake ../ && make && \
+#    # Expose kripke.exe as kripke in bin
     mv /opt/Kripke/build/kripke.exe /opt/Kripke/build/bin/kripke
 
 # Put those bad bois on the path!
@@ -220,3 +219,11 @@ ENV PATH=/opt/Kripke:/opt/Kripke/build/bin:$PATH
 
 EXPOSE 22
 WORKDIR /opt/Kripke
+
+# Finally, install oras for saving artifacts
+RUN export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/

@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04 as builder
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build  -t ghcr.io/converged-computing/metric-amg2023:spack .
-#  docker push ghcr.io/converged-computing/metric-amg2023:spack
+#  docker build  -t ghcr.io/converged-computing/metric-amg2023:spack-slim .
+#  docker push ghcr.io/converged-computing/metric-amg2023:spack-slim
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install \
@@ -94,6 +94,15 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install --no-install-recommends 
     openssh-server \
     openssh-client \
     dnsutils \
+    curl \
     && apt-get clean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+# Finally, install oras for saving artifacts
+RUN export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/

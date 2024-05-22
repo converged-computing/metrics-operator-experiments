@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-magma .
-#  docker push ghcr.io/converged-computing/metric-magma
+#  docker build -t ghcr.io/converged-computing/metric-magma:mnist .
+#  docker push ghcr.io/converged-computing/metric-magma:mnist
 
 # Utilities
 RUN apt-get update && \
@@ -23,7 +23,6 @@ RUN apt-get update && \
         lcov \
         ccache \
         lua5.2 \
-        mpich \
         python3-dev \
         python3-pip \
         valgrind \
@@ -67,7 +66,6 @@ RUN apt-get update && \
         libsqlite3-dev \
         uuid-dev \
         libhwloc-dev \
-        libmpich-dev \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
@@ -173,7 +171,7 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 # install openmpi with cuda
 WORKDIR /opt
@@ -189,7 +187,7 @@ ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/pancakes/bin:/usr/
 ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda-12.4/compat
 
 WORKDIR /opt/magma
-RUN apt-get install -y libblas-dev liblapack-dev && \
+RUN apt-get install -y libblas-dev liblapack-dev gfortran && \
     wget https://icl.utk.edu/projectsfiles/magma/downloads/magma-2.8.0.tar.gz && \
     tar -xzvf magma-2.8.0.tar.gz && cd magma-2.8.0 && \
     mkdir build && cd build && cmake ../ && make && make install
@@ -201,3 +199,16 @@ WORKDIR /opt/magma/magma-2.8.0/example
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/magma/lib
 EXPOSE 22
 
+RUN mkdir -p /data
+COPY t10k-images.idx3-ubyte.zip /data/
+COPY t10k-labels.idx1-ubyte /data/
+COPY train-images.idx3-ubyte.zip /data/
+COPY train-labels.idx1-ubyte /data/
+
+# Finally, install oras for saving artifacts
+RUN export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/

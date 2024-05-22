@@ -2,8 +2,8 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -f Dockerfile.flux-gpu -t ghcr.io/converged-computing/multi-gpu-models:flux-gpu .
-#  docker push ghcr.io/converged-computing/metric-pennant:flux-gpu
+#  docker build -t ghcr.io/converged-computing/multi-gpu-models:flux-gpu .
+#  docker push ghcr.io/converged-computing/multi-gpu-models:flux-gpu
 
 # flux submit --watch -N1 --gpus-per-node 4 /opt/multi-gpu-programming-models/multi_threaded_copy/jacobi -niter 5000
 # mpirun -np 4 --allow-run-as-root /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
@@ -28,7 +28,6 @@ RUN apt-get update && \
         lcov \
         ccache \
         lua5.2 \
-        mpich \
         python3-dev \
         python3-pip \
         valgrind \
@@ -72,7 +71,6 @@ RUN apt-get update && \
         libsqlite3-dev \
         uuid-dev \
         libhwloc-dev \
-        libmpich-dev \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
@@ -178,7 +176,7 @@ RUN apt-get update && \
     apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
-        mpich unzip bzip2
+        unzip bzip2
 
 # install openmpi with cuda
 WORKDIR /opt
@@ -200,3 +198,11 @@ RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
 
 EXPOSE 22
 WORKDIR /opt/multi-gpu-programming-models/mpi
+
+# Finally, install oras for saving artifacts
+RUN export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/

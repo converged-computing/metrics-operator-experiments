@@ -3,7 +3,7 @@ kind: MiniCluster
 metadata:
   name: flux-sample
 spec:
-  size: 2
+  size: 8
   interactive: true
 
   # This disables installing flux via the view
@@ -12,12 +12,11 @@ spec:
       disable: true
 
   containers:
-  - image: ghcr.io/converged-computing/metric-magma:mnist
-    pullAlways: true
+  - image: ghcr.io/converged-computing/metric-osu-gpu:latest
     commands:
       pre: |
         echo "Regenerated resources"
-        flux R encode --hosts=${hosts} --cores=0-15 --gpu=0-3 > ${viewroot}/etc/flux/system/R
+        flux R encode --hosts=${hosts} --cores=0-15 --gpu=0-7 > ${viewroot}/etc/flux/system/R
         cat ${viewroot}/etc/flux/system/R
     resources:
       limits:
