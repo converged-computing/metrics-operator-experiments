@@ -69,8 +69,6 @@ Note that the configs are currently set to 8 nodes, with 8 gpu each. size 32vcpu
 
 ### 2. AMG2023
 
-ALL NEEDS ORAS.
-
 Create the minicluster and shell in. Note this first pull takes the longest (about ~5 minutes)
 
 ```bash
@@ -483,8 +481,6 @@ done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
 ```
-
-On two nodes this problem is almost instant.
 
 ```bash
 kubectl delete -f ./crd/osu.yaml
