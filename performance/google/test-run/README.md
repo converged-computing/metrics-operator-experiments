@@ -2,7 +2,7 @@
 
 We are going to combine all CRDs into a test experiment here, and prototype running apps in a loop, and saving results.
 
-- Start time:
+- Start time: 5:02pm Mountain, 5:54pm
 - End time: 
 
 We will want to estimate cost from this. The experiment will proceed as follows:
@@ -28,17 +28,46 @@ We previously were asking for 8 across two nodes, now we are going to ask for 8 
 
 ### 1. Setup
 
-Bring up the cluster (with some number of nodes) and install the drivers. Have your GitHub packages (or other registry credential / token) ready.
+Bring up the cluster (with some number of nodes) and install the drivers. Have your GitHub packages (or other registry credential / token) ready. This does not work.
 
 ```bash
 GOOGLE_PROJECT=myproject
-NODES=8
+NODES=4
+GPUS=4
+
+gcloud compute networks create mtu9k --mtu=8896 
+
+time gcloud container clusters create gpu-two-cluster \
+    --threads-per-core=1 \
+    --accelerator type=nvidia-tesla-v100,count=$GPUS \
+    --num-nodes=$NODES \
+    --machine-type=n1-standard-32 \
+    --network-performance-configs=total-egress-bandwidth-tier=TIER_1 \
+    --enable-gvnic \
+    --network=mtu9k \
+    --system-config-from-file=./system-config.yaml \
+    --region=us-central1-a \
+    --project=${GOOGLE_PROJECT} 
+```
+
+- Up time: 5:54
+
+
+```console
+NODES=16
 GPUS=8
-gcloud container clusters create test-cluster --threads-per-core=1 --accelerator type=nvidia-tesla-v100,count=$GPUS --num-nodes=$NODES --machine-type=n1-standard-32 --region=us-central1-a --project=${GOOGLE_PROJECT} 
+
+time gcloud container clusters create gpu-cluster \
+    --threads-per-core=1 \
+    --accelerator type=nvidia-tesla-v100,count=$GPUS \
+    --num-nodes=$NODES \
+    --machine-type=n1-standard-32 \
+    --region=us-central1-a \
+    --project=${GOOGLE_PROJECT} 
 ```
 
 - Creation times:
-  - 
+  - Cluster: 6 min 13 seconds
 
 Install the daemonset:
 
@@ -75,6 +104,7 @@ Create the minicluster and shell in. Note this first pull takes the longest (abo
 kubectl apply -f ./crd/amg2023.yaml
 time kubectl wait --for=condition=ready pod -l job-name=flux-sample --timeout=600s
 ```
+4 min 58 seconds
 
 This one requires sourcing spack
 
@@ -92,9 +122,9 @@ app=amg2023
 output=./results/$app
 
 mkdir -p $output
-for i in $(seq 1 2); do     
+for i in $(seq 1 1); do     
   echo "Running iteration $i"
-  flux run -N 2 -n 8 -g 1 amg -P 4 2 1 -n 64 128 128 |& tee ./$output/$app-$size-iter-${i}.out
+  flux run -N 16 -n 128 -g 1 amg -P 4 4 8 -n 64 128 128 |& tee ./$output/$app-$size-iter-${i}.out
 done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
@@ -127,7 +157,11 @@ output=./results/$app
 mkdir -p $output
 for i in $(seq 1 1); do     
   echo "Running iteration $i"
-  time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,72,128 --gset 16 --groups 64 --niter 10 --legendre 8 --quad 8 --procs 2,2,2  |& tee ./$output/$app-$size-iter-${i}.out
+  time flux run -N16 -n 128 -g 1 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,128,128 --gset 16 --groups 64 --niter 10 --legendre 9 --quad 8 --procs 4,4,8  |& tee ./$output/$app-16-iter-${i}.out
+
+ time flux run -N8 -n 64 -g 1 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,128,128 --gset 16 --groups 64 --niter 10 --legendre 9 --quad 8 --procs 4,4,4 |& tee ./$output/$app-8-iter-${i}.out
+
+ time flux run -N4 -n 32 -g 1 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,128,128 --gset 16 --groups 64 --niter 10 --legendre 9 --quad 8 --procs 4,4,2 |& tee ./$output/$app-4-iter-${i}.out
 done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
@@ -137,8 +171,14 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/kripke.yaml
 ```
 
-### 4. Laghos
+Times:
 
+ - 16 nodes: 23 seconds
+ - 8 nodes: 41 seconds
+ - 4 nodes: 1m 28s
+
+
+### 4. Laghos
 
 ```bash
 kubectl apply -f ./crd/laghos.yaml
@@ -157,7 +197,7 @@ output=./results/$app
 mkdir -p $output
 for i in $(seq 1 1); do     
   echo "Running iteration $i"
-  time flux run -N2 -n 8 -g 1 -o gpu-affinity=per-task /opt/laghos/cuda/laghos -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 |& tee ./$output/$app-$size-iter-${i}.out
+  time flux run -N16 -n 128 -g 1 /opt/laghos/cuda/laghos -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 --max-steps 20 |& tee ./$output/$app-$size-iter-${i}.out
 done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
@@ -171,9 +211,11 @@ MPI is NOT CUDA aware
 
 Note that I stopped here, went back and rebuilt all containers, adding oras and removing mpich and the associated library.
 
-Times:
+Times for 20 max steps:
 
-  - 2 nodes: 
+  - 4 nodes: 36 seconds
+  - 8 nodes: 30 seconds 
+  - 16 nodes: 58 seconds
 
 ```bash
 kubectl delete -f ./crd/laghos.yaml

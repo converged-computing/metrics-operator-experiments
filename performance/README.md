@@ -40,8 +40,20 @@ Since we need to vary builds across clouds, let's keep track of that here. These
 | ghcr.io/converged-computing/metric-quicksilver-gpu:libfabric| AWS | yes |[Dockerfile](docker/aws/quicksilver) | |
 | ghcr.io/converged-computing/pytorch-resnet-experiment:libfabric-gpu | AWS   | yes |[Dockerfile](docker/aws/resnet) | |
 | ghcr.io/converged-computing/metric-stream:libfabric       | AWS  | yes | [Dockerfile](docker/aws/stream) | |
+| ghcr.io/converged-computing/metric-amg2023:spack-slim-cpu | Google | no |[Dockerfile](docker/google-cpu/amg2023) |  |
+| ghcr.io/converged-computing/metric-lammps-cpu             | Google | no |[Dockerfile](docker/google-cpu/lammps) | |
+| ghcr.io/converged-computing/metric-kripke-cpu             | Google | no |[Dockerfile](docker/google-cpu/kripke)  | |
+| ghcr.io/converged-computing/metric-laghos:cpu             | Google | no |[Dockerfile](docker/google-cpu/laghos)  | |
+| ghcr.io/converged-computing/metric-minife:cpu             | Google | no |[Dockerfile](docker/google-cpu/minife)  | | 
+| ghcr.io/converged-computing/metric-mixbench:cpu           | Google | no |[Dockerfile](docker/google-cpu/mixbench)| |
+| ghcr.io/converged-computing/metric-nek5000:cpu            | Google | no |[Dockerfile](docker/google-cpu/nek5000) | |
+| ghcr.io/converged-computing/metric-osu-cpu                | Google | no |[Dockerfile](docker/google-cpu/osu) | |
+| ghcr.io/converged-computing/metric-quicksilver-cpu        | Google | no |[Dockerfile](docker/google-cpu/quicksilver) | |
+| ghcr.io/converged-computing/pytorch-resnet-experiment:cpu | Google | no |[Dockerfile](docker/google-cpu/resnet) | |
 
-The AWS images are based off of the original Google cloud, but have oras added. 
+
+The AWS images are based off of the original Google cloud, but have oras and libfabric added.  The CPU variants are the same as the GPU,
+with CPU stuffs removed. The exception is resnet, which uses the same pytorch base.
 
 ## Plan
 

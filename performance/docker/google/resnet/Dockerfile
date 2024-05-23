@@ -192,7 +192,7 @@ ENV LD_LIBRARY_PATH=/usr/local/pancakes/lib:/opt/miniconda/lib:/usr/local/nvidia
 
 RUN pip install tqdm && \
     pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-COPY main.py launch.sh .
+COPY main.py launch.sh ./
 CMD printenv
 
 # Finally, install oras for saving artifacts
