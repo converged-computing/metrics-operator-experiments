@@ -12,13 +12,4 @@ spec:
       disable: true
 
   containers:
-  - image: ghcr.io/converged-computing/metric-stream:latest
-    commands:
-      pre: |
-        echo "Regenerated resources"
-        flux R encode --hosts=${hosts} --cores=0-15 --gpu=0-7 > ${viewroot}/etc/flux/system/R
-        cat ${viewroot}/etc/flux/system/R
-        export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-    resources:
-      limits:
-        nvidia.com/gpu: "8"
+  - image: ghcr.io/converged-computing/metric-stream:cpu

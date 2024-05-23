@@ -182,8 +182,9 @@ RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.g
     make && make install && ldconfig
 
 WORKDIR /opt/stream
-RUN git clone https://github.com/bcumming/cuda-stream && \
-    cd cuda-stream && make ARCH=sm_70 && cp stream /usr/local/bin/
+COPY ./src .
+RUN apt-get install -y gfortran && \
+    make && cp stream_c.exe /usr/local/bin && cp stream_f.exe /usr/local/bin
 
 EXPOSE 22
 
