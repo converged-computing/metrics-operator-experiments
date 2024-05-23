@@ -51,7 +51,7 @@ Since we need to vary builds across clouds, let's keep track of that here. These
 | ghcr.io/converged-computing/metric-quicksilver-cpu        | Google | no |[Dockerfile](docker/google-cpu/quicksilver) | |
 | ghcr.io/converged-computing/pytorch-resnet-experiment:cpu | Google | no |[Dockerfile](docker/google-cpu/resnet) | |
 | ghcr.io/converged-computing/metric-stream:cpu             | Google | no | [Dockerfile](docker/google-cpu/stream) | |
-
+| ghcr.io/converged-computing/mt-gemm:cpu                   | Google | no |[Dockerfile](docker/google-cpu/mt-gemm-base)| |
 
 The AWS images are based off of the original Google cloud, but have oras and libfabric added.  The CPU variants are the same as the GPU,
 with CPU stuffs removed. The exception is resnet, which uses the same pytorch base.

@@ -181,12 +181,13 @@ RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.g
     ./configure && \
     make && make install && ldconfig
 
-WORKDIR /opt/gem
-COPY ./src /opt/gem
-RUN make
+RUN git clone https://repository.prace-ri.eu/git/CodeVault/hpc-kernels/dense_linear_algebra.git
+COPY gemm_mpi.cpp /opt/dense_linear_algebra/gemm/mpi/src/
+RUN cd /opt/dense_linear_algebra/gemm/mpi && \
+    mkdir build && cd build && \
+    cmake ../ && make && make install
 
 EXPOSE 22
-WORKDIR /opt/gem
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
@@ -195,3 +196,7 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
+
+# command is 1_dense_gemm_mpi
+WORKDIR /opt/dense_linear_algebra/gemm/mpi
+
