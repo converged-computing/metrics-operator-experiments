@@ -13,3 +13,6 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/mt-gemm:cpu
+    resources:
+      limits:
+        cpu: 50

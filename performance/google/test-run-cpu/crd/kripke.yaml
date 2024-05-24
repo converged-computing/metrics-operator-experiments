@@ -3,7 +3,7 @@ kind: MiniCluster
 metadata:
   name: flux-sample
 spec:
-  size: 16
+  size: 32
   interactive: true
   flux:
     container:
@@ -11,3 +11,6 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/metric-kripke-cpu
+    resources:
+      limits:
+        cpu: 50

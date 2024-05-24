@@ -2,7 +2,7 @@
 
 We are going to combine all CRDs into a test experiment here, and prototype running apps in a loop, and saving results. This is the CPU variant of the experiment.
 
-- Start time:
+- Start time: 17:40
 - End time: 
 
 We will want to estimate cost from this. The experiment will proceed as follows:
@@ -31,24 +31,25 @@ TODO price estimates.
 
 Bring up the cluster (with some number of nodes) and install the drivers. Have your GitHub packages (or other registry credential / token) ready. This does not work.
 
+
 ```bash
 GOOGLE_PROJECT=myproject
 
 gcloud compute networks create mtu9k --mtu=8896 
-
-time gcloud container clusters create gpu-two-cluster \
+time gcloud container clusters create test-cluster \
     --threads-per-core=1 \
-    --num-nodes=$NODES \
-    --machine-type=n1-standard-32 \
+    --num-nodes=32 \
+    --machine-type=c2d-standard-112 \
     --network-performance-configs=total-egress-bandwidth-tier=TIER_1 \
     --enable-gvnic \
     --network=mtu9k \
+    --placement-type=COMPACT \
     --system-config-from-file=./system-config.yaml \
     --region=us-central1-a \
     --project=${GOOGLE_PROJECT} 
 ```
 
-Install the Flux Operator:
+5m 29 seconds. Install the Flux Operator:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/flux-framework/flux-operator/main/examples/dist/flux-operator.yaml
@@ -61,8 +62,6 @@ kubectl exec -it flux-sample-0-xxx bash
 ```
 
 Note that the configs are currently set to 8 nodes, with 8 gpu each. size 32vcpu (16 cores) instance (n1-standard-32).
-
-TODO: all of the examples below need to be customized to remove GPU.
 
 ### 2. AMG2023
 
@@ -91,7 +90,17 @@ output=./results/$app
 mkdir -p $output
 for i in $(seq 1 1); do     
   echo "Running iteration $i"
-  flux run -N 16 -n 128 amg -P 4 4 8 -n 64 128 128 |& tee ./$output/$app-$size-iter-${i}.out
+  # didn't run
+  time flux run -N 32 -n 1792 amg -P 64 7 4 -n 64 64 128 |& tee ./$output/$app-$size-iter-${i}.out
+
+  # 34 seconds
+  time flux run -N 16 -n 896 amg -P 32 7 4 -n 64 64 128 |& tee ./$output/$app-$size-iter-${i}.out
+
+  # 25 seconds
+  time flux run -N 8 -n 448 amg -P 16 7 4 -n 64 64 128  |& tee ./$output/$app-$size-iter-${i}.out
+
+  # 20 seconds
+  time flux run -N 4 -n 224 amg -P 8 7 4 -n 64 64 128  |& tee ./$output/$app-$size-iter-${i}.out
 done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
@@ -124,11 +133,6 @@ output=./results/$app
 mkdir -p $output
 for i in $(seq 1 1); do     
   echo "Running iteration $i"
-  time flux run -N16 -n 128 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,128,128 --gset 16 --groups 64 --niter 10 --legendre 9 --quad 8 --procs 4,4,8  |& tee ./$output/$app-16-iter-${i}.out
-
- time flux run -N8 -n 64 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,128,128 --gset 16 --groups 64 --niter 10 --legendre 9 --quad 8 --procs 4,4,4 |& tee ./$output/$app-8-iter-${i}.out
-
- time flux run -N4 -n 32 -o gpu-affinity=per-task kripke --arch CUDA --layout GDZ --dset 8 --zones 128,128,128 --gset 16 --groups 64 --niter 10 --legendre 9 --quad 8 --procs 4,4,2 |& tee ./$output/$app-4-iter-${i}.out
 done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
@@ -157,7 +161,16 @@ output=./results/$app
 mkdir -p $output
 for i in $(seq 1 1); do     
   echo "Running iteration $i"
-  time flux run -N16 -n 128 /opt/laghos/cuda/laghos -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 --max-steps 20 |& tee ./$output/$app-$size-iter-${i}.out
+  time flux run -N16 -n 896 /opt/laghos/laghos -p 1 -m ./data/cube01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 --max-steps 20 |& tee ./$output/$app-$size-iter-${i}.out
+
+  # 26 seconds
+  time flux run -N8 -n 448 /opt/laghos/laghos -p 1 -m ./data/box01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 --max-steps 20
+
+  # 18 seconds
+  time flux run -N4 -n 224 /opt/laghos/laghos -p 1 -m ./data/box01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 --max-steps 20
+
+  # 7 seconds
+  time flux run -N2 -n 112 /opt/laghos/laghos -p 1 -m ./data/box01_hex.mesh -rs 2 -tf 0.6 -pa -cfl 0.08 --max-steps 20
 done
 
 oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output

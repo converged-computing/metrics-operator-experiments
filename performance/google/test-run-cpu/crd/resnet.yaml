@@ -3,7 +3,7 @@ kind: MiniCluster
 metadata:
   name: flux-sample
 spec:
-  size: 16
+  size: 32
   interactive: true
 
   # This disables installing flux via the view
@@ -14,3 +14,6 @@ spec:
   # This is a list because a pod can support multiple containers
   containers:
   - image: ghcr.io/converged-computing/pytorch-resnet-experiment:cpu
+    resources:
+      limits:
+        cpu: 50

@@ -393,7 +393,6 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/mt-gem.yaml
 ```
 
-
 ### 10. Multi GPU Models
 
 ```bash
