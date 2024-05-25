@@ -52,6 +52,18 @@ Since we need to vary builds across clouds, let's keep track of that here. These
 | ghcr.io/converged-computing/pytorch-resnet-experiment:cpu | Google | no |[Dockerfile](docker/google-cpu/resnet) | |
 | ghcr.io/converged-computing/metric-stream:cpu             | Google | no | [Dockerfile](docker/google-cpu/stream) | |
 | ghcr.io/converged-computing/mt-gemm:cpu                   | Google | no |[Dockerfile](docker/google-cpu/mt-gemm-base)| |
+| ghcr.io/converged-computing/metric-amg2023:spack-slim-cpu | AWS | no |[Dockerfile](docker/google-cpu/amg2023) |  Same as Google, already has libfabric |
+| ghcr.io/converged-computing/metric-kripke-cpu:libfabric   | AWS | no |[Dockerfile](docker/aws-cpu/amg2023) | |
+| ghcr.io/converged-computing/metric-laghos:libfabric-cpu   | AWS | no |[Dockerfile](docker/aws-cpu/laghos) | |
+| ghcr.io/converged-computing/metric-lammps-cpu             | AWS | no |[Dockerfile](docker/aws-cpu/lammps) | | 
+| ghcr.io/converged-computing/metric-minife:libfabric-cpu   | AWS | no |[Dockerfile](docker/aws-cpu/minife) | |
+| ghcr.io/converged-computing/metric-mixbench:libfabric-cpu | AWS | no |[Dockerfile](docker/aws-cpu/mixbench) | |
+| ghcr.io/converged-computing/mt-gemm:libfabric-cpu         | AWS | no |[Dockerfile](docker/aws-cpu/mt-gemm) | |
+| ghcr.io/converged-computing/metric-nek5000:libfabric-cpu  | AWS | no |[Dockerfile](docker/aws-cpu/nek5000) | |
+| ghcr.io/converged-computing/metric-osu-cpu:libfabric      | AWS | no |[Dockerfile](docker/aws-cpu/osu) | |
+| ghcr.io/converged-computing/metric-quicksilver-cpu:libfabric | AWS | no |[Dockerfile](docker/aws-cpu/quicksilver)| |
+| ghcr.io/converged-computing/pytorch-resnet-experiment:libfabric-cpu | AWS | no |[Dockerfile](docker/aws-cpu/resnet) | |
+| ghcr.io/converged-computing/metric-stream:libfabric-cpu  | AWS | no | [Dockerfile](docker/aws-cpu/stream) | |
 
 The AWS images are based off of the original Google cloud, but have oras and libfabric added.  The CPU variants are the same as the GPU,
 with CPU stuffs removed. The exception is resnet, which uses the same pytorch base.

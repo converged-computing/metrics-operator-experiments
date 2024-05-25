@@ -2,8 +2,8 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-osu-cpu .
-#  docker push ghcr.io/converged-computing/metric-osu-cpu
+#  docker build -t ghcr.io/converged-computing/metric-lammps-cpu:libfabric .
+#  docker push ghcr.io/converged-computing/metric-lammps-cpu:libfabric
 
 # Utilities
 RUN apt-get update && \
@@ -69,7 +69,10 @@ RUN apt-get update && \
         libs3-dev \
         libevent-dev \
         libarchive-dev \
-        libpam-dev && \
+        libpam-dev \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core && \
     rm -rf /var/lib/apt/lists/*
 
 # Testing utils and libs
@@ -168,42 +171,47 @@ RUN wget https://github.com/flux-framework/flux-sched/releases/download/v0.33.1/
     ldconfig
 
 RUN apt-get update && \
-    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
+    apt-get install -y fftw3-dev fftw3 pdsh \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
         unzip bzip2
+
+# install libfabric with "all the fabrics"
+# This is what we want to emulate
+# openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
+# libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
+RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
+    cd libfabric && ./autogen.sh && \
+    ./configure --enable-efa=yes --enable-tcp=yes --enable-udp=yes --enable-sockets=yes --enable-verbs=yes --enable-shm=yes --enable-mrail=yes --enable-rxd=yes --enable-rxm=yes && \
+    make && make install && ldconfig
 
 WORKDIR /opt
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz && \
     tar -xzvf openmpi-4.1.2.tar.gz && \
     cd openmpi-4.1.2 && \
-    ./configure && \
+    ./configure --with-ofi=/usr/local && \
     make && make install && ldconfig
 
-RUN apt-get update && apt-get install -y git wget g++ gcc build-essential \
-    openssh-client openssh-server libgtk2.0-dev \
-    net-tools
+WORKDIR /opt
+RUN python3 -m pip install clang-format && \
+   git clone --depth 1 https://github.com/lammps/lammps.git && \
+    cd lammps && \
+    mkdir build && \
+    cd build && \
+    cmake \
+  -D CMAKE_INSTALL_PREFIX=/usr \
+  -D CMAKE_BUILD_TYPE=Release \
+  -D MPI_CXX_COMPILER=mpicxx \
+  -D BUILD_MPI=yes \
+  -D PKG_ML-SNAP=yes \
+  -D PKG_GPU=no \
+  -D PKG_REAXFF=on \
+  -D PKG_KOKKOS=yes \
+  ../cmake && make && make install
+  
+WORKDIR /code
+COPY ./common .
 
-# Prepare tutorial per
-# https://ulhpc-tutorials.readthedocs.io/en/latest/parallel/mpi/OSU_MicroBenchmarks/
-
-RUN git clone --depth 1 https://github.com/ULHPC/tutorials /opt/tutorials && \
-    mkdir -p /opt/osu-benchmark && \
-    cd /opt/osu-benchmark && \
-    ln -s /opt/tutorials/parallel/mpi/OSU_MicroBenchmarks ref.d && \
-    ln -s ref.d/Makefile . && \
-    ln -s ref.d/scripts  . && \
-    mkdir src && \
-    cd src && \
-    export OSU_VERSION=5.8 && \
-    wget --no-check-certificate http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-${OSU_VERSION}.tgz && \
-    tar xf osu-micro-benchmarks-${OSU_VERSION}.tgz && \
-    cd /opt/osu-benchmark && \
-    # Compile based on openmpi
-    mkdir -p build.openmpi && cd build.openmpi && \
-    ../src/osu-micro-benchmarks-${OSU_VERSION}/configure CC=mpicc CXX=mpicxx CFLAGS=-I$(pwd)/../src/osu-micro-benchmarks-${OSU_VERSION}/util --prefix=$(pwd) && \
-    make && make install
-    
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
     curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
@@ -211,3 +219,6 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
+    
+# ENsure we add path where libfabric is!
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib

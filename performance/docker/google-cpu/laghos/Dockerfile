@@ -185,7 +185,8 @@ WORKDIR /opt
 ENV MAKE_CXX_FLAG="MPICXX=mpic++"
 
 # Install hypre
-RUN export hypre_options="--disable-fortran --without-fei" && \
+RUN apt-get install -y libc6-dev && \
+    export hypre_options="--disable-fortran --without-fei" && \
     wget --no-verbose https://github.com/hypre-space/hypre/archive/v2.11.2.tar.gz && \
     tar -xzf v2.11.2.tar.gz && \
     mv hypre-2.11.2 hypre && \

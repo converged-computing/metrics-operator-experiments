@@ -2,8 +2,8 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-magma:cpu .
-#  docker push ghcr.io/converged-computing/metric-magma:cpu
+#  docker build -t ghcr.io/converged-computing/metric-quicksilver-cpu:libfabric .
+#  docker push ghcr.io/converged-computing/metric-quicksilver-cpu:libfabric
 
 # Utilities
 RUN apt-get update && \
@@ -168,37 +168,74 @@ RUN wget https://github.com/flux-framework/flux-sched/releases/download/v0.33.1/
     ldconfig
 
 RUN apt-get update && \
-    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
+    apt-get install -y fftw3-dev fftw3 pdsh \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
         unzip bzip2
 
-# install openmpi with cuda
+# Needed for libfabric
+RUN apt-get install -y \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core
+        
+# openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
+# libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
+RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
+    cd libfabric && ./autogen.sh && \
+    ./configure --enable-efa=yes --enable-tcp=yes --enable-udp=yes --enable-sockets=yes --enable-verbs=yes --enable-shm=yes --enable-mrail=yes --enable-rxd=yes --enable-rxm=yes && \
+    make && make install && ldconfig
+
 WORKDIR /opt
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz && \
     tar -xzvf openmpi-4.1.2.tar.gz && \
     cd openmpi-4.1.2 && \
-    ./configure && \
+    ./configure --with-ofi=/usr/local && \
     make && make install && ldconfig
 
-WORKDIR /opt/magma
-RUN apt-get install -y libblas-dev liblapack-dev gfortran && \
-    wget https://icl.utk.edu/projectsfiles/magma/downloads/magma-2.8.0.tar.gz && \
-    tar -xzvf magma-2.8.0.tar.gz && cd magma-2.8.0 && \
-    mkdir build && cd build && cmake ../ && make && make install
+WORKDIR /opt
 
-# We need to make examples!
-#COPY Makefile /opt/magma/magma-2.8.0/example/Makefile
-RUN cd /opt/magma/magma-2.8.0/example && make all
-WORKDIR /opt/magma/magma-2.8.0/example
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/magma/lib
+# Example command
+# qs /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+
+# All examples:
+# /opt/quicksilver/Examples/AllScattering/scatteringOnly.inp
+# /opt/quicksilver/Examples/NoCollisions/no.collisions.inp
+# /opt/quicksilver/Examples/NonFlatXC/NonFlatXC.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2_4096.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem2/Coral2_P2_1.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1_1.inp
+# /opt/quicksilver/Examples/CORAL2_Benchmark/Problem1/Coral2_P1_4096.inp
+# /opt/quicksilver/Examples/CTS2_Benchmark/CTS2.inp
+# /opt/quicksilver/Examples/CTS2_Benchmark/CTS2_36.inp
+# /opt/quicksilver/Examples/CTS2_Benchmark/CTS2_1.inp
+# /opt/quicksilver/Examples/AllAbsorb/allAbsorb.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v4_ts.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v5_ts.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v3_wq.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v7_ts.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v4_tm.inp
+# /opt/quicksilver/Examples/Homogeneous/homogeneousProblem_v3.inp
+# /opt/quicksilver/Examples/AllEscape/allEscape.inp
+# /opt/quicksilver/Examples/NoFission/noFission.inp
+
+RUN apt-get update && \
+    apt-get install -y fftw3-dev fftw3 pdsh \
+        openssh-client openssh-server \
+        dnsutils telnet strace cmake git g++ \
+        unzip bzip2
+
+WORKDIR /opt
+RUN git clone https://github.com/LLNL/Quicksilver quicksilver
+COPY ./Makefile /opt/quicksilver/src/Makefile
+WORKDIR /opt/quicksilver/src
+RUN make && cp qs /usr/bin/qs
+
 EXPOSE 22
-
-RUN mkdir -p /data
-COPY t10k-images.idx3-ubyte.zip /data/
-COPY t10k-labels.idx1-ubyte /data/
-COPY train-images.idx3-ubyte.zip /data/
-COPY train-labels.idx1-ubyte /data/
+WORKDIR /opt/quicksilver/Examples
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
@@ -207,3 +244,6 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
+
+# ENsure we add path where libfabric is!
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib

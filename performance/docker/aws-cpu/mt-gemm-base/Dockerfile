@@ -2,13 +2,8 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/multi-gpu-models:cpu .
-#  docker push ghcr.io/converged-computing/multi-gpu-models:cpu
-
-# flux submit --watch -N1 --gpus-per-node 4 /opt/multi-gpu-programming-models/multi_threaded_copy/jacobi -niter 5000
-# mpirun -np 4 --allow-run-as-root /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
-# flux run -N1 -n 4 -g 1 /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
-# flux run -N2 -n 8 -g 1 /opt/multi-gpu-programming-models/mpi/jacobi -niter 5000
+#  docker build -t ghcr.io/converged-computing/mt-gemm:libfabric-cpu .
+#  docker push ghcr.io/converged-computing/mt-gemm:libfabric-cpu
 
 # Utilities
 RUN apt-get update && \
@@ -173,26 +168,36 @@ RUN wget https://github.com/flux-framework/flux-sched/releases/download/v0.33.1/
     ldconfig
 
 RUN apt-get update && \
-    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
+    apt-get install -y fftw3-dev fftw3 pdsh \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
         unzip bzip2
 
-# install openmpi with cuda
+# Needed for libfabric
+RUN apt-get install -y \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core
+        
+# openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
+# libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
+RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
+    cd libfabric && ./autogen.sh && \
+    ./configure --enable-efa=yes --enable-tcp=yes --enable-udp=yes --enable-sockets=yes --enable-verbs=yes --enable-shm=yes --enable-mrail=yes --enable-rxd=yes --enable-rxm=yes && \
+    make && make install
+
 WORKDIR /opt
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz && \
     tar -xzvf openmpi-4.1.2.tar.gz && \
     cd openmpi-4.1.2 && \
-    ./configure && \
+    ./configure --with-ofi=/usr/local && \
     make && make install && ldconfig
 
-WORKDIR /opt
-RUN git clone https://github.com/NVIDIA/multi-gpu-programming-models && \
-    cd multi-gpu-programming-models/mpi && \
-    make
-
-EXPOSE 22
-WORKDIR /opt/multi-gpu-programming-models/mpi
+RUN git clone https://repository.prace-ri.eu/git/CodeVault/hpc-kernels/dense_linear_algebra.git
+COPY gemm_mpi.cpp /opt/dense_linear_algebra/gemm/mpi/src/
+RUN cd /opt/dense_linear_algebra/gemm/mpi && \
+    mkdir build && cd build && \
+    cmake ../ && make && make install
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
@@ -201,3 +206,9 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
+
+# Ensure we add path where libfabric is!
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+# command is 1_dense_gemm_mpi
+WORKDIR /opt/dense_linear_algebra/gemm/mpi

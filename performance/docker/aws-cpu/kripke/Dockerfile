@@ -2,8 +2,8 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Build command
-#  docker build -t ghcr.io/converged-computing/metric-osu-cpu .
-#  docker push ghcr.io/converged-computing/metric-osu-cpu
+#  docker build -t ghcr.io/converged-computing/metric-kripke-cpu:libfabric .
+#  docker push ghcr.io/converged-computing/metric-kripke-cpu:libfabric
 
 # Utilities
 RUN apt-get update && \
@@ -168,42 +168,59 @@ RUN wget https://github.com/flux-framework/flux-sched/releases/download/v0.33.1/
     ldconfig
 
 RUN apt-get update && \
-    apt-get install -y fftw3-dev fftw3 pdsh libfabric-dev libfabric1 \
+    apt-get install -y fftw3-dev fftw3 pdsh \
         openssh-client openssh-server \
         dnsutils telnet strace git g++ \
         unzip bzip2
+
+# Needed for libfabric
+RUN apt-get install -y \
+        libibverbs-dev \
+        librdmacm-dev \
+        rdma-core
+        
+# openmpi@4.1.4 fabrics=ofi +legacylaunchers" 
+# libfabric@1.19.0 fabrics=efa,tcp,udp,sockets,verbs,shm,mrail,rxd,rxm"
+RUN git clone https://github.com/ofiwg/libfabric.git /opt/libfabric && \
+    cd libfabric && ./autogen.sh && \
+    ./configure --enable-efa=yes --enable-tcp=yes --enable-udp=yes --enable-sockets=yes --enable-verbs=yes --enable-shm=yes --enable-mrail=yes --enable-rxd=yes --enable-rxm=yes && \
+    make && make install && ldconfig
 
 WORKDIR /opt
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz && \
     tar -xzvf openmpi-4.1.2.tar.gz && \
     cd openmpi-4.1.2 && \
-    ./configure && \
+    ./configure --with-ofi=/usr/local && \
     make && make install && ldconfig
 
-RUN apt-get update && apt-get install -y git wget g++ gcc build-essential \
-    openssh-client openssh-server libgtk2.0-dev \
-    net-tools
+WORKDIR /opt
 
-# Prepare tutorial per
-# https://ulhpc-tutorials.readthedocs.io/en/latest/parallel/mpi/OSU_MicroBenchmarks/
+# see https://asc.llnl.gov/sites/asc/files/2020-09/AMG_Summary_v1_7.pdf
+RUN apt-get update && \
+    apt-get install -y fftw3-dev fftw3 pdsh \
+        openssh-client openssh-server \
+        dnsutils telnet strace cmake git g++ \
+        unzip bzip2
 
-RUN git clone --depth 1 https://github.com/ULHPC/tutorials /opt/tutorials && \
-    mkdir -p /opt/osu-benchmark && \
-    cd /opt/osu-benchmark && \
-    ln -s /opt/tutorials/parallel/mpi/OSU_MicroBenchmarks ref.d && \
-    ln -s ref.d/Makefile . && \
-    ln -s ref.d/scripts  . && \
-    mkdir src && \
-    cd src && \
-    export OSU_VERSION=5.8 && \
-    wget --no-check-certificate http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-${OSU_VERSION}.tgz && \
-    tar xf osu-micro-benchmarks-${OSU_VERSION}.tgz && \
-    cd /opt/osu-benchmark && \
-    # Compile based on openmpi
-    mkdir -p build.openmpi && cd build.openmpi && \
-    ../src/osu-micro-benchmarks-${OSU_VERSION}/configure CC=mpicc CXX=mpicxx CFLAGS=-I$(pwd)/../src/osu-micro-benchmarks-${OSU_VERSION}/util --prefix=$(pwd) && \
-    make && make install
-    
+WORKDIR /opt
+RUN git clone https://github.com/LLNL/Kripke && \
+    cd Kripke && \
+    git submodule update --init --recursive && \
+    mkdir build 
+
+# COPY ./gke.cmake /opt/Kripke/host-configs/gke.cmake
+# COPY ./CMakeLists.txt /opt/Kripke
+RUN cd /opt/Kripke/build && \
+    cmake ../ && make && \
+#    # Expose kripke.exe as kripke in bin
+    mv /opt/Kripke/build/kripke.exe /opt/Kripke/build/bin/kripke
+
+# Put those bad bois on the path!
+ENV PATH=/opt/Kripke:/opt/Kripke/build/bin:$PATH
+
+EXPOSE 22
+WORKDIR /opt/Kripke
+
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
     curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
@@ -211,3 +228,6 @@ RUN export VERSION="1.1.0" && \
     tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
     mv oras-install/oras /usr/local/bin/ && \
     rm -rf oras_${VERSION}_*.tar.gz oras-install/
+    
+# ENsure we add path where libfabric is!
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
