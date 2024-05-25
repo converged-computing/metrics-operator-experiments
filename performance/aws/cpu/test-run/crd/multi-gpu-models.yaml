@@ -13,7 +13,8 @@ spec:
 
   # This is a list because a pod can support multiple containers
   containers:
-  - image: ghcr.io/converged-computing/pytorch-resnet-experiment:cpu
+  - image: ghcr.io/converged-computing/multi-gpu-models:flux-gpu
+    workingDir: /opt/multi-gpu-programming-models/mpi
     resources:
       limits:
         cpu: 50

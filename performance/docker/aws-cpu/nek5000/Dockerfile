@@ -217,3 +217,7 @@ RUN export VERSION="1.1.0" && \
 
 # Ensure we add path where libfabric is!
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+# This is trying to handle just in time compiling, which produces a cache with an so
+# if you don't do this, the worker nodes can't access it.
+WORKDIR /opt/nekrs/examples/turbPipe
