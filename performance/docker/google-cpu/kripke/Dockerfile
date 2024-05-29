@@ -195,8 +195,9 @@ RUN git clone https://github.com/LLNL/Kripke && \
     git submodule update --init --recursive && \
     mkdir build 
 
+COPY ./gke.cmake /opt/Kripke/host-configs/gke.cmake
 RUN cd /opt/Kripke/build && \
-    cmake ../ && make && \
+    cmake  -C../host-configs/gke.cmake ../ && make && \
     mv /opt/Kripke/build/kripke.exe /opt/Kripke/build/bin/kripke
 
 # Put those bad bois on the path!

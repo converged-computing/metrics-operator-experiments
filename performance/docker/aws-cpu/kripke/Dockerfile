@@ -208,10 +208,10 @@ RUN git clone https://github.com/LLNL/Kripke && \
     git submodule update --init --recursive && \
     mkdir build 
 
-# COPY ./gke.cmake /opt/Kripke/host-configs/gke.cmake
+COPY ./gke.cmake /opt/Kripke/host-configs/gke.cmake
 # COPY ./CMakeLists.txt /opt/Kripke
 RUN cd /opt/Kripke/build && \
-    cmake ../ && make && \
+    cmake  -C../host-configs/gke.cmake ../ && make && \
 #    # Expose kripke.exe as kripke in bin
     mv /opt/Kripke/build/kripke.exe /opt/Kripke/build/bin/kripke
 
