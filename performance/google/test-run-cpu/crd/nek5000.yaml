@@ -13,6 +13,3 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/metric-nek5000:cpu
-    resources:
-      limits:
-        cpu: 50

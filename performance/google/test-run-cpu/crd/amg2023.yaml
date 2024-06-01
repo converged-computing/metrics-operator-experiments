@@ -16,7 +16,4 @@ spec:
         . /etc/profile.d/z10_spack_environment.sh
         echo "Regenerated resources"
         flux R encode --hosts=${hosts} --local > ${viewroot}/etc/flux/system/R
-        cat ${viewroot}/etc/flux/system/R        
-    resources:
-      limits:
-        cpu: 50
+        cat ${viewroot}/etc/flux/system/R

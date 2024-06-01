@@ -13,6 +13,3 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/metric-minife:cpu
-    resources:
-      limits:
-        cpu: 50

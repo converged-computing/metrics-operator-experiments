@@ -3,7 +3,7 @@ kind: MiniCluster
 metadata:
   name: flux-sample
 spec:
-  size: 4
+  size: 32
   interactive: true
   flux:
     container:
@@ -11,14 +11,3 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/metric-linpack-cpu
-    pullAlways: true
-    resources:
-      limits:
-        vpc.amazonaws.com/efa: 1
-        memory: "340G"
-        cpu: "94"
-
-      requests:
-        vpc.amazonaws.com/efa: 1
-        memory: "340G" # This is actually 128
-        cpu: "94"

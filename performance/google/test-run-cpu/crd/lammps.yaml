@@ -13,6 +13,3 @@ spec:
 
   containers:
   - image: ghcr.io/converged-computing/metric-lammps-cpu
-    resources:
-      limits:
-        cpu: 50
