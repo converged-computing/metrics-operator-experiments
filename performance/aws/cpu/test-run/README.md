@@ -40,6 +40,12 @@ time eksctl create cluster --config-file ./eks-config.yaml
 ```
 
 Total time: 16 minutes 16 seconds.
+Get topology for later:
+
+```bash
+aws ec2 describe-instance-topology --region us-east-1 --filters Name=instance-type,Values=hpc7g.4xlarge > topology-33.json
+aws ec2 describe-instances --filters "Name=instance-type,Values=hpc7g.4xlarge" --region us-east-1 > instances-33.json
+```
 
 Install the Flux Operator:
 
