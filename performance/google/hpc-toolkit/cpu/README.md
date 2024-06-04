@@ -50,3 +50,4 @@ To bring it down:
 ```
 
 Damn that was so much easier than the other clouds, sorry have to say it!
+Note that there was some small issues with cleanup for me - the cluster seemed to add nodes and then I wasn't able to delete the network. I manually deleted the VMs and ran the delete again and that seemed to work. Note that you also need to clean up the packer images (which you will pay for).

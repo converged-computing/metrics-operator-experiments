@@ -5,6 +5,8 @@ blueprint_name: performance-study
 # 1. uncomment the bandwidth tier
 # 2. set placement to true
 # 3. set some min instances so our entire cluster is up when it comes up (otherwise you wait)
+# 4. Make the disk size larger
+# 5. Possibly build a VM that pulls all our Singularity containers
 
 vars:
   project_id: llnl-flux
