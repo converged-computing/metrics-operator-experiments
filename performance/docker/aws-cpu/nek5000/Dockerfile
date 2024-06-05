@@ -5,6 +5,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 #  docker build -t ghcr.io/converged-computing/metric-nek5000:libfabric-cpu .
 #  docker push ghcr.io/converged-computing/metric-nek5000:libfabric-cpu
 
+# From the container, to package the data.
+# oras push ghcr.io/converged-computing/metric-nek5000:libfabric-cpu-data ./turbPipe
+
 # Docs
 # https://github.com/Nek5000/nekRS
 

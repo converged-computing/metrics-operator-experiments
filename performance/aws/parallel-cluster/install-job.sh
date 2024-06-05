@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# cd /shared
+
 # System dependencies
 sudo apt-get update
 sudo apt-get install -y \
@@ -34,6 +36,19 @@ wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singula
 tar -xzf singularity-ce-${VERSION}.tar.gz
 cd singularity-ce-${VERSION}
 
-./mconfig
+./mconfig --prefix=/shared
 make -C builddir
 sudo make -C builddir install
+
+echo 'export PATH=/shared/bin:$PATH' >> ~/.bashrc
+. ~/.bashrc
+export PATH=/shared/bin:$PATH
+
+# Install oras too!
+export VERSION="1.1.0" && \
+    curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" && \
+    mkdir -p oras-install/ && \
+    tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/ && \
+    sudo mv oras-install/oras /usr/local/bin/ && \
+    rm -rf oras_${VERSION}_*.tar.gz oras-install/
+

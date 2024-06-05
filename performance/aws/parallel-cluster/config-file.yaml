@@ -12,9 +12,12 @@ HeadNode:
     RootVolume:
       Size: 50
   Iam:
+    # List topology API
     AdditionalIamPolicies:
       - Policy: arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
       - Policy: arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+      # ADD TOPOLOGY THING
+      
 #  CustomActions:
 #    OnNodeConfigured:
       # I made this publicly accessible with ACL after upload to the interface and then via the UI
@@ -52,14 +55,14 @@ Scheduling:
 #          Script: >-
 #                        https://gist.githubusercontent.com/vsoch/445b720c4a6c49a1bc1535acfec79cea/raw/edf45fbb8137c0c0b95726a82fc5540b1b399c88/install.sh
 # I don't think we actually need this either...
-#SharedStorage:
-#- MountDir: /shared      
-#  Name: ebs
-#  StorageType: Ebs
-#  EbsSettings:
+SharedStorage:
+- MountDir: /shared      
+  Name: ebs
+  StorageType: Ebs
+  EbsSettings:
     # Might be better to use gp3 for experiments?
-#    VolumeType: gp2
-#    Size: 100
+    VolumeType: gp2
+    Size: 100
 
 # I'm not starting with this - I don't think we need it
 #    - MountDir: /scratch 

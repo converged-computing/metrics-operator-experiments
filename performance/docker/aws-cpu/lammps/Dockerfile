@@ -5,6 +5,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 #  docker build -t ghcr.io/converged-computing/metric-lammps-cpu:libfabric .
 #  docker push ghcr.io/converged-computing/metric-lammps-cpu:libfabric
 
+# oras artifact
+# oras push ghcr.io/converged-computing/metric-lammps-cpu:libfabric-data ./common 
+
 # Utilities
 RUN apt-get update && \
     apt-get -qq install -y --no-install-recommends \
@@ -211,6 +214,11 @@ RUN python3 -m pip install clang-format && \
   
 WORKDIR /code
 COPY ./common .
+
+# Make a copy for uid 1000, assuming ubuntu user
+RUN cp -R /code /lammps && \
+    cp -R /code/* /lammps/ && \
+    chown -R 1000 /lammps
 
 # Finally, install oras for saving artifacts
 RUN export VERSION="1.1.0" && \
