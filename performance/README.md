@@ -8,6 +8,8 @@ This tree contains experiment setup and runs for testing across clouds.
 
 ## Containers
 
+### Primary Experiment
+
 Since we need to vary builds across clouds, let's keep track of that here. These only include the ones we are intending to run.
 
 | Container                                                      | Cloud     | GPU | Dockerfile                          | Notes             |
@@ -67,6 +69,30 @@ Since we need to vary builds across clouds, let's keep track of that here. These
 
 The AWS images are based off of the original Google cloud, but have oras and libfabric added.  The CPU variants are the same as the GPU,
 with CPU stuffs removed. The exception is resnet, which uses the same pytorch base.
+
+### Vtune
+
+This is unrelated to the primary experiment (I'm doing this on a weekend) but I want to run vtune for all the applications and look at the data (and compare between them). This means running on AWS but using a different instance type. I'm primarily interested in how patterns of resources vary between the applications.
+
+| Container                                                      | Cloud     | GPU | Dockerfile                          | Notes             |
+|----------------------------------------------------------------|-----------|-----|------------------------------------|--------------------|
+| ghcr.io/converged-computing/metric-kripke-cpu:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/kripke) |  |
+
+| ghcr.io/converged-computing/metric-laghos:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/laghos) |  |
+
+| ghcr.io/converged-computing/metric-lammps-cpu:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/lammps) |  |
+
+| ghcr.io/converged-computing/metric-linpack-cpu:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/linpack) |  |
+
+| ghcr.io/converged-computing/metric-minife:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/minife) |  |
+|  ghcr.io/converged-computing/metric-mixbench:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/mixbench) |  |
+
+|  ghcr.io/converged-computing/mt-gemm:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/mt-gemm-base) |  |
+|  ghcr.io/converged-computing/metric-nek5000:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/nek5000) |  |
+|  ghcr.io/converged-computing/metric-osu-cpu:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/osu) |  |
+|  ghcr.io/converged-computing/metric-stream:vtune    | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/osu) |  |
+
+I think this work is related and important, because it will give us the container bases that we need to investigate a specific app further.
 
 ## Plan
 
