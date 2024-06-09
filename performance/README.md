@@ -76,21 +76,17 @@ This is unrelated to the primary experiment (I'm doing this on a weekend) but I 
 
 | Container                                                      | Cloud     | GPU | Dockerfile                          | Notes             |
 |----------------------------------------------------------------|-----------|-----|------------------------------------|--------------------|
+| ghcr.io/converged-computing/metric-amg2023:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/amg2023) |  |
 | ghcr.io/converged-computing/metric-kripke-cpu:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/kripke) |  |
-
-| ghcr.io/converged-computing/metric-laghos:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/laghos) |  |
-
+| ghcr.io/converged-computing/metric-laghos:vtune      | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/laghos) |  |
 | ghcr.io/converged-computing/metric-lammps-cpu:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/lammps) |  |
-
 | ghcr.io/converged-computing/metric-linpack-cpu:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/linpack) |  |
-
 | ghcr.io/converged-computing/metric-minife:vtune  | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/minife) |  |
-|  ghcr.io/converged-computing/metric-mixbench:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/mixbench) |  |
-
-|  ghcr.io/converged-computing/mt-gemm:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/mt-gemm-base) |  |
-|  ghcr.io/converged-computing/metric-nek5000:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/nek5000) |  |
-|  ghcr.io/converged-computing/metric-osu-cpu:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/osu) |  |
-|  ghcr.io/converged-computing/metric-stream:vtune    | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/osu) |  |
+| ghcr.io/converged-computing/metric-mixbench:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/mixbench) |  |
+| ghcr.io/converged-computing/mt-gemm:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/mt-gemm-base) |  |
+| ghcr.io/converged-computing/metric-nek5000:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/nek5000) |  |
+| ghcr.io/converged-computing/metric-osu-cpu:vtune   | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/osu) |  |
+| ghcr.io/converged-computing/metric-stream:vtune    | AWS    | no |[Dockerfile](docker/aws-cpu-vtune/stream) |  |
 
 I think this work is related and important, because it will give us the container bases that we need to investigate a specific app further.
 
