@@ -1,0 +1,20 @@
+apiVersion: flux-framework.org/v1alpha2
+kind: MiniCluster
+metadata:
+  name: flux-sample
+spec:
+  size: 2
+  interactive: true
+  flux:
+    container:
+      disable: true
+
+  containers:
+  - image: ghcr.io/converged-computing/metric-laghos:vtune
+    resources:
+      limits:
+        vpc.amazonaws.com/efa: 1
+      requests:
+        vpc.amazonaws.com/efa: 1
+    securityContext:
+      privileged: true
