@@ -594,6 +594,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/resnet.yaml
 ```
 
+
 ### 15. Stream
 
 ```bash
@@ -622,6 +623,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 ```bash
 kubectl delete -f ./crd/stream.yaml
 ```
+
 
 ### Clean Up
 
