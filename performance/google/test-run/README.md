@@ -239,6 +239,8 @@ app=lammps
 output=./results/$app
 
 # 1 minute 1 second on 2 nodes
+# 53 seconds on lassen 2 nods
+# 
 mkdir -p $output
 for i in $(seq 1 2); do     
   echo "Running iteration $i"

@@ -2,7 +2,7 @@
 
 The stuff in each container. For build specifics, config files, and data, you should reference the associated directory with the Dockerfile for each container below. A lot of these have dependencies that I didn't document - ping me if you need me to shell into a container and look something up!
 
-**Imporant** many of these have custom code / configs - please look at the Dockerfile.
+**Important** many of these have custom code / configs - please look at the Dockerfile.
 
 ## Google GPU
 
@@ -203,7 +203,7 @@ All of these (except for spack) use:
   - `64da1ee41068bffe6d4369e08555f091e04d0461`
   - https://github.com/ofiwg/libfabric.git
   
-See Dockerfiles for how it is built with openmpi / efa.
+See Dockerfiles for how it is built with openmpi / efa. 
 
 ### ghcr.io/converged-computing/metric-amg2023:spack-slim
 
@@ -364,13 +364,39 @@ This has a base of `ubuntu:22.04` instead of the equivalent for cuda.
 
 ### ghcr.io/converged-computing/metric-stream:cpu
 
-STOPPED HERE - will finish tomorrow.
+This was all added via the Docker build, no clones / versions available.
 
 ### ghcr.io/converged-computing/mt-gemm:cpu 
 
+ - Mt-gemm
+  - `4787deb76e9afb602511ff3eceb1b3c00361d5be`
+  - https://repository.prace-ri.eu/git/CodeVault/hpc-kernels/dense_linear_algebra.git
+  - June 19, 2018
+
 ### ghcr.io/converged-computing/metric-linpack-cpu 
 
+ - Linkpack
+   - https://github.com/ULHPC/tutorials
+   - HPL version 2.3  
+   - http://www.netlib.org/benchmark/hpl/hpl-${HPL_VERSION}.tar.gz
+    
 ## AWS CPU
+
+Bases (with libfabric):
+
+ - libfabric: 1.24.0
+ - gcc: 11.4.0
+ - cmake: 3.23.1
+ - openmpi@4.1.2 
+ - flux-core 0.61.2 +hwloc==2.5.0+zmq==4.3.4
+ - flux-sched 0.33.1
+ - flux-security 0.11.0
+ - python 3.10.12
+ - oras 1.1.0
+ - OpenPMIX
+  - https://github.com/openpmix/openpmix.git AT `fefaed568f33bf86f28afb6e45237f1ec5e4de93`
+ - PRRTE
+  - https://github.com/openpmix/prrte.git    AT `477894f4720d822b15cab56eee7665107832921c`
 
 ### ghcr.io/converged-computing/metric-amg2023:spack-slim-cpu 
 
@@ -378,22 +404,71 @@ See Google CPU container again!
 
 ### ghcr.io/converged-computing/metric-kripke-cpu:libfabric 
 
+ - Kripke: 
+   - May 15, 2024
+   - `f50d0a35b4cd1f77013dfa34d4d7cc426e198f72`
+   - https://github.com/LLNL/Kripke 
+
 ### ghcr.io/converged-computing/metric-laghos:libfabric-cpu   
+
+ - Laghos
+  - Feb 21, 2024
+  - `a00cb3cba70136f88e6c137d303d6548067a2abf`
+  - https://github.com/CEED/Laghos
 
 ### ghcr.io/converged-computing/metric-lammps-cpu  
 
+ - Lammps
+  - May 20, 2024
+  - `a8687b53724b630fb5f454c8d7be9f9370f8bb3b`
+
 ### ghcr.io/converged-computing/metric-minife:libfabric-cpu 
+
+ - MiniFE
+  - `abe328816d84afc319c482d6bc8df414b8f90d79`
+  - July 17 2023
 
 ### ghcr.io/converged-computing/metric-mixbench:libfabric-cpu 
 
+ - Mixbench
+   - `440a133a6423840ce613d1eaab43cd586effd389`
+   - Feb 23, 2024
+   - https://github.com/ekondis/mixbench
+   
 ### ghcr.io/converged-computing/mt-gemm:libfabric-cpu 
+
+ - Mt-gemm
+  - `4787deb76e9afb602511ff3eceb1b3c00361d5be`
+  - https://repository.prace-ri.eu/git/CodeVault/hpc-kernels/dense_linear_algebra.git
+  - June 19, 2018
 
 ### ghcr.io/converged-computing/metric-nek5000:libfabric-cpu 
 
+ - nekrs
+  - `4f87e0e2ec0492e2a3edf27791252d6886814d00`
+  - May 30, 2024
+  - https://github.com/Nek5000/nekRS
+
 ### ghcr.io/converged-computing/metric-osu-cpu:libfabric 
+
+ - OSU
+  - osu version: 5.8
+  - http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchmarks-5.8.tgz
 
 ### ghcr.io/converged-computing/metric-quicksilver-cpu:libfabric 
 
+ - Quicksilver
+  - `eb68bb8d6fc53de1f65011d4e79ff2ed0dd60f3b`
+  - August 18, 2023
+  - https://github.com/LLNL/Quicksilver
+
 ### ghcr.io/converged-computing/metric-stream:libfabric-cpu 
 
+Custom build - see src directory.
+
 ### ghcr.io/converged-computing/metric-linpack-cpu:libfabric 
+
+ - Linkpack
+   - https://github.com/ULHPC/tutorials
+   - HPL version 2.3  
+   - http://www.netlib.org/benchmark/hpl/hpl-${HPL_VERSION}.tar.gz
