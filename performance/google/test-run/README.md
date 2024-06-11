@@ -239,6 +239,8 @@ app=lammps
 output=./results/$app
 
 # 1 minute 1 second on 2 nodes
+# 53 seconds on lassen 2 nods
+# 
 mkdir -p $output
 for i in $(seq 1 2); do     
   echo "Running iteration $i"
@@ -594,6 +596,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/resnet.yaml
 ```
 
+
 ### 15. Stream
 
 ```bash
@@ -622,6 +625,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 ```bash
 kubectl delete -f ./crd/stream.yaml
 ```
+
 
 ### Clean Up
 

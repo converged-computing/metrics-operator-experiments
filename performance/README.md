@@ -6,6 +6,17 @@ This tree contains experiment setup and runs for testing across clouds.
  - [docker](docker): docker builds that can be used across clouds. We are not using multi-stage builds, choosing redundancy in favor of being able to quickly rebuild or see the full picture, etc.
  - [google](google): Google Kubernetes Engine (minicluster setups)
 
+## Data
+
+These require data:
+
+- linpack
+- laghos
+- lammps
+- nek5000
+- quicksilver
+- resnet
+
 ## Containers
 
 ### Primary Experiment
