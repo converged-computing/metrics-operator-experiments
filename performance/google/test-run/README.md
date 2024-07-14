@@ -96,7 +96,49 @@ kubectl exec -it flux-sample-0-xxx bash
 
 Note that the configs are currently set to 8 nodes, with 8 gpu each. size 32vcpu (16 cores) instance (n1-standard-32).
 
-### 2. AMG2023
+### 2. Applications
+
+#### Single Node Benchmark
+
+We are going to run this via flux batch, running the job across nodes (and then when they are complete, getting the logs from flux)
+
+**IMPORTANT** change the size of the minicluster yaml to the correct cluster size.
+
+```bash
+kubectl apply -f ./crd/single-node.yaml
+time kubectl wait --for=condition=ready pod -l job-name=flux-sample --timeout=600s
+```
+```bash
+flux proxy local:///mnt/flux/view/run/flux/local bash
+```
+
+We want to run four separate jobs, across each node. Write this into a batch file.
+
+```
+oras login ghcr.io --username vsoch
+app=single-node
+output=./results/$app
+
+mkdir -p $output
+
+# Note sure if we need iterations here
+for i in $(seq 1 1); do     
+  echo "Running iteration $i"  
+  for node in $(seq 1 4); do
+    flux submit /bin/bash /entrypoint.sh
+  done 
+done
+
+# When they are done:
+for jobid in $(flux jobs -a --json | jq -r .jobs[].id)
+  do
+    flux job attach $jobid &> ./$output/$app-${jobid}.out 
+  done
+
+oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
+```
+
+### AMG2023
 
 Create the minicluster and shell in. Note this first pull takes the longest (about ~5 minutes)
 
@@ -136,7 +178,7 @@ On two nodes this problem is almost instant.
 kubectl delete -f ./crd/amg2023.yaml
 ```
 
-### 3. Kripke
+### Kripke
 
 ```bash
 kubectl apply -f ./crd/kripke.yaml
@@ -178,7 +220,7 @@ Times:
  - 4 nodes: 1m 28s
 
 
-### 4. Laghos
+### Laghos
 
 ```bash
 kubectl apply -f ./crd/laghos.yaml
@@ -188,6 +230,8 @@ time kubectl wait --for=condition=ready pod -l job-name=flux-sample --timeout=60
 ```bash
 flux proxy local:///mnt/flux/view/run/flux/local bash
 ```
+
+TODO add `--fom` for figure of merit.
 
 ```console
 oras login ghcr.io --username vsoch
@@ -222,7 +266,7 @@ kubectl delete -f ./crd/laghos.yaml
 ```
 
 
-### 5. LAMMPS
+### LAMMPS
 
 ```bash
 kubectl apply -f ./crd/lammps.yaml
@@ -239,8 +283,9 @@ app=lammps
 output=./results/$app
 
 # 1 minute 1 second on 2 nodes
-# 53 seconds on lassen 2 nods
-# 
+# 53 seconds on lassen 2 nodes
+# 21.161 seconds on lassen 8 nodes
+# 1 minute 45 seconds for 8 nodes
 mkdir -p $output
 for i in $(seq 1 2); do     
   echo "Running iteration $i"
@@ -255,7 +300,7 @@ kubectl delete -f ./crd/lammps.yaml
 ```
 
 
-### 6. Magma
+### Magma
 
 > With or without mnist data?
 
@@ -303,7 +348,7 @@ using MAGMA GPU interface
 kubectl delete -f ./crd/magma.yaml
 ```
 
-### 7. MiniFE
+### MiniFE
 
 
 ```bash
@@ -334,7 +379,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/minife.yaml
 ```
 
-### 8. Mixbench
+### Mixbench
 
 ```bash
 kubectl apply -f ./crd/mixbench.yaml
@@ -365,7 +410,7 @@ kubectl delete -f ./crd/mixbench.yaml
 ```
 
 
-### 9. Mt Gem
+### Mt Gem
 
 
 ```bash
@@ -395,7 +440,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/mt-gem.yaml
 ```
 
-### 10. Multi GPU Models
+### Multi GPU Models
 
 ```bash
 kubectl apply -f ./crd/multi-gpu-models.yaml
@@ -447,8 +492,7 @@ flux run -N2 -n 8 -g 1 /opt/multi-gpu-programming-models/mpi/jacobi -niter 10000
 kubectl delete -f ./crd/multi-gpu-models.yaml
 ```
 
-
-### 11. Nek5000
+### Nek5000
 
 ```bash
 kubectl apply -f ./crd/nek5000.yaml
@@ -497,8 +541,7 @@ flux run -N2 -n 8 -g 1 nekrs --setup turbPipe.par
 kubectl delete -f ./crd/nek5000.yaml
 ```
 
-
-### 12. OSU
+### OSU
 
 ```bash
 kubectl apply -f ./crd/osu.yaml
@@ -529,7 +572,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/osu.yaml
 ```
 
-### 13. Quicksilver
+### Quicksilver
 
 ```bash
 kubectl apply -f ./crd/quicksilver.yaml
@@ -567,7 +610,7 @@ flux run -N2 -n 8 -g 1 qs --inputFile /opt/quicksilver/Examples/CORAL2_Benchmark
 kubectl delete -f ./crd/quicksilver.yaml
 ```
 
-### 14. Resnet
+### Resnet
 
 ```bash
 kubectl apply -f ./crd/resnet.yaml
@@ -596,8 +639,7 @@ oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:t
 kubectl delete -f ./crd/resnet.yaml
 ```
 
-
-### 15. Stream
+### Stream
 
 ```bash
 kubectl apply -f ./crd/stream.yaml

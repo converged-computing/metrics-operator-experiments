@@ -17,10 +17,7 @@ spec:
     resources:
       limits:
         vpc.amazonaws.com/efa: 1
-        memory: "340G"
-        cpu: "94"
 
       requests:
         vpc.amazonaws.com/efa: 1
-        memory: "340G" # This is actually 128
-        cpu: "94"
+

@@ -47,6 +47,34 @@ mkdir -p /shared/containers
 Let's do it! We will pull each application to all nodes, and then run a test.
 Note that if we use this approach, we can pre-pull all images and save that time.
 
+This is not tested yet, I don't know what this should look like.
+
+```
+time singularity pull docker://ghcr.io/converged-computing/metric-single-node:cpu
+
+oras login ghcr.io --username vsoch
+app=single-node
+output=./results/$app
+
+mkdir -p $output
+
+# Note sure if we need iterations here
+for i in $(seq 1 1); do     
+  echo "Running iteration $i"  
+  for node in $(seq 1 4); do
+    flux submit /bin/bash /entrypoint.sh
+  done 
+done
+
+# When they are done:
+for jobid in $(flux jobs -a --json | jq -r .jobs[].id)
+  do
+    flux job attach $jobid &> ./$output/$app-${jobid}.out 
+  done
+
+oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
+```
+
 #### AMG2023
 
 Create the minicluster and shell in.
