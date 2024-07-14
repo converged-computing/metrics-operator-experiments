@@ -77,9 +77,9 @@ Since we need to vary builds across clouds, let's keep track of that here. These
 | ghcr.io/converged-computing/metric-quicksilver-cpu:libfabric | AWS | no |[Dockerfile](docker/aws-cpu/quicksilver)| |
 | ghcr.io/converged-computing/metric-stream:libfabric-cpu  | AWS | no | [Dockerfile](docker/aws-cpu/stream) | |
 | ghcr.io/converged-computing/metric-linpack-cpu:libfabric | Google | no |[Dockerfile](docker/aws-cpu/linpack) | |  
+| ghcr.io/converged-computing/metric-single-node           |        |    |[Dockerfile](docker/google-cpu/single-node) | |  
 
-The AWS images are based off of the original Google cloud, but have oras and libfabric added.  The CPU variants are the same as the GPU,
-with CPU stuffs removed. The exception is resnet, which uses the same pytorch base.
+The AWS images are based off of the original Google cloud, but have oras and libfabric added.  The CPU variants are the same as the GPU, with CPU stuffs removed. The exception is resnet, which uses the same pytorch base.
 
 ### Vtune
 

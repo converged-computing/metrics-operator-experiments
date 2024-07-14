@@ -73,6 +73,46 @@ provider: efa
 
 ### 2. Applications
 
+#### Single Node Benchmark
+
+We are going to run this via flux batch, running the job across nodes (and then when they are complete, getting the logs from flux)
+
+**IMPORTANT** change the size of the minicluster yaml to the correct cluster size.
+
+```bash
+kubectl apply -f ./crd/single-node.yaml
+time kubectl wait --for=condition=ready pod -l job-name=flux-sample --timeout=600s
+```
+```bash
+flux proxy local:///mnt/flux/view/run/flux/local bash
+```
+
+We want to run four separate jobs, across each node. Write this into a batch file.
+
+```
+oras login ghcr.io --username vsoch
+app=single-node
+output=./results/$app
+
+mkdir -p $output
+
+# Note sure if we need iterations here
+for i in $(seq 1 1); do     
+  echo "Running iteration $i"  
+  for node in $(seq 1 4); do
+    flux submit /bin/bash /entrypoint.sh
+  done 
+done
+
+# When they are done:
+for jobid in $(flux jobs -a --json | jq -r .jobs[].id)
+  do
+    flux job attach $jobid &> ./$output/$app-${jobid}.out 
+  done
+
+oras push ghcr.io/converged-computing/metrics-operator-experiments/performance:test-$app $output
+```
+
 #### AMG2023
 
 Create the minicluster and shell in.
